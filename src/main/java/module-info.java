@@ -11,6 +11,6 @@ module com.example.altoquepagoproyecto {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
 
-    opens com.example.altoquepagoproyecto to javafx.fxml;
-    exports com.example.altoquepagoproyecto;
+    opens com.controlador to javafx.fxml;
+    exports com.controlador;
 }
