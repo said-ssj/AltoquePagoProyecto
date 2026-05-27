@@ -6,7 +6,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="769.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorSceneBuilder">
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="769.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorPrincipal">
     <children>
         <Pane layoutY="82.0" prefHeight="552.0" prefWidth="1024.0" style="-fx-background-color: #f1f1f1; -fx-border-color: black;">
             <children>
@@ -61,4 +62,4 @@
             </children>
         </Pane>
     </children>
-</AnchorPane>
+</BorderPane>
