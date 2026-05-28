@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -249,22 +250,126 @@
                      <font>
                         <Font name="Segoe UI Semibold" size="24.0" />
                      </font>
+                     <padding>
+                        <Insets bottom="15.0" />
+                     </padding>
                   </Label>
-                  <HBox prefHeight="453.0" prefWidth="426.0" spacing="8.0">
+                  <VBox prefHeight="0.0" prefWidth="426.0" spacing="8.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <HBox maxWidth="-Infinity" prefHeight="70.0" prefWidth="121.0">
+                        <VBox prefHeight="55.0" prefWidth="426.0" spacing="8.0">
                            <children>
-                              <Label text="Laptop Dell XPS 15">
-                                 <font>
-                                    <Font name="Segoe UI" size="14.0" />
-                                 </font>
-                              </Label>
+                              <HBox prefHeight="453.0" prefWidth="426.0" spacing="5.0">
+                                 <children>
+                                    <HBox prefHeight="121.0" prefWidth="122.0">
+                                       <children>
+                                          <Label fx:id="lblTop1" text="Laptop Dell XPS 15">
+                                             <font>
+                                                <Font name="Segoe UI" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <Pane prefHeight="22.0" prefWidth="237.0" HBox.hgrow="ALWAYS" />
+                                    <Label text="145" textFill="#64748b">
+                                       <font>
+                                          <Font name="Segoe UI" size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <ProgressBar fx:id="barTop1" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Bar.css" />
+                              <Separator maxWidth="1.7976931348623157E308" opacity="0.3" prefWidth="200.0" />
                            </children>
-                        </HBox>
-                        <Pane maxWidth="-Infinity" prefHeight="114.0" prefWidth="103.0" />
-                        <Label text="Label" />
+                        </VBox>
                      </children>
-                  </HBox>
+                  </VBox>
+                  <VBox prefHeight="0.0" prefWidth="426.0" spacing="8.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox prefHeight="55.0" prefWidth="426.0" spacing="8.0">
+                           <children>
+                              <HBox prefHeight="453.0" prefWidth="426.0" spacing="5.0">
+                                 <children>
+                                    <HBox prefHeight="121.0" prefWidth="122.0">
+                                       <children>
+                                          <Label fx:id="lblTop2" text="Laptop Dell XPS 15">
+                                             <font>
+                                                <Font name="Segoe UI" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <Pane prefHeight="110.0" prefWidth="271.0" HBox.hgrow="ALWAYS" />
+                                    <Label text="145" textFill="#64748b">
+                                       <font>
+                                          <Font name="Segoe UI" size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <ProgressBar fx:id="barTop2" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Bar.css" />
+                              <Separator maxWidth="1.7976931348623157E308" opacity="0.3" prefWidth="200.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="0.0" prefWidth="426.0" spacing="8.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox prefHeight="55.0" prefWidth="426.0" spacing="8.0">
+                           <children>
+                              <HBox prefHeight="453.0" prefWidth="426.0" spacing="5.0">
+                                 <children>
+                                    <HBox prefHeight="121.0" prefWidth="122.0">
+                                       <children>
+                                          <Label fx:id="lblTop3" text="Laptop Dell XPS 15">
+                                             <font>
+                                                <Font name="Segoe UI" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <Pane prefHeight="110.0" prefWidth="271.0" HBox.hgrow="ALWAYS" />
+                                    <Label text="145" textFill="#64748b">
+                                       <font>
+                                          <Font name="Segoe UI" size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <ProgressBar fx:id="barTop3" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Bar.css" />
+                              <Separator maxWidth="1.7976931348623157E308" opacity="0.3" prefWidth="200.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="0.0" prefWidth="426.0" spacing="8.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox prefHeight="55.0" prefWidth="426.0" spacing="8.0">
+                           <children>
+                              <HBox prefHeight="453.0" prefWidth="426.0" spacing="5.0">
+                                 <children>
+                                    <HBox prefHeight="121.0" prefWidth="122.0">
+                                       <children>
+                                          <Label fx:id="lblTop4" text="Laptop Dell XPS 15">
+                                             <font>
+                                                <Font name="Segoe UI" size="14.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <Pane prefHeight="110.0" prefWidth="271.0" HBox.hgrow="ALWAYS" />
+                                    <Label text="145" textFill="#64748b">
+                                       <font>
+                                          <Font name="Segoe UI" size="14.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <ProgressBar fx:id="barTop4" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="10.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Bar.css" />
+                              <Separator maxWidth="1.7976931348623157E308" opacity="0.3" prefWidth="200.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
                </children>
             </VBox>
          </children>
