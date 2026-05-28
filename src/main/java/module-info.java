@@ -10,6 +10,7 @@ module com.example.altoquepagoproyecto {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.desktop;
 
     opens com.controlador to javafx.fxml;
     exports com.controlador;
