@@ -4,41 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad914ce2-ee9f-4d54-88eb-b7cffc66735b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/DB/ConexionDB.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/TestConexion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/TestProducto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/controlador/CarritoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorConsultas.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorEmpleados.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorInicio.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorPrincipal.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorProductos.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorReportes.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorVentas.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/controlador/EscaneoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/controlador/PagoController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dao/OfertaDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dao/ProductoDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/dao/VentaDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/modelo/Carrito.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/modelo/ItemCarrito.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/modelo/Oferta.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/modelo/Pago.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/modelo/Producto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/servicio/CarritoServicio.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/servicio/EscaneoService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/servicio/PagoServicio.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/servicio/ProductoServicio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorSceneBuilder.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/controlador/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/hello-view.fxml" beforeDir="false" />
-    </list>
+    <list default="true" id="ad914ce2-ee9f-4d54-88eb-b7cffc66735b" name="Changes" comment="eooo" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -164,12 +130,33 @@
       <workItem from="1779933163299" duration="4528000" />
       <workItem from="1779938589583" duration="16000" />
       <workItem from="1779938617689" duration="811000" />
-      <workItem from="1779981774356" duration="657000" />
+      <workItem from="1779981774356" duration="1040000" />
     </task>
+    <task id="LOCAL-00001" summary="eooo">
+      <option name="closed" value="true" />
+      <created>1779982637132</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1779982637132</updated>
+    </task>
+    <task id="LOCAL-00002" summary="eooo">
+      <option name="closed" value="true" />
+      <created>1779982809468</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1779982809468</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="eooo" />
+    <option name="LAST_COMMIT_MESSAGE" value="eooo" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
