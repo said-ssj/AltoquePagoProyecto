@@ -1,9 +1,7 @@
 package com.controlador;
 
 import javafx.fxml.FXML;
-
-import java.lang.classfile.Label;
-
+import javafx.scene.control.Label;
 public class PagoController {
     @FXML
     private Label lblTotal;

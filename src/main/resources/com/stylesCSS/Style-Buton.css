@@ -1,20 +1,20 @@
-/* 1. Estilo base para todos los botones del menú */
 .menu-boton {
     -fx-background-color: transparent;
-    -fx-text-fill: #bfd6ef;
-    -fx-background-radius: 15;
-    -fx-cursor: hand; /* Hace que el cursor cambie a una manito */
-    -fx-padding: 10 15 10 60; /* Márgenes internos para que no quede apretado */
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 16px;
+    -fx-font-family: "Segoe UI Bold";
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-opacity: 0.6;
 }
 
-/* 2. Efecto al pasar el mouse por encima (Hover) */
+/* Hover */
 .menu-boton:hover {
-    -fx-background-color: #155dfc; /* Un azul noche sutil para indicar que es clickeable */
+    -fx-background-color: rgba(255, 255, 255, 0.08);
 }
 
-/* 3. Efecto cuando el botón está seleccionado/activo */
+/* Seleccionado / Activo */
 .menu-boton:selected {
-    -fx-background-color: #1a73e8; /* El azul brillante exacto de tu imagen */
-    -fx-text-fill: white;
+    -fx-opacity: 1.0;  /* icono y texto al 100% blanco */
+    -fx-background-color: #2563eb;
 }
-

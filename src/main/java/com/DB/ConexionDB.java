@@ -7,15 +7,17 @@ import java.sql.SQLException;
 public class ConexionDB {
     private static final String URL = "jdbc:mysql://localhost:3306/Autoservicio";
 
+    // PONER TU USUARIO DE MySQL
     private static final String USER = "root";
+    // PONER TU CONTRASEÑA DE MySQL
+    private static final String PASSWORD = "123456789";
 
-    private static final String PASSWORD = "root1234";
 
     public static Connection conectar() {
         try {Connection cn = DriverManager.getConnection(
-                            URL,
-                            USER,
-                            PASSWORD);
+                URL,
+                USER,
+                PASSWORD);
             System.out.println("Conexión exitosa");
 
             return cn;
@@ -26,4 +28,9 @@ public class ConexionDB {
             return null;
         }
     }
+
+    public static void main(String[] args) {
+        conectar();
+    }
+
 }
