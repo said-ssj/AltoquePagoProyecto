@@ -1,40 +1,36 @@
 package com.DB;
 
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.Properties;
+import java.sql.SQLException;
 
 public class ConexionDB {
+    private static final String URL = "jdbc:mysql://localhost:3306/Autoservicio";
 
-    private static String url;
-    private static String user;
-    private static String password;
+    // PONER TU USUARIO DE MySQL
+    private static final String USER = "root";
+    // PONER TU CONTRASEÑA DE MySQL
+    private static final String PASSWORD = "123456789";
 
-    static {
-        try {
-            Properties prop = new Properties();
-            InputStream input = ConexionDB.class.getClassLoader().getResourceAsStream("db.properties");
-            prop.load(input);
-            url = prop.getProperty("db.url");
-            user = prop.getProperty("db.user");
-            password = prop.getProperty("db.password");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static Connection conectar() {
-        try {
-            return DriverManager.getConnection(
-                    url,
-                    user,
-                    password
-            );
+        try {Connection cn = DriverManager.getConnection(
+                URL,
+                USER,
+                PASSWORD);
+            System.out.println("Conexión exitosa");
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            return cn;
+
+        } catch (SQLException e) {
+            System.out.println("Error conexión: " + e.getMessage()
+            );
+            return null;
         }
-        return null;
     }
+
+    public static void main(String[] args) {
+        conectar();
+    }
+
 }
