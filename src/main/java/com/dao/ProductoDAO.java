@@ -3,8 +3,12 @@ package com.dao;
 import com.modelo.Producto;
 import com.DB.ConexionDB;
 import java.sql.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ProductoDAO {
+    private static final Logger logger = LoggerFactory.getLogger(ProductoDAO.class);
+
     public Producto buscarPorCodigo(String codigo){
         try{
             Connection cn = ConexionDB.conectar();
@@ -23,8 +27,7 @@ public class ProductoDAO {
             }
 
         }catch(Exception e){
-            e.printStackTrace();
-
+            logger.error("Error al consultar el producto con código de barras: {}", codigo, e);
         }
         return null;
     }
@@ -39,7 +42,6 @@ public class ProductoDAO {
             ps.setInt(2,idProducto);
             ps.executeUpdate();
         }catch(Exception e){
-            e.printStackTrace();
-        }
+            logger.error("Error al actualizar el stock. ID Producto: {}, Cantidad a restar: {}", idProducto, cantidad, e);        }
     }
 }

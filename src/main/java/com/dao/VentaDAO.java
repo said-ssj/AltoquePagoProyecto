@@ -2,8 +2,13 @@ package com.dao;
 
 import com.DB.ConexionDB;
 import java.sql.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class VentaDAO {
+    private static final Logger logger = LoggerFactory.getLogger(VentaDAO.class);
+
     public void guardarVenta(
             double total
     ){
@@ -14,7 +19,7 @@ public class VentaDAO {
             ps.setDouble(1,total);
             ps.executeUpdate();
         }catch(Exception e){
-            e.printStackTrace();
+            logger.error("Error al guardar la venta en la base de datos. Total intentado: {}", total, e);
         }
     }
 }
