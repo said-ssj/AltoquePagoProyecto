@@ -5,30 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad914ce2-ee9f-4d54-88eb-b7cffc66735b" name="Changes" comment="eooo">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/menu.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Table.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/test/java/com/TestCarrito.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/test/java/com/TestProducto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/test/java/com/servicio/CarritoServicioTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/DB/ConexionDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/DB/ConexionDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/TestProducto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/TestProducto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorConsultas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorConsultas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorEmpleados.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorEmpleados.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorInicio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorInicio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorPrincipal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/controlador/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controlador/HelloApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/controlador/PagoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controlador/PagoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/TestProducto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dao/ProductoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dao/ProductoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dao/VentaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dao/VentaDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/MainAdmin.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/consultas-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/consultas-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/empleados-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/empleados-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/productos-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/productos-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/reportes-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/reportes-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/ventas-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/ventas-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/iconos/SimboloDinero.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Buton.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Buton.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +35,38 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/rama-alvaro" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
     <option name="PUSH_AUTO_UPDATE" value="true" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -53,12 +75,12 @@
     &quot;assignee&quot;: &quot;Cristian-cret&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "git@github.com:alvaro2016az-ai/AltoquePagoProyecto.git",
-    "accountId": "c1a462ba-1fc2-4ed6-9f5d-a5dd8e3758dc"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:alvaro2016az-ai/AltoquePagoProyecto.git&quot;,
+    &quot;accountId&quot;: &quot;c1a462ba-1fc2-4ed6-9f5d-a5dd8e3758dc&quot;
   }
-}]]></component>
+}</component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -99,7 +121,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "rama-alvaro",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
