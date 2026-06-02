@@ -4,20 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad914ce2-ee9f-4d54-88eb-b7cffc66735b" name="Changes" comment="Actualizacion">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/test/java/com/TestCarrito.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/test/java/com/TestProducto.java" afterDir="false" />
+    <list default="true" id="ad914ce2-ee9f-4d54-88eb-b7cffc66735b" name="Changes" comment="Incorporación de db.propierties &lt;- Añadidó para configurar url, usuario, clave de la base de datos.&#10;Adaptación de ConexionDB &lt;- Ayuda a leer el archivo de db.propierties.&#10;Incorporacion de logback.xml &lt;- Añadido para tener idea por que y cuando empezo a fallar alguna parte del sistema. Dándonos primero el error en la consola. Ejemplo 2026-06-02 10:15:30 [main] ERROR com.dao.ProductoDAO - Error al consultar el producto con código de barras: 775123456789&#10;En el caso de que el software se este ejecutando como programada de escritorio, este creara un archivo .log en la carpeta donde se instala este software en cual nos detallara de manera explicita el error, el nombre, la fecha, y en que parte del software fallo  Ejemplo: 2026-06-02 10:15:30 [main] ERROR com.dao.ProductoDAO - Error al consultar el producto con código de barras: 775123456789&#10;Integración en pom.xml &lt;- Se integro slf4j como un interfaz o intermediario para que se puedan escribir mensajes .log en el codigo. &#10;Se integró Logback, una herramienta que procesa, formatea y guarda los mensajes del registro.&#10;Se integró en module-info.java &lt;- Dependencia org.slf4j">
+      <change afterPath="$PROJECT_DIR$/src/main/test/java/com/servicio/CarritoServicioTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/DB/ConexionDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/DB/ConexionDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/TestProducto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dao/ProductoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dao/ProductoDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dao/VentaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dao/VentaDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/empleados-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/empleados-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/productos-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/productos-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/ventas-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/ventas-view.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,6 +95,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\src\main\test\java\com\servicio" />
       <recent name="C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\src\main\test\java\com" />
     </key>
   </component>
@@ -215,7 +205,15 @@
       <option name="project" value="LOCAL" />
       <updated>1779994208644</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Incorporación de db.propierties &lt;- Añadidó para configurar url, usuario, clave de la base de datos.&#10;Adaptación de ConexionDB &lt;- Ayuda a leer el archivo de db.propierties.&#10;Incorporacion de logback.xml &lt;- Añadido para tener idea por que y cuando empezo a fallar alguna parte del sistema. Dándonos primero el error en la consola. Ejemplo 2026-06-02 10:15:30 [main] ERROR com.dao.ProductoDAO - Error al consultar el producto con código de barras: 775123456789&#10;En el caso de que el software se este ejecutando como programada de escritorio, este creara un archivo .log en la carpeta donde se instala este software en cual nos detallara de manera explicita el error, el nombre, la fecha, y en que parte del software fallo  Ejemplo: 2026-06-02 10:15:30 [main] ERROR com.dao.ProductoDAO - Error al consultar el producto con código de barras: 775123456789&#10;Integración en pom.xml &lt;- Se integro slf4j como un interfaz o intermediario para que se puedan escribir mensajes .log en el codigo. &#10;Se integró Logback, una herramienta que procesa, formatea y guarda los mensajes del registro.&#10;Se integró en module-info.java &lt;- Dependencia org.slf4j">
+      <option name="closed" value="true" />
+      <created>1780415625176</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1780415625176</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -224,7 +222,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="eooo" />
     <MESSAGE value="Actualizacion" />
-    <option name="LAST_COMMIT_MESSAGE" value="Actualizacion" />
+    <MESSAGE value="Incorporación de db.propierties &lt;- Añadidó para configurar url, usuario, clave de la base de datos.&#10;Adaptación de ConexionDB &lt;- Ayuda a leer el archivo de db.propierties.&#10;Incorporacion de logback.xml &lt;- Añadido para tener idea por que y cuando empezo a fallar alguna parte del sistema. Dándonos primero el error en la consola. Ejemplo 2026-06-02 10:15:30 [main] ERROR com.dao.ProductoDAO - Error al consultar el producto con código de barras: 775123456789&#10;En el caso de que el software se este ejecutando como programada de escritorio, este creara un archivo .log en la carpeta donde se instala este software en cual nos detallara de manera explicita el error, el nombre, la fecha, y en que parte del software fallo  Ejemplo: 2026-06-02 10:15:30 [main] ERROR com.dao.ProductoDAO - Error al consultar el producto con código de barras: 775123456789&#10;Integración en pom.xml &lt;- Se integro slf4j como un interfaz o intermediario para que se puedan escribir mensajes .log en el codigo. &#10;Se integró Logback, una herramienta que procesa, formatea y guarda los mensajes del registro.&#10;Se integró en module-info.java &lt;- Dependencia org.slf4j" />
+    <option name="LAST_COMMIT_MESSAGE" value="Incorporación de db.propierties &lt;- Añadidó para configurar url, usuario, clave de la base de datos.&#10;Adaptación de ConexionDB &lt;- Ayuda a leer el archivo de db.propierties.&#10;Incorporacion de logback.xml &lt;- Añadido para tener idea por que y cuando empezo a fallar alguna parte del sistema. Dándonos primero el error en la consola. Ejemplo 2026-06-02 10:15:30 [main] ERROR com.dao.ProductoDAO - Error al consultar el producto con código de barras: 775123456789&#10;En el caso de que el software se este ejecutando como programada de escritorio, este creara un archivo .log en la carpeta donde se instala este software en cual nos detallara de manera explicita el error, el nombre, la fecha, y en que parte del software fallo  Ejemplo: 2026-06-02 10:15:30 [main] ERROR com.dao.ProductoDAO - Error al consultar el producto con código de barras: 775123456789&#10;Integración en pom.xml &lt;- Se integro slf4j como un interfaz o intermediario para que se puedan escribir mensajes .log en el codigo. &#10;Se integró Logback, una herramienta que procesa, formatea y guarda los mensajes del registro.&#10;Se integró en module-info.java &lt;- Dependencia org.slf4j" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
