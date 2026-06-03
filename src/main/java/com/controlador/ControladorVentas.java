@@ -141,7 +141,7 @@ public class ControladorVentas {
 
                     return new Venta(idAutomatico, fechaAutomatica, cliente, productos, total, estado);
                 } catch (NumberFormatException e) {
-                    // Si meten letras en total o productos, muestra error sutil
+                    // Si meten letras en total o productos, muestra error
                     System.out.println("Error de formato numérico.");
                 }
             }
