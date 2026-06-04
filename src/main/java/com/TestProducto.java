@@ -1,4 +1,4 @@
-package com.controlador;
+package com;
 import com.dao.ProductoDAO;
 import com.modelo.Producto;
 public class TestProducto {
