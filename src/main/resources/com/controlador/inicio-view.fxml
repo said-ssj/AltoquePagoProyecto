@@ -27,7 +27,7 @@
                <children>
                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../iconos/SimboloDinero50px.png" />
+                        <Image url="@../iconos/SimboloDinero.png" />
                      </image>
                   </ImageView>
                   <Label text="Ventas del Mes" textFill="#64748b">
@@ -46,7 +46,7 @@
                <children>
                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../iconos/IconoCaja50px.png" />
+                        <Image url="@../iconos/SimboloDinero.png" />
                      </image>
                   </ImageView>
                   <Label text="Total de Productos" textFill="#64748b">
@@ -65,7 +65,7 @@
                <children>
                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../iconos/IconoCrecimiento50px.png" />
+                        <Image url="@../iconos/SimboloDinero.png" />
                      </image>
                   </ImageView>
                   <Label text="Crecimiento" textFill="#64748b">
