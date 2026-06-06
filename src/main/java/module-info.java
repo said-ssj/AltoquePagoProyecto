@@ -4,6 +4,7 @@ module com.example.altoquepagoproyecto {
 
     // El permiso MySQL
     requires java.sql;
+    requires org.slf4j;
     opens com.controlador to javafx.fxml;
     exports com.controlador;
     exports com.modelo;
