@@ -10,49 +10,35 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1013.0" spacing="20.0" style="-fx-background-color: #f1f5f9;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorVentas">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="800.0" prefWidth="1013.0" spacing="20.0"
+      styleClass="fondo-principal" stylesheets="@../stylesCSS/Style-Ventas.css"
+      xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.controlador.ControladorVentas">
     <padding>
         <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
     </padding>
     <children>
         <HBox alignment="CENTER_LEFT" prefWidth="953.0">
             <children>
-                <Label text="Ventas" textFill="#1e293b">
-                    <font>
-                        <Font name="Segoe UI Bold" size="28.0" />
-                    </font>
-                    <HBox.margin><Insets right="0.0" /></HBox.margin>
-                </Label>
+                <Label text="Ventas" styleClass="titulo-principal" />
                 <Pane HBox.hgrow="ALWAYS" />
-                <Button fx:id="btnNuevaVenta" mnemonicParsing="false" style="-fx-background-color: #2563eb; -fx-text-fill: white;                            -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 10 20;" text="+ Nueva Venta">
-                    <font>
-                        <Font name="Segoe UI Bold" size="14.0" />
-                    </font>
-                </Button>
+                <Button fx:id="btnNuevaVenta" mnemonicParsing="false" text="+ Nueva Venta" styleClass="boton-nuevo" />
             </children>
         </HBox>
 
-        <!--  BARRA DE BÚSQUEDA + FILTROS   -->
-        <HBox alignment="CENTER_LEFT" prefWidth="953.0" spacing="12.0" style="-fx-background-color: white; -fx-background-radius: 10;                    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 6, 0, 0, 1);">
+        <HBox alignment="CENTER_LEFT" prefWidth="953.0" spacing="12.0" styleClass="barra-busqueda">
             <padding><Insets bottom="14.0" left="16.0" right="16.0" top="14.0" /></padding>
             <children>
-                <Label style="-fx-text-fill: #94a3b8; -fx-font-size: 16;" text="🔍">
-                    <font><Font size="16.0" /></font>
-                </Label>
-                <TextField fx:id="txtBuscarVenta" promptText="Buscar ventas..." style="-fx-background-color: transparent; -fx-border-color: transparent;                               -fx-font-size: 14;" HBox.hgrow="ALWAYS">
-                    <font><Font name="Segoe UI" size="14.0" /></font>
-                </TextField>
-                <Separator orientation="VERTICAL" prefHeight="28.0" style="-fx-opacity: 0.3;" />
-                <Button fx:id="btnFiltros" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #334155;                            -fx-border-color: #e2e8f0; -fx-border-radius: 6;                            -fx-background-radius: 6; -fx-cursor: hand; -fx-padding: 6 14;" text="▼  Filtros">
-                    <font><Font name="Segoe UI" size="13.0" /></font>
-                </Button>
+                <Label text="🔍" styleClass="icono-busqueda" />
+                <TextField fx:id="txtBuscarVenta" promptText="Buscar ventas..." HBox.hgrow="ALWAYS" styleClass="campo-busqueda" />
+                <Separator orientation="VERTICAL" prefHeight="28.0" styleClass="separador-busqueda" />
+                <Button fx:id="btnFiltros" mnemonicParsing="false" text="▼  Filtros" styleClass="boton-filtros" />
             </children>
         </HBox>
 
-        <!-- ===== TABLA DE VENTAS ===== -->
-        <TableView fx:id="tablaVentas" styleClass="tabla" stylesheets="@../stylesCSS/Style-Table.css" VBox.vgrow="ALWAYS">
+        <TableView fx:id="tablaVentas" styleClass="tabla" VBox.vgrow="ALWAYS">
             <columns>
                 <TableColumn fx:id="colId" prefWidth="80.0" text="ID" />
                 <TableColumn fx:id="colFecha" prefWidth="130.0" text="Fecha" />

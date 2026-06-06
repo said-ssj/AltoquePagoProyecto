@@ -84,3 +84,16 @@
 .separator.separador-ligero {
     -fx-opacity: 0.3;
 }
+
+/* El fondo gris de la barra */
+.progress-bar .track {
+    -fx-background-color: #e2e8f0;
+    -fx-background-radius: 10;
+}
+
+/* La barra azul que se mueve */
+.progress-bar .bar {
+    -fx-background-color: #155dfc;
+    -fx-background-radius: 10;
+    -fx-padding: 8;
+}

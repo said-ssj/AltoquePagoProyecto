@@ -1,53 +1,54 @@
-/* Quita los bordes exteriores de la tabla y la hace transparente */
+/* Quita bordes y hace el contenedor de la tabla una "tarjeta" */
 .tabla {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-    -fx-padding: 0;
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 6, 0, 0, 1);
 }
 
-/* El fondo donde van los títulos de las columnas */
+/* Encabezados transparentes con línea inferior */
 .tabla .column-header-background {
     -fx-background-color: transparent;
-    -fx-border-width: 0 0 1 0; /* Solo línea abajo */
+    -fx-border-width: 0 0 1 0;
     -fx-border-color: #e2e8f0;
 }
 
-/* El texto de los títulos de las columnas (ID, Fecha, Cliente...) */
 .tabla .column-header {
     -fx-background-color: transparent;
-    -fx-size: 40px; /* Alto del encabezado */
+    -fx-size: 45px;
 }
+
 .tabla .column-header .label {
     -fx-font-family: "Segoe UI Semibold";
     -fx-font-size: 13px;
     -fx-text-fill: #64748b;
     -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 0 0 10px;
 }
 
-/* Cada fila individual de la tabla */
+/* Filas */
 .tabla .table-row-cell {
     -fx-background-color: white;
     -fx-border-width: 0 0 1 0;
-    -fx-border-color: #f1f5f9; /* Línea separadora muy suave */
-    -fx-cell-size: 50px; /* Alto de cada fila para que respire */
+    -fx-border-color: #f1f5f9;
+    -fx-cell-size: 50px;
 }
 
-/* El texto dentro de las filas */
+/* Texto de celdas */
 .tabla .table-cell {
     -fx-font-family: "Segoe UI";
     -fx-font-size: 14px;
     -fx-text-fill: #1e293b;
     -fx-alignment: CENTER_LEFT;
-    -fx-padding: 0 10;
+    -fx-padding: 0 10px;
 }
 
-/* Efecto al pasar el mouse por una fila */
+/* Hover y Selección */
 .tabla .table-row-cell:hover {
     -fx-background-color: #f8fafc;
 }
 
-/* Efecto al seleccionar una fila (clic) */
 .tabla .table-row-cell:selected {
-    -fx-background-color: #e0f2fe; /* Un azul muy clarito */
-    -fx-table-cell-border-color: transparent;
+    -fx-background-color: #e0f2fe;
 }
