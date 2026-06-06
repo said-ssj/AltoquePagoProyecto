@@ -1,40 +1,32 @@
 package com.DB;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.DriverManager;
 import java.util.Properties;
 
 public class ConexionDB {
-
-    private static String url;
-    private static String user;
-    private static String password;
-
-    static {
-        try {
-            Properties prop = new Properties();
-            InputStream input = ConexionDB.class.getClassLoader().getResourceAsStream("db.properties");
-            prop.load(input);
-            url = prop.getProperty("db.url");
-            user = prop.getProperty("db.user");
-            password = prop.getProperty("db.password");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public static Connection conectar() {
-        try {
-            return DriverManager.getConnection(
-                    url,
-                    user,
-                    password
-            );
+        Connection conexion = null;
 
+        try (InputStream input = ConexionDB.class.getClassLoader().getResourceAsStream("db.propierties")){
+            Properties prop = new Properties();
+            if(input == null){
+                System.out.println("No se encontro db.propierties");
+                return null;
+            }
+            prop.load(input);
+            String url = prop.getProperty("db.url");
+            String usuario = prop.getProperty("db.user");
+            String clave = prop.getProperty("db.password");
+
+            conexion = DriverManager.getConnection(url,usuario,clave);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return  conexion;
     }
+
 }

@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad914ce2-ee9f-4d54-88eb-b7cffc66735b" name="Changes" comment="implementar módulo de ventas moderno y corrección de rutas&#10;&#10;- feat backend: agregada creación de ventas con ID y fecha automáticos usando Dialog&#10;- feat frontend: agregada vista ventas-view.fxml y diseño con Style-Ventas.css&#10;- fix frontend/backend: corregida ruta del CSS y vinculación de ControladorVentas en el fxml">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/modelo/Venta.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Ventas.css" afterDir="false" />
+    <list default="true" id="ad914ce2-ee9f-4d54-88eb-b7cffc66735b" name="Changes" comment="Correcion de las Clases, CarritoServicioTest.java, TestCarrito.java, TestProducto.java.&#10;Correción de escritura en el codigo, inconsistencias borradas.&#10;&#10;Correcion en pom.xml&#10;Ahora -&gt; JDK 21&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/controlador/CarritoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controlador/CarritoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorVentas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorVentas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/ventas-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/ventas-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +22,38 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/rama-alvaro" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
     <option name="PUSH_AUTO_UPDATE" value="true" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -37,8 +64,8 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/alvaro2016az-ai/AltoquePagoProyecto.git&quot;,
-    &quot;accountId&quot;: &quot;de9b843c-c963-43ce-ab44-02be4bab3044&quot;
+    &quot;url&quot;: &quot;git@github.com:alvaro2016az-ai/AltoquePagoProyecto.git&quot;,
+    &quot;accountId&quot;: &quot;c1a462ba-1fc2-4ed6-9f5d-a5dd8e3758dc&quot;
   }
 }</component>
   <component name="MavenImportPreferences">
@@ -70,7 +97,6 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.HelloApplication.executor": "Run",
-    "Application.Launcher.executor": "Run",
     "Application.TestConexion.executor": "Run",
     "Application.TestProducto.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
@@ -82,7 +108,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "rama-juan",
+    "git-widget-placeholder": "#4 on rama-alvaro",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -98,22 +124,9 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.Launcher">
+  <component name="RunManager" selected="Application.HelloApplication">
     <configuration name="HelloApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.controlador.HelloApplication" />
-      <module name="AltoquePagoProyecto" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.controlador.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Launcher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.controlador.Launcher" />
       <module name="AltoquePagoProyecto" />
       <extension name="coverage">
         <pattern>
@@ -151,14 +164,53 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="CarritoServicioTest (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AltoquePagoProyecto" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.servicio.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.servicio" />
+      <option name="MAIN_CLASS_NAME" value="com.servicio.CarritoServicioTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestCarrito.testCalcularTotalCarrito" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AltoquePagoProyecto" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com" />
+      <option name="MAIN_CLASS_NAME" value="com.TestCarrito" />
+      <option name="METHOD_NAME" value="testCalcularTotalCarrito" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Launcher" />
         <item itemvalue="Application.HelloApplication" />
         <item itemvalue="Application.TestProducto" />
         <item itemvalue="Application.TestConexion" />
+        <item itemvalue="JUnit.TestCarrito.testCalcularTotalCarrito" />
+        <item itemvalue="JUnit.CarritoServicioTest (1)" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.31033.145" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -201,10 +253,20 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="eooo" />
-    <MESSAGE value="implementar módulo de ventas moderno y corrección de rutas&#10;&#10;- feat backend: agregada creación de ventas con ID y fecha automáticos usando Dialog&#10;- feat frontend: agregada vista ventas-view.fxml y diseño con Style-Ventas.css&#10;- fix frontend/backend: corregida ruta del CSS y vinculación de ControladorVentas en el fxml" />
-    <option name="LAST_COMMIT_MESSAGE" value="implementar módulo de ventas moderno y corrección de rutas&#10;&#10;- feat backend: agregada creación de ventas con ID y fecha automáticos usando Dialog&#10;- feat frontend: agregada vista ventas-view.fxml y diseño con Style-Ventas.css&#10;- fix frontend/backend: corregida ruta del CSS y vinculación de ControladorVentas en el fxml" />
+    <option name="LAST_COMMIT_MESSAGE" value="eooo" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
