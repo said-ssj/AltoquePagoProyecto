@@ -1,0 +1,75 @@
+/* =========================================
+   ESTILOS GENERALES
+   ========================================= */
+
+.vbox.fondo-principal {
+    -fx-background-color: #f1f5f9;
+}
+
+/* =========================================
+   ESTILOS DE TEXTO (Labels)
+   ========================================= */
+
+.label.titulo-principal {
+    -fx-text-fill: #1e293b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+.label.subtitulo-tarjeta {
+    -fx-text-fill: #1e293b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+.label.etiqueta-descriptiva {
+    -fx-text-fill: #64748b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 13px;
+}
+
+/* =========================================
+   ESTILOS DE CONTROLES (Inputs)
+   ========================================= */
+.date-picker.control-entrada,
+.combo-box.control-entrada,
+.spinner.control-entrada,
+.text-field.control-entrada {
+    -fx-background-color: white;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+}
+
+.text-field.campo-texto {
+    -fx-padding: 10px 12px;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+}
+
+/* =========================================
+   ESTILOS DE BOTONES
+   ========================================= */
+.button.boton-accion {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-padding: 11px 0px;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* =========================================
+   ESTILOS DE TARGETAS
+   ========================================= */
+.tarjeta-dashboard {
+    -fx-background-color: white;          /* Fondo blanco para la tarjeta */
+    -fx-background-radius: 12px;          /* Bordes redondeados */
+    -fx-padding: 24px;                    /* Espacio interno para que no se pegue el texto */
+
+    /* Sombra suave para que "flote" sobre el fondo principal */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 10, 0, 0, 4);
+}
