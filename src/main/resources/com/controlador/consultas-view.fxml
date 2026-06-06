@@ -11,11 +11,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="800.0" prefWidth="1013.0" spacing="20.0"
-      style="-fx-background-color: #f1f5f9;"
+      styleClass="fondo-principal" stylesheets="@../stylesCSS/Style-Consultas.css"
       xmlns="http://javafx.com/javafx/26"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.controlador.ControladorConsultas">
@@ -24,11 +23,7 @@
     </padding>
     <children>
 
-        <Label text="Consultas" textFill="#1e293b">
-            <font>
-                <Font name="Segoe UI Bold" size="28.0" />
-            </font>
-        </Label>
+        <Label text="Consultas" styleClass="titulo-principal" />
 
         <GridPane hgap="20.0" vgap="20.0" VBox.vgrow="ALWAYS">
             <columnConstraints>
@@ -41,145 +36,84 @@
             </rowConstraints>
 
             <VBox spacing="14.0" styleClass="tarjeta-dashboard"
-                  stylesheets="@../stylesCSS/Style-Dashboard.css"
                   GridPane.columnIndex="0" GridPane.rowIndex="0">
                 <children>
-                    <Label text="Consulta de Ventas" textFill="#1e293b">
-                        <font><Font name="Segoe UI Semibold" size="18.0" /></font>
+                    <Label text="Consulta de Ventas" styleClass="subtitulo-tarjeta">
                         <VBox.margin><Insets bottom="4.0" /></VBox.margin>
                     </Label>
 
-                    <Label text="Fecha Inicio" textFill="#64748b">
-                        <font><Font name="Segoe UI" size="13.0" /></font>
-                    </Label>
-                    <DatePicker fx:id="dateInicioVentas" promptText="dd/mm/aaaa" maxWidth="Infinity"
-                                style="-fx-background-color: white; -fx-border-color: #e2e8f0;
-                                  -fx-border-radius: 8; -fx-background-radius: 8;">
-                    </DatePicker>
+                    <Label text="Fecha Inicio" styleClass="etiqueta-descriptiva" />
+                    <DatePicker fx:id="dateInicioVentas" promptText="dd/mm/aaaa" maxWidth="Infinity" styleClass="control-entrada" />
 
-                    <Label text="Fecha Fin" textFill="#64748b">
-                        <font><Font name="Segoe UI" size="13.0" /></font>
-                    </Label>
-                    <DatePicker fx:id="dateFinVentas" promptText="dd/mm/aaaa" maxWidth="Infinity"
-                                style="-fx-background-color: white; -fx-border-color: #e2e8f0;
-                                  -fx-border-radius: 8; -fx-background-radius: 8;">
-                    </DatePicker>
+                    <Label text="Fecha Fin" styleClass="etiqueta-descriptiva" />
+                    <DatePicker fx:id="dateFinVentas" promptText="dd/mm/aaaa" maxWidth="Infinity" styleClass="control-entrada" />
 
                     <Button fx:id="btnConsultarVentas" mnemonicParsing="false"
-                            text="Consultar" maxWidth="Infinity"
-                            style="-fx-background-color: #2563eb; -fx-text-fill: white;
-                              -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 11 0;">
-                        <font><Font name="Segoe UI Semibold" size="14.0" /></font>
+                            text="Consultar" maxWidth="Infinity" styleClass="boton-accion">
                         <VBox.margin><Insets top="4.0" /></VBox.margin>
                     </Button>
                 </children>
             </VBox>
 
             <VBox spacing="14.0" styleClass="tarjeta-dashboard"
-                  stylesheets="@../stylesCSS/Style-Dashboard.css"
                   GridPane.columnIndex="1" GridPane.rowIndex="0">
                 <children>
-                    <Label text="Consulta de Productos" textFill="#1e293b">
-                        <font><Font name="Segoe UI Semibold" size="18.0" /></font>
+                    <Label text="Consulta de Productos" styleClass="subtitulo-tarjeta">
                         <VBox.margin><Insets bottom="4.0" /></VBox.margin>
                     </Label>
 
-                    <Label text="Categoría" textFill="#64748b">
-                        <font><Font name="Segoe UI" size="13.0" /></font>
-                    </Label>
+                    <Label text="Categoría" styleClass="etiqueta-descriptiva" />
                     <ComboBox fx:id="cbCategoriaProducto" maxWidth="Infinity"
-                              promptText="Todas las categorías"
-                              style="-fx-background-color: white; -fx-border-color: #e2e8f0;
-                                -fx-border-radius: 8; -fx-background-radius: 8;">
-                    </ComboBox>
+                              promptText="Todas las categorías" styleClass="control-entrada" />
 
-                    <Label text="Stock mínimo" textFill="#64748b">
-                        <font><Font name="Segoe UI" size="13.0" /></font>
-                    </Label>
-                    <Spinner fx:id="spinnerStockMinimo" maxWidth="Infinity" min="0" max="9999" initialValue="0"
-                             style="-fx-background-color: white; -fx-border-color: #e2e8f0;
-                               -fx-border-radius: 8; -fx-background-radius: 8;">
-                    </Spinner>
+                    <Label text="Stock mínimo" styleClass="etiqueta-descriptiva" />
+                    <Spinner fx:id="spinnerStockMinimo" maxWidth="Infinity" min="0" max="9999" initialValue="0" styleClass="control-entrada" />
 
                     <Button fx:id="btnConsultarProductos" mnemonicParsing="false"
-                            text="Consultar" maxWidth="Infinity"
-                            style="-fx-background-color: #2563eb; -fx-text-fill: white;
-                              -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 11 0;">
-                        <font><Font name="Segoe UI Semibold" size="14.0" /></font>
+                            text="Consultar" maxWidth="Infinity" styleClass="boton-accion">
                         <VBox.margin><Insets top="4.0" /></VBox.margin>
                     </Button>
                 </children>
             </VBox>
 
             <VBox spacing="14.0" styleClass="tarjeta-dashboard"
-                  stylesheets="@../stylesCSS/Style-Dashboard.css"
                   GridPane.columnIndex="0" GridPane.rowIndex="1">
                 <children>
-                    <Label text="Consulta de Empleados" textFill="#1e293b">
-                        <font><Font name="Segoe UI Semibold" size="18.0" /></font>
+                    <Label text="Consulta de Empleados" styleClass="subtitulo-tarjeta">
                         <VBox.margin><Insets bottom="4.0" /></VBox.margin>
                     </Label>
 
-                    <Label text="Departamento" textFill="#64748b">
-                        <font><Font name="Segoe UI" size="13.0" /></font>
-                    </Label>
+                    <Label text="Departamento" styleClass="etiqueta-descriptiva" />
                     <ComboBox fx:id="cbDepartamento" maxWidth="Infinity"
-                              promptText="Todos los departamentos"
-                              style="-fx-background-color: white; -fx-border-color: #e2e8f0;
-                                -fx-border-radius: 8; -fx-background-radius: 8;">
-                    </ComboBox>
+                              promptText="Todos los departamentos" styleClass="control-entrada" />
 
-                    <Label text="Estado" textFill="#64748b">
-                        <font><Font name="Segoe UI" size="13.0" /></font>
-                    </Label>
+                    <Label text="Estado" styleClass="etiqueta-descriptiva" />
                     <ComboBox fx:id="cbEstadoEmpleado" maxWidth="Infinity"
-                              promptText="Todos"
-                              style="-fx-background-color: white; -fx-border-color: #e2e8f0;
-                                -fx-border-radius: 8; -fx-background-radius: 8;">
-                    </ComboBox>
+                              promptText="Todos" styleClass="control-entrada" />
 
                     <Button fx:id="btnConsultarEmpleados" mnemonicParsing="false"
-                            text="Consultar" maxWidth="Infinity"
-                            style="-fx-background-color: #2563eb; -fx-text-fill: white;
-                              -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 11 0;">
-                        <font><Font name="Segoe UI Semibold" size="14.0" /></font>
+                            text="Consultar" maxWidth="Infinity" styleClass="boton-accion">
                         <VBox.margin><Insets top="4.0" /></VBox.margin>
                     </Button>
                 </children>
             </VBox>
 
             <VBox spacing="14.0" styleClass="tarjeta-dashboard"
-                  stylesheets="@../stylesCSS/Style-Dashboard.css"
                   GridPane.columnIndex="1" GridPane.rowIndex="1">
                 <children>
-                    <Label text="Consulta General" textFill="#1e293b">
-                        <font><Font name="Segoe UI Semibold" size="18.0" /></font>
+                    <Label text="Consulta General" styleClass="subtitulo-tarjeta">
                         <VBox.margin><Insets bottom="4.0" /></VBox.margin>
                     </Label>
 
-                    <Label text="Tipo de consulta" textFill="#64748b">
-                        <font><Font name="Segoe UI" size="13.0" /></font>
-                    </Label>
+                    <Label text="Tipo de consulta" styleClass="etiqueta-descriptiva" />
                     <ComboBox fx:id="cbTipoConsulta" maxWidth="Infinity"
-                              promptText="Ventas por cliente"
-                              style="-fx-background-color: white; -fx-border-color: #e2e8f0;
-                                -fx-border-radius: 8; -fx-background-radius: 8;">
-                    </ComboBox>
+                              promptText="Ventas por cliente" styleClass="control-entrada" />
 
-                    <Label text="Parámetro" textFill="#64748b">
-                        <font><Font name="Segoe UI" size="13.0" /></font>
-                    </Label>
-                    <TextField fx:id="txtParametroConsulta" promptText="Ingrese parámetro de búsqueda"
-                               style="-fx-background-color: white; -fx-border-color: #e2e8f0;
-                                 -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 12;">
-                        <font><Font name="Segoe UI" size="14.0" /></font>
-                    </TextField>
+                    <Label text="Parámetro" styleClass="etiqueta-descriptiva" />
+                    <TextField fx:id="txtParametroConsulta" promptText="Ingrese parámetro de búsqueda" styleClass="control-entrada campo-texto" />
 
                     <Button fx:id="btnConsultarGeneral" mnemonicParsing="false"
-                            text="Consultar" maxWidth="Infinity"
-                            style="-fx-background-color: #2563eb; -fx-text-fill: white;
-                              -fx-background-radius: 8; -fx-cursor: hand; -fx-padding: 11 0;">
-                        <font><Font name="Segoe UI Semibold" size="14.0" /></font>
+                            text="Consultar" maxWidth="Infinity" styleClass="boton-accion">
                         <VBox.margin><Insets top="4.0" /></VBox.margin>
                     </Button>
                 </children>

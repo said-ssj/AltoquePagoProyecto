@@ -15,8 +15,7 @@
    <left>
       <VBox prefHeight="800.0" prefWidth="267.0" style="-fx-background-color: #0f172b;" BorderPane.alignment="TOP_CENTER">
          <children>
-            <Label prefHeight="134.0" prefWidth="237.0" style="-fx-alignment: #ffffff;" text="Sistema de &#10;Autoservicio" textFill="WHITE">
-               <font>
+            <Label prefHeight="134.0" prefWidth="237.0" text="Sistema de &#10;Autoservicio" textFill="WHITE">               <font>
                   <Font name="Segoe UI Semibold" size="27.0" />
                </font>
                <VBox.margin>
