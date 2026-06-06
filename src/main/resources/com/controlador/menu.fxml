@@ -7,206 +7,77 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 
-<BorderPane fx:id="panelPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../stylesCSS/Style-Buton.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorPrincipal">
+<BorderPane fx:id="panelPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../stylesCSS/Style-Menu.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorPrincipal">
    <left>
-      <VBox prefHeight="800.0" prefWidth="267.0" style="-fx-background-color: #0f172b;" BorderPane.alignment="TOP_CENTER">
+      <VBox prefHeight="800.0" prefWidth="267.0" styleClass="menu-lateral" BorderPane.alignment="TOP_CENTER">
          <children>
-            <Label prefHeight="134.0" prefWidth="237.0" text="Sistema de &#10;Autoservicio" textFill="WHITE">               <font>
-                  <Font name="Segoe UI Semibold" size="27.0" />
-               </font>
+            <Label prefHeight="134.0" prefWidth="237.0" styleClass="titulo-menu" text="Sistema de &#10;Autoservicio">
                <VBox.margin>
                   <Insets left="30.0" />
                </VBox.margin>
             </Label>
-            <Separator prefWidth="200.0" style="-fx-background-color: #314158;" />
 
-            <ToggleButton fx:id="btnInicio"
-                          alignment="CENTER_LEFT"
-                          graphicTextGap="15.0"
-                          mnemonicParsing="false"
-                          onAction="#abrirInicio"
-                          prefHeight="48.0"
-                          prefWidth="220.0"
-                          styleClass="menu-boton"
-                          stylesheets="@../stylesCSS/Style-Buton.css"
-                          text="Inicio"
-                          textFill="#bfd6ef">
-               <graphic>
-                  <ImageView fitWidth="36" fitHeight="36">
-                     <image>
-                        <Image url="@../iconos/IconoHome32px.png"/>
-                     </image>
-                  </ImageView>
-               </graphic>
+            <Separator prefWidth="200.0" styleClass="separador-menu" />
+
+            <ToggleButton fx:id="btnInicio" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirInicio" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Inicio">
                <padding>
                   <Insets left="20.0" />
                </padding>
                <VBox.margin>
                   <Insets left="13.0" top="12.0" />
                </VBox.margin>
-               <font>
-                  <Font name="Segoe UI Bold" size="21.0" />
-               </font>
                <toggleGroup>
                   <ToggleGroup fx:id="menuGrupo" />
                </toggleGroup>
             </ToggleButton>
 
-            <ToggleButton fx:id="btnVentas"
-                          alignment="CENTER_LEFT"
-                          graphicTextGap="15.0"
-                          mnemonicParsing="false"
-                          onAction="#abrirVentas"
-                          prefHeight="48.0"
-                          prefWidth="220.0"
-                          styleClass="menu-boton"
-                          stylesheets="@../stylesCSS/Style-Buton.css"
-                          text="Ventas"
-                          textFill="#bfd6ef"
-                          toggleGroup="$menuGrupo">
-               <graphic>
-                  <ImageView fitWidth="36" fitHeight="36">
-                     <image>
-                        <Image url="@../iconos/IconoCart32px.png"/>
-                     </image>
-                  </ImageView>
-               </graphic>
+            <ToggleButton fx:id="btnVentas" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirVentas" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Ventas" toggleGroup="$menuGrupo">
                <padding>
                   <Insets left="20.0" />
                </padding>
-               <font>
-                  <Font name="Segoe UI Bold" size="21.0" />
-               </font>
                <VBox.margin>
                   <Insets left="13.0" top="12.0" />
                </VBox.margin>
             </ToggleButton>
 
-            <ToggleButton fx:id="btnProductos"
-                          alignment="CENTER_LEFT"
-                          graphicTextGap="15.0"
-                          mnemonicParsing="false"
-                          onAction="#abrirProductos"
-                          prefHeight="48.0"
-                          prefWidth="220.0"
-                          styleClass="menu-boton"
-                          stylesheets="@../stylesCSS/Style-Buton.css"
-                          text="Productos"
-                          textFill="#bfd6ef"
-                          toggleGroup="$menuGrupo">
-               <graphic>
-                  <ImageView fitWidth="36" fitHeight="36">
-                     <image>
-                        <Image url="@../iconos/IconoPackage40px.png"/>
-                     </image>
-                  </ImageView>
-               </graphic>
+            <ToggleButton fx:id="btnProductos" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirProductos" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Productos" toggleGroup="$menuGrupo">
                <padding>
                   <Insets left="20.0" />
                </padding>
-               <font>
-                  <Font name="Segoe UI Bold" size="21.0" />
-               </font>
                <VBox.margin>
                   <Insets left="13.0" top="12.0" />
                </VBox.margin>
             </ToggleButton>
 
-            <ToggleButton fx:id="btnEmpleados"
-                          alignment="CENTER_LEFT"
-                          graphicTextGap="15.0"
-                          mnemonicParsing="false"
-                          onAction="#abrirEmpleados"
-                          prefHeight="48.0"
-                          prefWidth="220.0"
-                          styleClass="menu-boton"
-                          stylesheets="@../stylesCSS/Style-Buton.css"
-                          text="Empleados"
-                          textFill="#bfd6ef"
-                          toggleGroup="$menuGrupo">
-               <graphic>
-                  <ImageView fitWidth="36" fitHeight="36">
-                     <image>
-                        <Image url="@../iconos/IconoGroup40px.png"/>
-                     </image>
-                  </ImageView>
-               </graphic>
+            <ToggleButton fx:id="btnEmpleados" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirEmpleados" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Empleados" toggleGroup="$menuGrupo">
                <padding>
                   <Insets left="20.0" />
                </padding>
-               <font>
-                  <Font name="Segoe UI Bold" size="21.0" />
-               </font>
                <VBox.margin>
                   <Insets left="13.0" top="12.0" />
                </VBox.margin>
             </ToggleButton>
 
-            <ToggleButton fx:id="btnConsultas"
-                          alignment="CENTER_LEFT"
-                          graphicTextGap="15.0"
-                          mnemonicParsing="false"
-                          onAction="#abrirConsultas"
-                          prefHeight="48.0"
-                          prefWidth="220.0"
-                          styleClass="menu-boton"
-                          stylesheets="@../stylesCSS/Style-Buton.css"
-                          text="Consultas"
-                          textFill="#bfd6ef"
-                          toggleGroup="$menuGrupo">
-               <graphic>
-                  <ImageView fitWidth="36" fitHeight="36">
-                     <image>
-                        <Image url="@../iconos/IconoSearch40px.png"/>
-                     </image>
-                  </ImageView>
-               </graphic>
+            <ToggleButton fx:id="btnConsultas" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirConsultas" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Consultas" toggleGroup="$menuGrupo">
                <padding>
                   <Insets left="20.0" />
                </padding>
-               <font>
-                  <Font name="Segoe UI Bold" size="21.0" />
-               </font>
                <VBox.margin>
                   <Insets left="13.0" top="12.0" />
                </VBox.margin>
             </ToggleButton>
 
-            <ToggleButton fx:id="btnReportes"
-                          alignment="CENTER_LEFT"
-                          graphicTextGap="15.0"
-                          mnemonicParsing="false"
-                          onAction="#abrirReportes"
-                          prefHeight="48.0"
-                          prefWidth="220.0"
-                          styleClass="menu-boton"
-                          stylesheets="@../stylesCSS/Style-Buton.css"
-                          text="Reportes"
-                          textFill="#bfd6ef"
-                          toggleGroup="$menuGrupo">
-               <graphic>
-                  <ImageView fitWidth="36" fitHeight="36">
-                     <image>
-                        <Image url="@../iconos/IconoDescription40px.png"/>
-                     </image>
-                  </ImageView>
-               </graphic>
+            <ToggleButton fx:id="btnReportes" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirReportes" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Reportes" toggleGroup="$menuGrupo">
                <padding>
                   <Insets left="20.0" />
                </padding>
-               <font>
-                  <Font name="Segoe UI Bold" size="21.0" />
-               </font>
                <VBox.margin>
                   <Insets left="13.0" top="12.0" />
                </VBox.margin>
             </ToggleButton>
 
-            <Separator prefWidth="200.0" style="-fx-background-color: #314158;">
+            <Separator prefWidth="200.0" styleClass="separador-menu">
                <VBox.margin>
                   <Insets top="150.0" />
                </VBox.margin>
@@ -214,4 +85,7 @@
          </children>
       </VBox>
    </left>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
 </BorderPane>

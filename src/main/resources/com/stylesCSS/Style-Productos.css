@@ -14,7 +14,7 @@
 }
 
 /* =========================================
-   BOTÓN NUEVO EMPLEADO
+   BOTÓN NUEVO PRODUCTO
    ========================================= */
 
 .button.boton-nuevo {
@@ -32,7 +32,7 @@
    BARRA DE BÚSQUEDA Y CONTROLES INTERNOS
    ========================================= */
 
-/* Contenedor de la barra (HBox) */
+/* Contenedor principal de la barra */
 .barra-busqueda {
     -fx-background-color: white;
     -fx-background-radius: 10px;
@@ -53,13 +53,13 @@
     -fx-font-size: 14px;
 }
 
-/* Opcional: Esto evita que el TextField se ponga azul cuando le haces clic */
+/* Evita que el TextField muestre un borde azul al hacer clic */
 .text-field.campo-busqueda:focused {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
 }
 
-/* Línea separadora */
+/* Línea vertical separadora */
 .separator.separador-busqueda {
     -fx-opacity: 0.3;
 }

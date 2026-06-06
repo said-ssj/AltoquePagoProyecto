@@ -1,0 +1,56 @@
+/* =========================================
+   CONTENEDOR PRINCIPAL (MENÚ LATERAL)
+   ========================================= */
+
+.menu-lateral {
+    -fx-background-color: #0f172b;
+}
+
+/* =========================================
+   TÍTULO Y SEPARADORES
+   ========================================= */
+
+.label.titulo-menu {
+    -fx-text-fill: white;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 27px;
+    -fx-font-weight: bold;
+}
+
+.separator.separador-menu {
+    -fx-background-color: #314158;
+}
+
+.separator.separador-menu *.line {
+    -fx-border-color: #314158;
+}
+
+/* =========================================
+   BOTONES DE NAVEGACIÓN (TOGGLE BUTTONS)
+   ========================================= */
+
+.toggle-button.menu-boton {
+    -fx-background-color: transparent;
+    /* En lugar de opacidad, usamos un gris claro/azulado directamente */
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 18px; /* Un pelín más grande para compensar la falta de ícono temporalmente */
+    -fx-font-family: "Segoe UI";
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-alignment: center-left;
+    /* Aumentamos un poco el padding izquierdo para que no se pegue tanto al borde */
+    -fx-padding: 10px 10px 10px 30px;
+}
+
+/* Hover: Iluminamos el texto y el fondo suavemente */
+.toggle-button.menu-boton:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+    -fx-text-fill: white;
+}
+
+/* Seleccionado / Activo: Fondo azul y texto 100% blanco */
+.toggle-button.menu-boton:selected {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+}
