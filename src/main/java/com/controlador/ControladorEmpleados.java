@@ -3,6 +3,7 @@ package com.controlador;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
@@ -14,9 +15,18 @@ public class ControladorEmpleados implements Initializable {
     @FXML private TextField txtBuscarEmpleado;
     @FXML private Button btnFiltros;
 
-
+    // Declaración del ComboBox
+    @FXML
+    private ComboBox<String> cbFiltrosEmpleados;
 
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        // CONFIGURACION DEL COMBOBOX
+        cbFiltrosEmpleados.getItems().addAll("A - Z ⬆", "Z - A ⬇", "Administrador - Rol", "Empleado - Rol");
+        cbFiltrosEmpleados.setOnAction(e -> {
+            String seleccion = cbFiltrosEmpleados.getValue();
+            System.out.println("Filtrando por: " + seleccion);
+        });
 
     }
 }

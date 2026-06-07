@@ -8,9 +8,12 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 public class ControladorVentas {
 
@@ -22,11 +25,22 @@ public class ControladorVentas {
     @FXML private TableColumn<Venta, Double> colTotal;
     @FXML private TableColumn<Venta, String> colEstado;
 
+    // Declaración del ComboBox
+    @FXML private ComboBox<String> cbFiltrosVentas;
     // Lista dinámica donde se guardan las ventas
     private final ObservableList<Venta> listaVentas = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
+
+        // CONFIGURACION DEL COMBOBOX
+        cbFiltrosVentas.getItems().addAll("Hoy", "Últimos 7 días", "Ultimos 30 dias", "Todos");
+        cbFiltrosVentas.setOnAction(e -> {
+            String seleccion = cbFiltrosVentas.getValue();
+            System.out.println("Filtrando por: " + seleccion);
+        });
+
+        // CONFIGURACION DE LA TABLA
         // 1. Vincular columnas del FXML con las propiedades de la clase Venta
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
@@ -75,7 +89,6 @@ public class ControladorVentas {
                 new Venta("#1236", "26/05/2026", "Carlos López", 5, 2100, "Pendiente")
         );
     }
-
     // MÉTODO QUE SE EJECUTA AL DAR CLICK EN "+ NUEVA VENTA"
     @FXML
     private void abrirFormularioNuevaVenta() {
