@@ -15,7 +15,6 @@ public class ControladorPrincipal implements Initializable {    // Captura el Bo
 
     @FXML private BorderPane panelPrincipal;
     @FXML private ToggleButton btnInicio;
-
     // Metodo para Inicializar
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -28,15 +27,10 @@ public class ControladorPrincipal implements Initializable {    // Captura el Bo
     //  Métodos conectados a los botones
 
     @FXML
-    public void abrirInicio() {
-
-        cargarVista("inicio-view.fxml");
-    }
+    public void abrirInicio() { cargarVista("inicio-view.fxml"); }
 
     @FXML
-    public void abrirVentas() {
-        cargarVista("ventas-view.fxml");
-    }
+    public void abrirVentas() { cargarVista("ventas-view.fxml"); }
 
     @FXML
     public void abrirProductos() {

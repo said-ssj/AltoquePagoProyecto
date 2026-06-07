@@ -62,6 +62,10 @@
     -fx-font-weight: bold;
 }
 
+.button.boton-accion:hover {
+    -fx-background-color: #1547E5;
+}
+
 /* =========================================
    ESTILOS DE TARGETAS
    ========================================= */

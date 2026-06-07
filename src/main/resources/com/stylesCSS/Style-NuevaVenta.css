@@ -1,0 +1,226 @@
+/* =========================================
+   FONDO Y TEXTOS PRINCIPALES
+   ========================================= */
+.fondo-principal {
+    -fx-background-color: #f8fafc; /* Gris muy claro de fondo */
+}
+
+.titulo-vista {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.subtitulo-seccion, .subtitulo-tarjeta {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.etiqueta-form {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.etiqueta-tabla {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+/* =========================================
+   INPUTS Y CAMPOS DE TEXTO
+   ========================================= */
+.text-field-form, .combo-box-form, .text-area-form {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 12px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #334155;
+}
+
+/* Efecto azul al hacer clic en un campo (Focus) */
+.text-field-form:focused, .combo-box-form:focused, .text-area-form:focused {
+    -fx-border-color: #3b82f6;
+    -fx-border-width: 2px;
+    -fx-padding: 7px 11px; /* Se ajusta para que el texto no salte por el borde más grueso */
+}
+
+/* El buscador principal (Borde azul permanente) */
+.text-field-busqueda {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #3b82f6;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-border-width: 2px;
+    -fx-padding: 7px 12px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #1e293b;
+}
+
+/* Campos deshabilitados (ej. Subtotal) */
+.text-field-disabled {
+    -fx-background-color: #f1f5f9;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 12px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #94a3b8;
+}
+
+/* =========================================
+   BOTONES
+   ========================================= */
+.btn-volver {
+    -fx-background-color: transparent;
+    -fx-text-fill: #334155;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.btn-volver:hover {
+    -fx-background-color: #E1E8F1;
+}
+
+.btn-desplegable {
+    -fx-background-color: #f8fafc;
+    -fx-border-color: #94a3b8;
+    -fx-border-style: dashed; /* Borde punteado como en el diseño */
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-text-fill: #475569;
+    -fx-font-size: 14px;
+    -fx-padding: 12px;
+    -fx-cursor: hand;
+}
+.btn-desplegable:hover {
+    -fx-background-color: #f1f5f9;
+}
+
+.btn-modo-busqueda {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #3b82f6;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-text-fill: #2563eb;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 6px 14px;
+    -fx-cursor: hand;
+}
+
+.btn-link {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2563eb;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+.btn-link:hover {
+    -fx-underline: true;
+}
+
+.btn-cancelar {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-text-fill: #0f172a;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 24px;
+    -fx-cursor: hand;
+}
+.btn-cancelar:hover {
+    -fx-background-color: #f1f5f9;
+}
+
+.btn-principal {
+    -fx-background-color: #1d4ed8;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 24px;
+    -fx-cursor: hand;
+}
+.btn-principal:hover {
+    -fx-background-color: #1e40af;
+}
+
+.btn-secundario {
+    -fx-background-color: #f1f5f9;
+    -fx-text-fill: #0f172a;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+.btn-secundario:hover {
+    -fx-background-color: #e2e8f0;
+}
+
+.btn-cerrar {
+    -fx-background-color: transparent;
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 18px;
+    -fx-cursor: hand;
+}
+.btn-cerrar:hover {
+    -fx-text-fill: #ef4444; /* Se pone rojo al pasar el mouse */
+}
+
+/* =========================================
+   PANEL DESPLEGABLE CLIENTE Y TOTALES
+   ========================================= */
+.tarjeta-cliente {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-padding: 20px;
+    /* Sombra sutil para que parezca que flota */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 10, 0, 0, 4);
+}
+
+.icono-documento {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #991b1b; /* Rojo emulando logo de SUNAT */
+    -fx-font-family: "Segoe UI";
+}
+
+.etiqueta-total {
+    -fx-font-size: 20px;
+    -fx-text-fill: #0f172a;
+}
+
+.monto-total {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+/* =========================================
+   SCROLLPANE (Barra de desplazamiento)
+   ========================================= */
+.scroll-principal {
+    -fx-background-color: transparent;
+    -fx-background: #f8fafc; /* Asegura que el fondo interior sea igual al del VBox */
+    -fx-border-color: transparent;
+}
+
+.scroll-principal .viewport {
+    -fx-background-color: transparent;
+}
