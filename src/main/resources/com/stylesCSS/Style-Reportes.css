@@ -1,0 +1,153 @@
+/* =========================================
+   ESTILOS GENERALES Y CONTENEDORES
+   ========================================= */
+
+.fondo-principal {
+    -fx-background-color: #f1f5f9;
+}
+
+.tarjeta-dashboard {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-padding: 24px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 10, 0, 0, 4);
+}
+
+.separator.separador-ligero {
+    -fx-opacity: 0.3;
+}
+
+/* =========================================
+   TIPOGRAFÍA
+   ========================================= */
+
+.label.titulo-principal {
+    -fx-text-fill: #1e293b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+.label.subtitulo-tarjeta {
+    -fx-text-fill: #1e293b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.label.titulo-tarjeta {
+    -fx-text-fill: #1e293b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.label.texto-primario-bold {
+    -fx-text-fill: #1e293b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.label.texto-secundario {
+    -fx-text-fill: #64748b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 13px;
+}
+
+.label.texto-fecha {
+    -fx-text-fill: #94a3b8;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12px;
+}
+
+/* =========================================
+   CONTENEDORES DE ÍCONOS (CUADROS SUPERIORES)
+   ========================================= */
+
+.pane.icono-contenedor-azul {
+    -fx-background-color: #dbeafe;
+    -fx-background-radius: 14px;
+}
+
+.pane.icono-contenedor-verde {
+    -fx-background-color: #dbfce7; /* Actualizado al tono verde pastel correcto */
+    -fx-background-radius: 14px;
+}
+
+.pane.icono-contenedor-morado {
+    -fx-background-color: #f3e8ff;
+    -fx-background-radius: 14px;
+}
+
+/* =========================================
+   BOTONES DE GENERACIÓN (TARJETAS)
+   ========================================= */
+
+/* Clase base compartida para los botones de generar */
+.button.boton-generar-azul,
+.button.boton-generar-verde,
+.button.boton-generar-morado {
+    -fx-text-fill: white;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-padding: 11px 0px;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Colores específicos */
+.button.boton-generar-azul { -fx-background-color: #2563eb; }
+.button.boton-generar-verde { -fx-background-color: #16a34a; }
+.button.boton-generar-morado { -fx-background-color: #9333ea; }
+
+/* =========================================
+   BADGES (ETIQUETAS EN LA LISTA)
+   ========================================= */
+
+/* Clase base compartida para las badges */
+.label.badge-azul,
+.label.badge-verde,
+.label.badge-morada {
+    -fx-background-radius: 12px;
+    -fx-padding: 2px 10px;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 11px;
+}
+
+/* Colores específicos */
+.label.badge-azul {
+    -fx-background-color: #dbeafe;
+    -fx-text-fill: #2563eb;
+}
+
+.label.badge-verde {
+    -fx-background-color: #dcfce7;
+    -fx-text-fill: #16a34a;
+}
+
+.label.badge-morada {
+    -fx-background-color: #f3e8ff;
+    -fx-text-fill: #9333ea;
+}
+
+/* =========================================
+   BOTONES DE DESCARGA (LISTA)
+   ========================================= */
+
+.button.boton-descargar {
+    -fx-background-color: transparent;
+    -fx-text-fill: #1e293b;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-padding: 8px 16px;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 13px;
+}
+
+.button.boton-descargar:hover {
+    -fx-background-color: #f1f5f9; /* Un hover gris muy suave para que se note la interacción */
+}

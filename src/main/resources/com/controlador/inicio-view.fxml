@@ -4,256 +4,146 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1013.0" spacing="20.0" style="-fx-background-color: #f1f5f9;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorInicio">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="800.0" prefWidth="1013.0" spacing="20.0"
+      styleClass="fondo-principal" stylesheets="@../stylesCSS/Style-Inicio.css"
+      xmlns="http://javafx.com/javafx/26"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.controlador.ControladorInicio">
    <padding>
       <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
    </padding>
    <children>
-      <Label text="Panel de Control" textFill="#1e293b">
-         <font>
-            <Font name="Segoe UI Bold" size="28.0" />
-         </font>
-      </Label>
+      <Label text="Panel de Control" styleClass="titulo-principal" />
+
       <HBox prefHeight="190.0" prefWidth="953.0" spacing="20.0">
          <children>
-            <VBox maxHeight="-Infinity" prefHeight="150.0" prefWidth="304.0" styleClass="tarjeta-dashboard" stylesheets="@../stylesCSS/Style-Dashboard.css" HBox.hgrow="ALWAYS">
+            <VBox maxHeight="-Infinity" prefHeight="150.0" prefWidth="304.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
                <children>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../iconos/SimboloDinero.png" />
-                     </image>
-                  </ImageView>
-                  <Label text="Ventas del Mes" textFill="#64748b">
-                     <font>
-                        <Font name="Segoe UI Semibold" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lblVentasDelMes">
-                     <font>
-                        <Font name="Segoe UI Bold" size="28.0" />
-                     </font>
-                  </Label>
+                  <Label text="Ventas del Mes" styleClass="etiqueta-descriptiva" />
+                  <Label fx:id="lblVentasDelMes" styleClass="valor-dashboard" />
                </children>
             </VBox>
-            <VBox maxHeight="-Infinity" prefHeight="150.0" prefWidth="304.0" styleClass="tarjeta-dashboard" stylesheets="@../stylesCSS/Style-Dashboard.css" HBox.hgrow="ALWAYS">
+            <VBox maxHeight="-Infinity" prefHeight="150.0" prefWidth="304.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
                <children>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../iconos/SimboloDinero.png" />
-                     </image>
-                  </ImageView>
-                  <Label text="Total de Productos" textFill="#64748b">
-                     <font>
-                        <Font name="Segoe UI Semibold" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lblTotalDeProductos">
-                     <font>
-                        <Font name="Segoe UI Bold" size="28.0" />
-                     </font>
-                  </Label>
+                  <Label text="Total de Productos" styleClass="etiqueta-descriptiva" />
+                  <Label fx:id="lblTotalDeProductos" styleClass="valor-dashboard" />
                </children>
             </VBox>
-            <VBox maxHeight="-Infinity" prefHeight="150.0" prefWidth="304.0" styleClass="tarjeta-dashboard" stylesheets="@../stylesCSS/Style-Dashboard.css" HBox.hgrow="ALWAYS">
+            <VBox maxHeight="-Infinity" prefHeight="150.0" prefWidth="304.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
                <children>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../iconos/SimboloDinero.png" />
-                     </image>
-                  </ImageView>
-                  <Label text="Crecimiento" textFill="#64748b">
-                     <font>
-                        <Font name="Segoe UI Semibold" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lblCrecimiento">
-                     <font>
-                        <Font name="Segoe UI Bold" size="28.0" />
-                     </font>
-                  </Label>
+                  <Label text="Crecimiento" styleClass="etiqueta-descriptiva" />
+                  <Label fx:id="lblCrecimiento" styleClass="valor-dashboard" />
                </children>
             </VBox>
          </children>
       </HBox>
+
       <HBox maxHeight="-Infinity" prefHeight="555.0" prefWidth="953.0" spacing="20.0" VBox.vgrow="ALWAYS">
          <children>
-            <VBox prefWidth="466.0" styleClass="tarjeta-dashboard" stylesheets="@../stylesCSS/Style-Dashboard.css" HBox.hgrow="ALWAYS">
+
+            <VBox prefWidth="466.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
                <children>
-                  <Label prefHeight="48.0" prefWidth="185.0" text="Ventas Recientes">
-                     <font>
-                        <Font name="Segoe UI Semibold" size="24.0" />
-                     </font>
+                  <Label prefHeight="48.0" prefWidth="185.0" text="Ventas Recientes" styleClass="subtitulo-tarjeta">
                      <padding>
                         <Insets bottom="15.0" />
                      </padding>
                   </Label>
-                  <HBox opacity="0.3" prefHeight="461.0" prefWidth="426.0">
-                     <padding>
-                        <Insets bottom="10.0" top="10.0" />
-                     </padding>
+
+                  <HBox prefHeight="461.0" prefWidth="426.0" styleClass="item-lista">
+                     <padding><Insets bottom="10.0" top="10.0" /></padding>
                      <children>
                         <VBox spacing="5.0">
                            <children>
-                              <Label text="#0004">
-                                 <font>
-                                    <Font name="Segoe UI" size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label text="Juan Hernandez" textFill="#64748b">
-                                 <font>
-                                    <Font name="Segoe UI" size="14.0" />
-                                 </font>
-                              </Label>
+                              <Label text="#0004" styleClass="texto-primario" />
+                              <Label text="Juan Hernandez" styleClass="texto-secundario" />
                            </children>
                         </VBox>
                         <Pane prefHeight="420.0" prefWidth="218.0" HBox.hgrow="ALWAYS" />
                         <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="73.0">
                            <children>
-                              <Label text="\$1,234">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label text="27/05/2026" textFill="#64748b">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Label>
+                              <Label text="\$1,234" styleClass="monto-destacado" />
+                              <Label text="27/05/2026" styleClass="texto-secundario" />
                            </children>
                         </VBox>
                      </children>
                   </HBox>
-                  <Separator opacity="0.3" prefWidth="200.0" />
-                  <HBox opacity="0.3" prefHeight="461.0" prefWidth="426.0">
-                     <padding>
-                        <Insets bottom="10.0" top="10.0" />
-                     </padding>
+                  <Separator prefWidth="200.0" styleClass="separador-ligero" />
+
+                  <HBox prefHeight="461.0" prefWidth="426.0" styleClass="item-lista">
+                     <padding><Insets bottom="10.0" top="10.0" /></padding>
                      <children>
                         <VBox spacing="5.0">
                            <children>
-                              <Label text="#0003">
-                                 <font>
-                                    <Font name="Segoe UI" size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label text="Hernandez" textFill="#64748b">
-                                 <font>
-                                    <Font name="Segoe UI" size="14.0" />
-                                 </font>
-                              </Label>
+                              <Label text="#0003" styleClass="texto-primario" />
+                              <Label text="Hernandez" styleClass="texto-secundario" />
                            </children>
                         </VBox>
                         <Pane prefHeight="420.0" prefWidth="218.0" HBox.hgrow="ALWAYS" />
                         <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="73.0">
                            <children>
-                              <Label text="\$1,234">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label text="27/05/2026" textFill="#64748b">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Label>
+                              <Label text="\$1,234" styleClass="monto-destacado" />
+                              <Label text="27/05/2026" styleClass="texto-secundario" />
                            </children>
                         </VBox>
                      </children>
                   </HBox>
-                  <Separator opacity="0.3" prefWidth="200.0" />
-                  <HBox opacity="0.3" prefHeight="461.0" prefWidth="426.0">
-                     <padding>
-                        <Insets bottom="10.0" top="10.0" />
-                     </padding>
+                  <Separator prefWidth="200.0" styleClass="separador-ligero" />
+
+                  <HBox prefHeight="461.0" prefWidth="426.0" styleClass="item-lista">
+                     <padding><Insets bottom="10.0" top="10.0" /></padding>
                      <children>
                         <VBox spacing="5.0">
                            <children>
-                              <Label text="#0002">
-                                 <font>
-                                    <Font name="Segoe UI" size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label text="Hernandez" textFill="#64748b">
-                                 <font>
-                                    <Font name="Segoe UI" size="14.0" />
-                                 </font>
-                              </Label>
+                              <Label text="#0002" styleClass="texto-primario" />
+                              <Label text="Hernandez" styleClass="texto-secundario" />
                            </children>
                         </VBox>
                         <Pane prefHeight="420.0" prefWidth="218.0" HBox.hgrow="ALWAYS" />
                         <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="73.0">
                            <children>
-                              <Label text="\$1,234">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label text="27/05/2026" textFill="#64748b">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Label>
+                              <Label text="\$1,234" styleClass="monto-destacado" />
+                              <Label text="27/05/2026" styleClass="texto-secundario" />
                            </children>
                         </VBox>
                      </children>
                   </HBox>
-                  <Separator opacity="0.3" prefWidth="200.0" />
-                  <HBox opacity="0.3" prefHeight="461.0" prefWidth="426.0">
-                     <padding>
-                        <Insets bottom="10.0" top="10.0" />
-                     </padding>
+                  <Separator prefWidth="200.0" styleClass="separador-ligero" />
+
+                  <HBox prefHeight="461.0" prefWidth="426.0" styleClass="item-lista">
+                     <padding><Insets bottom="10.0" top="10.0" /></padding>
                      <children>
                         <VBox spacing="5.0">
                            <children>
-                              <Label text="#0001">
-                                 <font>
-                                    <Font name="Segoe UI" size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label text="Hernandez" textFill="#64748b">
-                                 <font>
-                                    <Font name="Segoe UI" size="14.0" />
-                                 </font>
-                              </Label>
+                              <Label text="#0001" styleClass="texto-primario" />
+                              <Label text="Hernandez" styleClass="texto-secundario" />
                            </children>
                         </VBox>
                         <Pane prefHeight="420.0" prefWidth="218.0" HBox.hgrow="ALWAYS" />
                         <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="73.0">
                            <children>
-                              <Label text="\$1,234">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label text="27/05/2026" textFill="#64748b">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Label>
+                              <Label text="\$1,234" styleClass="monto-destacado" />
+                              <Label text="27/05/2026" styleClass="texto-secundario" />
                            </children>
                         </VBox>
                      </children>
                   </HBox>
-                  <Separator opacity="0.3" prefWidth="200.0" />
+                  <Separator prefWidth="200.0" styleClass="separador-ligero" />
                </children>
             </VBox>
-            <VBox prefWidth="466.0" styleClass="tarjeta-dashboard" stylesheets="@../stylesCSS/Style-Dashboard.css" HBox.hgrow="ALWAYS">
+
+            <VBox prefWidth="466.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
                <children>
-                  <Label text="Productos Más Vendidos">
-                     <font>
-                        <Font name="Segoe UI Semibold" size="24.0" />
-                     </font>
+                  <Label text="Productos Más Vendidos" styleClass="subtitulo-tarjeta">
                      <padding>
                         <Insets bottom="15.0" />
                      </padding>
                   </Label>
+
                   <VBox prefHeight="0.0" prefWidth="426.0" spacing="8.0" VBox.vgrow="ALWAYS">
                      <children>
                         <VBox prefHeight="55.0" prefWidth="426.0" spacing="8.0">
@@ -262,27 +152,20 @@
                                  <children>
                                     <HBox prefHeight="121.0" prefWidth="122.0">
                                        <children>
-                                          <Label fx:id="lblTop1" text="Laptop Dell XPS 15">
-                                             <font>
-                                                <Font name="Segoe UI" size="14.0" />
-                                             </font>
-                                          </Label>
+                                          <Label fx:id="lblTop1" text="Laptop Dell XPS 15" styleClass="texto-primario" />
                                        </children>
                                     </HBox>
                                     <Pane prefHeight="22.0" prefWidth="237.0" HBox.hgrow="ALWAYS" />
-                                    <Label text="145" textFill="#64748b">
-                                       <font>
-                                          <Font name="Segoe UI" size="14.0" />
-                                       </font>
-                                    </Label>
+                                    <Label text="145" styleClass="texto-secundario" />
                                  </children>
                               </HBox>
-                              <ProgressBar fx:id="barTop1" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Bar.css" />
-                              <Separator maxWidth="1.7976931348623157E308" opacity="0.3" prefWidth="200.0" />
+                              <ProgressBar fx:id="barTop1" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Inicio.css" />
+                              <Separator maxWidth="1.7976931348623157E308" prefWidth="200.0" styleClass="separador-ligero" />
                            </children>
                         </VBox>
                      </children>
                   </VBox>
+
                   <VBox prefHeight="0.0" prefWidth="426.0" spacing="8.0" VBox.vgrow="ALWAYS">
                      <children>
                         <VBox prefHeight="55.0" prefWidth="426.0" spacing="8.0">
@@ -291,27 +174,20 @@
                                  <children>
                                     <HBox prefHeight="121.0" prefWidth="122.0">
                                        <children>
-                                          <Label fx:id="lblTop2" text="Laptop Dell XPS 15">
-                                             <font>
-                                                <Font name="Segoe UI" size="14.0" />
-                                             </font>
-                                          </Label>
+                                          <Label fx:id="lblTop2" text="Laptop Dell XPS 15" styleClass="texto-primario" />
                                        </children>
                                     </HBox>
                                     <Pane prefHeight="110.0" prefWidth="271.0" HBox.hgrow="ALWAYS" />
-                                    <Label text="145" textFill="#64748b">
-                                       <font>
-                                          <Font name="Segoe UI" size="14.0" />
-                                       </font>
-                                    </Label>
+                                    <Label text="145" styleClass="texto-secundario" />
                                  </children>
                               </HBox>
-                              <ProgressBar fx:id="barTop2" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Bar.css" />
-                              <Separator maxWidth="1.7976931348623157E308" opacity="0.3" prefWidth="200.0" />
+                              <ProgressBar fx:id="barTop2" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Inicio.css" />
+                              <Separator maxWidth="1.7976931348623157E308" prefWidth="200.0" styleClass="separador-ligero" />
                            </children>
                         </VBox>
                      </children>
                   </VBox>
+
                   <VBox prefHeight="0.0" prefWidth="426.0" spacing="8.0" VBox.vgrow="ALWAYS">
                      <children>
                         <VBox prefHeight="55.0" prefWidth="426.0" spacing="8.0">
@@ -320,27 +196,20 @@
                                  <children>
                                     <HBox prefHeight="121.0" prefWidth="122.0">
                                        <children>
-                                          <Label fx:id="lblTop3" text="Laptop Dell XPS 15">
-                                             <font>
-                                                <Font name="Segoe UI" size="14.0" />
-                                             </font>
-                                          </Label>
+                                          <Label fx:id="lblTop3" text="Laptop Dell XPS 15" styleClass="texto-primario" />
                                        </children>
                                     </HBox>
                                     <Pane prefHeight="110.0" prefWidth="271.0" HBox.hgrow="ALWAYS" />
-                                    <Label text="145" textFill="#64748b">
-                                       <font>
-                                          <Font name="Segoe UI" size="14.0" />
-                                       </font>
-                                    </Label>
+                                    <Label text="145" styleClass="texto-secundario" />
                                  </children>
                               </HBox>
-                              <ProgressBar fx:id="barTop3" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Bar.css" />
-                              <Separator maxWidth="1.7976931348623157E308" opacity="0.3" prefWidth="200.0" />
+                              <ProgressBar fx:id="barTop3" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Inicio.css" />
+                              <Separator maxWidth="1.7976931348623157E308" prefWidth="200.0" styleClass="separador-ligero" />
                            </children>
                         </VBox>
                      </children>
                   </VBox>
+
                   <VBox prefHeight="0.0" prefWidth="426.0" spacing="8.0" VBox.vgrow="ALWAYS">
                      <children>
                         <VBox prefHeight="55.0" prefWidth="426.0" spacing="8.0">
@@ -349,27 +218,20 @@
                                  <children>
                                     <HBox prefHeight="121.0" prefWidth="122.0">
                                        <children>
-                                          <Label fx:id="lblTop4" text="Laptop Dell XPS 15">
-                                             <font>
-                                                <Font name="Segoe UI" size="14.0" />
-                                             </font>
-                                          </Label>
+                                          <Label fx:id="lblTop4" text="Laptop Dell XPS 15" styleClass="texto-primario" />
                                        </children>
                                     </HBox>
                                     <Pane prefHeight="110.0" prefWidth="271.0" HBox.hgrow="ALWAYS" />
-                                    <Label text="145" textFill="#64748b">
-                                       <font>
-                                          <Font name="Segoe UI" size="14.0" />
-                                       </font>
-                                    </Label>
+                                    <Label text="145" styleClass="texto-secundario" />
                                  </children>
                               </HBox>
-                              <ProgressBar fx:id="barTop4" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="10.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Bar.css" />
-                              <Separator maxWidth="1.7976931348623157E308" opacity="0.3" prefWidth="200.0" />
+                              <ProgressBar fx:id="barTop4" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="10.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Inicio.css" />
+                              <Separator maxWidth="1.7976931348623157E308" prefWidth="200.0" styleClass="separador-ligero" />
                            </children>
                         </VBox>
                      </children>
                   </VBox>
+
                </children>
             </VBox>
          </children>

@@ -1,0 +1,78 @@
+/* =========================================
+   ESTILOS GENERALES
+   ========================================= */
+
+.fondo-principal {
+    -fx-background-color: #f1f5f9;
+}
+
+.label.titulo-principal {
+    -fx-text-fill: #1e293b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+/* =========================================
+   BOTÓN NUEVO EMPLEADO
+   ========================================= */
+
+.button.boton-nuevo {
+    -fx-background-color: #2563eb;
+    -fx-text-fill: white;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-padding: 10px 20px;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* =========================================
+   BARRA DE BÚSQUEDA Y CONTROLES INTERNOS
+   ========================================= */
+
+/* Contenedor de la barra (HBox) */
+.barra-busqueda {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 6, 0, 0, 1);
+}
+
+/* Ícono de la lupa */
+.label.icono-busqueda {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 16px;
+}
+
+/* Campo de texto (TextField) */
+.text-field.campo-busqueda {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+}
+
+/* Opcional: Esto evita que el TextField se ponga azul cuando le haces clic */
+.text-field.campo-busqueda:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* Línea separadora */
+.separator.separador-busqueda {
+    -fx-opacity: 0.3;
+}
+
+/* Botón de Filtros */
+.button.boton-filtros {
+    -fx-background-color: transparent;
+    -fx-text-fill: #334155;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-cursor: hand;
+    -fx-padding: 6px 14px;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 13px;
+}

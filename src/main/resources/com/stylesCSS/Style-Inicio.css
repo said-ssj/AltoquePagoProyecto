@@ -1,0 +1,99 @@
+/* =========================================
+   ESTILOS GENERALES
+   ========================================= */
+
+.fondo-principal {
+    -fx-background-color: #f1f5f9;
+}
+
+.label.titulo-principal {
+    -fx-text-fill: #1e293b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+/* =========================================
+   TARJETAS DASHBOARD
+   ========================================= */
+
+.tarjeta-dashboard {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-padding: 24px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 10, 0, 0, 4);
+}
+
+.label.subtitulo-tarjeta {
+    -fx-text-fill: #1e293b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 24px;
+    -fx-font-weight: bold; /* Equivale a Semibold */
+}
+
+/* =========================================
+   TEXTOS DE LAS TARJETAS SUPERIORES
+   ========================================= */
+
+.label.etiqueta-descriptiva {
+    -fx-text-fill: #64748b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold; /* Equivale a Semibold */
+}
+
+.label.valor-dashboard {
+    -fx-text-fill: #1e293b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+/* =========================================
+   LISTAS Y ELEMENTOS (VENTAS / PRODUCTOS)
+   ========================================= */
+
+/* Fila contenedora de los datos */
+.item-lista {
+    -fx-opacity: 1.0;
+}
+
+/* Textos principales (Ej: Nombre del producto, #0004) */
+.label.texto-primario {
+    -fx-text-fill: #1e293b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 16px;
+}
+
+/* Textos secundarios (Ej: Juan Hernandez, fechas, cantidades) */
+.label.texto-secundario {
+    -fx-text-fill: #64748b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+}
+
+/* Montos de dinero */
+.label.monto-destacado {
+    -fx-text-fill: #1e293b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* Separadores de las listas */
+.separator.separador-ligero {
+    -fx-opacity: 0.3;
+}
+
+/* El fondo gris de la barra */
+.progress-bar .track {
+    -fx-background-color: #e2e8f0;
+    -fx-background-radius: 10;
+}
+
+/* La barra azul que se mueve */
+.progress-bar .bar {
+    -fx-background-color: #155dfc;
+    -fx-background-radius: 10;
+    -fx-padding: 8;
+}
