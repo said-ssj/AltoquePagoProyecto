@@ -11,10 +11,10 @@ public class ConexionDB {
     public static Connection conectar() {
         Connection conexion = null;
 
-        try (InputStream input = ConexionDB.class.getClassLoader().getResourceAsStream("db.propierties")){
+        try (InputStream input = ConexionDB.class.getClassLoader().getResourceAsStream("db.properties")){
             Properties prop = new Properties();
             if(input == null){
-                System.out.println("No se encontro db.propierties");
+                System.out.println("No se encontro db.properties");
                 return null;
             }
             prop.load(input);
