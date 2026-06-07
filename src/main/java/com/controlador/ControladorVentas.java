@@ -4,16 +4,14 @@ import com.modelo.Venta;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.io.IOException;
 
 public class ControladorVentas {
 
@@ -24,6 +22,8 @@ public class ControladorVentas {
     @FXML private TableColumn<Venta, Integer> colProductos;
     @FXML private TableColumn<Venta, Double> colTotal;
     @FXML private TableColumn<Venta, String> colEstado;
+    @FXML private BorderPane panelPrincipal;
+    @FXML private ToggleButton btnInicializadorVentas;
 
     // Declaración del ComboBox
     @FXML private ComboBox<String> cbFiltrosVentas;
@@ -89,82 +89,25 @@ public class ControladorVentas {
                 new Venta("#1236", "26/05/2026", "Carlos López", 5, 2100, "Pendiente")
         );
     }
-    // MÉTODO QUE SE EJECUTA AL DAR CLICK EN "+ NUEVA VENTA"
     @FXML
-    private void abrirFormularioNuevaVenta() {
-        // Crear la ventana de diálogo flotante
-        Dialog<Venta> dialog = new Dialog<>();
-        dialog.setTitle("Registrar Nueva Venta");
-        dialog.setHeaderText("Complete los datos del cliente y de la transacción:");
+    public void abrirNuevaVenta(javafx.event.ActionEvent event) {
+        try {
+            // 1. Cargamos el diseño de la Nueva Venta
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("nuevaventa-view.fxml"));
+            javafx.scene.Parent vistaNuevaVenta = loader.load();
 
-        // Configurar botones de Confirmar y Cancelar
-        ButtonType btnGuardarType = new ButtonType("Guardar Venta", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(btnGuardarType, ButtonType.CANCEL);
+            // 2. Usamos el botón clickeado para rastrear y encontrar el BorderPane principal
+            javafx.scene.Node boton = (javafx.scene.Node) event.getSource();
+            javafx.scene.layout.BorderPane panelPrincipal = (javafx.scene.layout.BorderPane) boton.getScene().getRoot();
 
-        // Crear el contenedor tipo formulario (Grid)
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
+            // 3. Reemplazamos el centro del programa con tu nueva vista
+            panelPrincipal.setCenter(vistaNuevaVenta);
 
-        // Componentes de entrada de datos
-        TextField txtCliente = new TextField();
-        txtCliente.setPromptText("Nombre completo");
-
-        TextField txtProductos = new TextField();
-        txtProductos.setPromptText("Ej. 3");
-
-        TextField txtTotal = new TextField();
-        txtTotal.setPromptText("Ej. 1500");
-
-        ComboBox<String> cbEstado = new ComboBox<>();
-        cbEstado.getItems().addAll("Completada", "Pendiente");
-        cbEstado.setValue("Completada"); // Opción por defecto
-
-        // Organizar en la cuadrícula (Columna, Fila)
-        grid.add(new Label("Cliente:"), 0, 0);
-        grid.add(txtCliente, 1, 0);
-        grid.add(new Label("Cantidad Productos:"), 0, 1);
-        grid.add(txtProductos, 1, 1);
-        grid.add(new Label("Total ($):"), 0, 2);
-        grid.add(txtTotal, 1, 2);
-        grid.add(new Label("Estado:"), 0, 3);
-        grid.add(cbEstado, 1, 3);
-
-        dialog.getDialogPane().setContent(grid);
-
-        // Convertir la respuesta cuando el usuario presione "Guardar Venta"
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == btnGuardarType) {
-                try {
-                    // 1. AUTO-GENERAR ID (Siguiente número secuencial)
-                    int baseId = 1234 + listaVentas.size();
-                    String idAutomatico = "#" + baseId;
-
-                    // 2. AUTO-GENERAR FECHA ACTUAL DE LA PC
-                    String fechaAutomatica = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
-                    // 3. OBTENER DATOS INGRESADOS
-                    String cliente = txtCliente.getText().trim();
-                    int productos = Integer.parseInt(txtProductos.getText().trim());
-                    double total = Double.parseDouble(txtTotal.getText().trim());
-                    String estado = cbEstado.getValue();
-
-                    if(cliente.isEmpty()) return null; // Validación básica
-
-                    return new Venta(idAutomatico, fechaAutomatica, cliente, productos, total, estado);
-                } catch (NumberFormatException e) {
-                    // Si meten letras en total o productos, muestra error
-                    System.out.println("Error de formato numérico.");
-                }
-            }
-            return null;
-        });
-
-        // Mostrar el diálogo y capturar el resultado
-        Optional<Venta> resultado = dialog.showAndWait();
-
-        // Si todo salió bien, agregamos el objeto Venta a la lista de la tabla
-        resultado.ifPresent(listaVentas::add);
+        } catch (IOException e) {
+            System.err.println("Error al cargar la vista de nueva venta");
+            e.printStackTrace();
+        }
     }
+
+
 }
