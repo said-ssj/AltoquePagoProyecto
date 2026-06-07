@@ -33,7 +33,7 @@
     -fx-background-color: transparent;
     /* En lugar de opacidad, usamos un gris claro/azulado directamente */
     -fx-text-fill: #FFFFFF;
-    -fx-font-size: 18px; /* Un pelín más grande para compensar la falta de ícono temporalmente */
+    -fx-font-size: 18px; /* Un poc más grande para compensar la falta de ícono temporalmente */
     -fx-font-family: "Segoe UI";
     -fx-font-weight: bold;
     -fx-background-radius: 8px;

@@ -26,6 +26,10 @@
     -fx-font-weight: bold;
 }
 
+.button.boton-nuevo:hover {
+    -fx-background-color: #1547E5;
+}
+
 /* ESTILO PARA EL COMBO BOX */
 .combo-box.boton-filtros {
     -fx-background-color: white;
