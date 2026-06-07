@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.ComboBox?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="800.0" prefWidth="1013.0" spacing="20.0"
       styleClass="fondo-principal" stylesheets="@../stylesCSS/Style-Productos.css"
@@ -36,11 +37,14 @@
                 <Label text="🔍" styleClass="icono-busqueda" />
                 <TextField fx:id="txtBuscarProducto" promptText="Buscar productos..." HBox.hgrow="ALWAYS" styleClass="campo-busqueda" />
                 <Separator orientation="VERTICAL" prefHeight="28.0" styleClass="separador-busqueda" />
-                <Button fx:id="btnFiltros" mnemonicParsing="false" text="▼  Filtros" styleClass="boton-filtros" />
+                <ComboBox fx:id="cbFiltrosProductos"
+                          promptText="Filtros"
+                          styleClass="boton-filtros"
+                          prefWidth="120" />
             </children>
         </HBox>
 
-        <TableView fx:id="tablaProductos" styleClass="tabla" stylesheets="@../stylesCSS/Style-Table.css" VBox.vgrow="ALWAYS">
+        <TableView fx:id="tablaProductos" styleClass="tabla" stylesheets="@../stylesCSS/Style-Tables.css" VBox.vgrow="ALWAYS">
             <columns>
                 <TableColumn fx:id="colId" prefWidth="80.0" text="ID" />
                 <TableColumn fx:id="colNombre" prefWidth="130.0" text="Nombre" />
