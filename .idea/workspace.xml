@@ -4,22 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad914ce2-ee9f-4d54-88eb-b7cffc66735b" name="Changes" comment="style: se agrego Style-Consultas.css&#10;style: se agrego Style-Empleados.css&#10;style: se agrego Style-Inicio.css&#10;refactor: se depuro el codigo de consultas-view.fxml&#10;refactor: se depuro el codigo de empleados-view.fxml&#10;refactor: se depuro el codigo de inicio-view.fxml&#10;refactor: se depuro el codigo de menu.fxml">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Productos.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Reportes.css" afterDir="false" />
+    <list default="true" id="ad914ce2-ee9f-4d54-88eb-b7cffc66735b" name="Changes" comment="style: se agrego Style-Productos.css&#10;style: se agrego Style-Reportes.css&#10;refactor: se mejoro Style-Empleados.css&#10;refactor: se mejoro Style-Table.css&#10;refactor: se mejoro Style-Ventas.css&#10;refactor: se mejoro Style-Inicio.css&#10;refactor: se mejoro Style-Menu.css&#10;refactor: se depuro productos-view.fxml&#10;refactor: se depuro reportes-view.fxml&#10;refactor: se depuro inicio-view.fxml&#10;refactor: se depuro menu.fxml&#10;refactor: se elimino Style-Bar.css&#10;refactor: se elimino Style-Buton.css&#10;refactor: se elimino Style-Dashboard.css">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/inicio-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/inicio-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/menu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/menu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/principal.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorEmpleados.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorEmpleados.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorProductos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorProductos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorVentas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorVentas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/empleados-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/empleados-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/productos-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/productos-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/reportes-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/reportes-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/ventas-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/ventas-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Bar.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Buton.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Menu.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Dashboard.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Empleados.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Empleados.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Inicio.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Inicio.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Table.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Table.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Productos.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Productos.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Table.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Tables.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Ventas.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Ventas.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -124,7 +119,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "#4 on rama-alvaro",
+    "git-widget-placeholder": "rama-alvaro",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -141,6 +136,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="com.controlador" />
+    </key>
+  </component>
   <component name="RunManager" selected="Application.HelloApplication">
     <configuration name="HelloApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.controlador.HelloApplication" />
@@ -280,7 +280,15 @@
       <option name="project" value="LOCAL" />
       <updated>1780724363112</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="style: se agrego Style-Productos.css&#10;style: se agrego Style-Reportes.css&#10;refactor: se mejoro Style-Empleados.css&#10;refactor: se mejoro Style-Table.css&#10;refactor: se mejoro Style-Ventas.css&#10;refactor: se mejoro Style-Inicio.css&#10;refactor: se mejoro Style-Menu.css&#10;refactor: se depuro productos-view.fxml&#10;refactor: se depuro reportes-view.fxml&#10;refactor: se depuro inicio-view.fxml&#10;refactor: se depuro menu.fxml&#10;refactor: se elimino Style-Bar.css&#10;refactor: se elimino Style-Buton.css&#10;refactor: se elimino Style-Dashboard.css">
+      <option name="closed" value="true" />
+      <created>1780729111864</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1780729111864</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -301,7 +309,8 @@
     <MESSAGE value="eooo" />
     <MESSAGE value="fix: prueba" />
     <MESSAGE value="style: se agrego Style-Consultas.css&#10;style: se agrego Style-Empleados.css&#10;style: se agrego Style-Inicio.css&#10;refactor: se depuro el codigo de consultas-view.fxml&#10;refactor: se depuro el codigo de empleados-view.fxml&#10;refactor: se depuro el codigo de inicio-view.fxml&#10;refactor: se depuro el codigo de menu.fxml" />
-    <option name="LAST_COMMIT_MESSAGE" value="style: se agrego Style-Consultas.css&#10;style: se agrego Style-Empleados.css&#10;style: se agrego Style-Inicio.css&#10;refactor: se depuro el codigo de consultas-view.fxml&#10;refactor: se depuro el codigo de empleados-view.fxml&#10;refactor: se depuro el codigo de inicio-view.fxml&#10;refactor: se depuro el codigo de menu.fxml" />
+    <MESSAGE value="style: se agrego Style-Productos.css&#10;style: se agrego Style-Reportes.css&#10;refactor: se mejoro Style-Empleados.css&#10;refactor: se mejoro Style-Table.css&#10;refactor: se mejoro Style-Ventas.css&#10;refactor: se mejoro Style-Inicio.css&#10;refactor: se mejoro Style-Menu.css&#10;refactor: se depuro productos-view.fxml&#10;refactor: se depuro reportes-view.fxml&#10;refactor: se depuro inicio-view.fxml&#10;refactor: se depuro menu.fxml&#10;refactor: se elimino Style-Bar.css&#10;refactor: se elimino Style-Buton.css&#10;refactor: se elimino Style-Dashboard.css" />
+    <option name="LAST_COMMIT_MESSAGE" value="style: se agrego Style-Productos.css&#10;style: se agrego Style-Reportes.css&#10;refactor: se mejoro Style-Empleados.css&#10;refactor: se mejoro Style-Table.css&#10;refactor: se mejoro Style-Ventas.css&#10;refactor: se mejoro Style-Inicio.css&#10;refactor: se mejoro Style-Menu.css&#10;refactor: se depuro productos-view.fxml&#10;refactor: se depuro reportes-view.fxml&#10;refactor: se depuro inicio-view.fxml&#10;refactor: se depuro menu.fxml&#10;refactor: se elimino Style-Bar.css&#10;refactor: se elimino Style-Buton.css&#10;refactor: se elimino Style-Dashboard.css" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
