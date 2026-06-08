@@ -1,240 +1,282 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="800.0" prefWidth="1013.0" spacing="20.0"
-      styleClass="fondo-principal" stylesheets="@../stylesCSS/Style-Inicio.css"
-      xmlns="http://javafx.com/javafx/26"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.controlador.ControladorInicio">
-   <padding>
-      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
-   </padding>
-   <children>
-      <Label text="Panel de Control" styleClass="titulo-principal" />
-
-      <HBox prefHeight="190.0" prefWidth="953.0" spacing="20.0">
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-principal" stylesheets="@../stylesCSS/Style-Inicio.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorInicio">
+   <content>
+      <VBox spacing="20.0" styleClass="fondo-principal">
+         <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+         </padding>
          <children>
-            <VBox maxHeight="-Infinity" prefHeight="150.0" prefWidth="304.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
+            <Label text="Panel de Control" styleClass="titulo-principal" />
+
+            <HBox spacing="20.0" prefWidth="953.0">
                <children>
-                  <Label text="Ventas del Mes" styleClass="etiqueta-descriptiva" />
-                  <Label fx:id="lblVentasDelMes" styleClass="valor-dashboard" />
+                  <Button fx:id="btnIrPuntoVenta" maxWidth="Infinity" HBox.hgrow="ALWAYS" styleClass="btn-accion-grande-azul" text="Ir al Punto de Venta">
+                     <graphic>
+                        <FontIcon iconColor="#ffffff" iconLiteral="fas-shopping-cart" iconSize="24" />
+                     </graphic>
+                  </Button>
+
+                  <Button fx:id="btnEscanearProductos" maxWidth="Infinity" HBox.hgrow="ALWAYS" styleClass="btn-accion-grande-verde" text="Escanear Productos">
+                     <graphic>
+                        <FontIcon iconColor="#ffffff" iconLiteral="fas-barcode" iconSize="24" />
+                     </graphic>
+                  </Button>
                </children>
-            </VBox>
-            <VBox maxHeight="-Infinity" prefHeight="150.0" prefWidth="304.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
+            </HBox>
+
+            <HBox prefHeight="190.0" prefWidth="953.0" spacing="20.0">
                <children>
-                  <Label text="Total de Productos" styleClass="etiqueta-descriptiva" />
-                  <Label fx:id="lblTotalDeProductos" styleClass="valor-dashboard" />
+                  <VBox maxHeight="-Infinity" prefHeight="150.0" prefWidth="304.0" spacing="15.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
+                     <children>
+                        <HBox>
+                           <StackPane styleClass="icono-caja-ventas">
+                              <FontIcon iconColor="#16a34a" iconLiteral="fas-dollar-sign" iconSize="24" />
+                           </StackPane>
+                        </HBox>
+                        <VBox spacing="5.0">
+                           <Label styleClass="etiqueta-descriptiva" text="Ventas del Mes" />
+                           <Label fx:id="lblVentasDelMes" styleClass="valor-dashboard" text="S/ 0.00" />
+                        </VBox>
+                     </children>
+                  </VBox>
+
+                  <VBox maxHeight="-Infinity" prefHeight="150.0" prefWidth="304.0" spacing="15.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
+                     <children>
+                        <HBox>
+                           <StackPane styleClass="icono-caja-productos">
+                              <FontIcon iconColor="#2563eb" iconLiteral="fas-box" iconSize="24" />
+                           </StackPane>
+                        </HBox>
+                        <VBox spacing="5.0">
+                           <Label styleClass="etiqueta-descriptiva" text="Total de Productos" />
+                           <Label fx:id="lblTotalDeProductos" styleClass="valor-dashboard" text="0" />
+                        </VBox>
+                     </children>
+                  </VBox>
+
+                  <VBox maxHeight="-Infinity" prefHeight="150.0" prefWidth="304.0" spacing="15.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
+                     <children>
+                        <HBox>
+                           <StackPane styleClass="icono-caja-crecimiento">
+                              <FontIcon iconColor="#ea580c" iconLiteral="fas-chart-line" iconSize="24" />
+                           </StackPane>
+                        </HBox>
+                        <VBox spacing="5.0">
+                           <Label styleClass="etiqueta-descriptiva" text="Crecimiento" />
+                           <Label fx:id="lblCrecimiento" styleClass="valor-dashboard" text="+0%" />
+                        </VBox>
+                     </children>
+                  </VBox>
                </children>
-            </VBox>
-            <VBox maxHeight="-Infinity" prefHeight="150.0" prefWidth="304.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
+            </HBox>
+
+            <HBox maxHeight="-Infinity" prefHeight="555.0" prefWidth="953.0" spacing="20.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Label text="Crecimiento" styleClass="etiqueta-descriptiva" />
-                  <Label fx:id="lblCrecimiento" styleClass="valor-dashboard" />
+
+                  <VBox prefWidth="466.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label prefHeight="48.0" prefWidth="185.0" text="Ventas Recientes" styleClass="subtitulo-tarjeta">
+                           <padding>
+                              <Insets bottom="15.0" />
+                           </padding>
+                        </Label>
+
+                        <HBox prefHeight="461.0" prefWidth="426.0" styleClass="item-lista">
+                           <padding><Insets bottom="10.0" top="10.0" /></padding>
+                           <children>
+                              <VBox spacing="5.0">
+                                 <children>
+                                    <Label text="#0004" styleClass="texto-primario" />
+                                    <Label text="Juan Hernandez" styleClass="texto-secundario" />
+                                 </children>
+                              </VBox>
+                              <Pane prefHeight="420.0" prefWidth="218.0" HBox.hgrow="ALWAYS" />
+                              <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="73.0">
+                                 <children>
+                                    <Label text="\$1,234" styleClass="monto-destacado" />
+                                    <Label text="27/05/2026" styleClass="texto-secundario" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Separator prefWidth="200.0" styleClass="separador-ligero" />
+
+                        <HBox prefHeight="461.0" prefWidth="426.0" styleClass="item-lista">
+                           <padding><Insets bottom="10.0" top="10.0" /></padding>
+                           <children>
+                              <VBox spacing="5.0">
+                                 <children>
+                                    <Label text="#0003" styleClass="texto-primario" />
+                                    <Label text="Hernandez" styleClass="texto-secundario" />
+                                 </children>
+                              </VBox>
+                              <Pane prefHeight="420.0" prefWidth="218.0" HBox.hgrow="ALWAYS" />
+                              <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="73.0">
+                                 <children>
+                                    <Label text="\$1,234" styleClass="monto-destacado" />
+                                    <Label text="27/05/2026" styleClass="texto-secundario" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Separator prefWidth="200.0" styleClass="separador-ligero" />
+
+                        <HBox prefHeight="461.0" prefWidth="426.0" styleClass="item-lista">
+                           <padding><Insets bottom="10.0" top="10.0" /></padding>
+                           <children>
+                              <VBox spacing="5.0">
+                                 <children>
+                                    <Label text="#0002" styleClass="texto-primario" />
+                                    <Label text="Hernandez" styleClass="texto-secundario" />
+                                 </children>
+                              </VBox>
+                              <Pane prefHeight="420.0" prefWidth="218.0" HBox.hgrow="ALWAYS" />
+                              <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="73.0">
+                                 <children>
+                                    <Label text="\$1,234" styleClass="monto-destacado" />
+                                    <Label text="27/05/2026" styleClass="texto-secundario" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Separator prefWidth="200.0" styleClass="separador-ligero" />
+
+                        <HBox prefHeight="461.0" prefWidth="426.0" styleClass="item-lista">
+                           <padding><Insets bottom="10.0" top="10.0" /></padding>
+                           <children>
+                              <VBox spacing="5.0">
+                                 <children>
+                                    <Label text="#0001" styleClass="texto-primario" />
+                                    <Label text="Hernandez" styleClass="texto-secundario" />
+                                 </children>
+                              </VBox>
+                              <Pane prefHeight="420.0" prefWidth="218.0" HBox.hgrow="ALWAYS" />
+                              <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="73.0">
+                                 <children>
+                                    <Label text="\$1,234" styleClass="monto-destacado" />
+                                    <Label text="27/05/2026" styleClass="texto-secundario" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <Separator prefWidth="200.0" styleClass="separador-ligero" />
+                     </children>
+                  </VBox>
+
+                  <VBox prefWidth="466.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Productos Más Vendidos" styleClass="subtitulo-tarjeta">
+                           <padding>
+                              <Insets bottom="15.0" />
+                           </padding>
+                        </Label>
+
+                        <VBox prefHeight="0.0" prefWidth="426.0" spacing="8.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox prefHeight="55.0" prefWidth="426.0" spacing="8.0">
+                                 <children>
+                                    <HBox prefHeight="453.0" prefWidth="426.0" spacing="5.0">
+                                       <children>
+                                          <HBox prefHeight="121.0" prefWidth="122.0">
+                                             <children>
+                                                <Label fx:id="lblTop1" text="Laptop Dell XPS 15" styleClass="texto-primario" />
+                                             </children>
+                                          </HBox>
+                                          <Pane prefHeight="22.0" prefWidth="237.0" HBox.hgrow="ALWAYS" />
+                                          <Label text="145" styleClass="texto-secundario" />
+                                       </children>
+                                    </HBox>
+                                    <ProgressBar fx:id="barTop1" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Inicio.css" />
+                                    <Separator maxWidth="1.7976931348623157E308" prefWidth="200.0" styleClass="separador-ligero" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+
+                        <VBox prefHeight="0.0" prefWidth="426.0" spacing="8.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox prefHeight="55.0" prefWidth="426.0" spacing="8.0">
+                                 <children>
+                                    <HBox prefHeight="453.0" prefWidth="426.0" spacing="5.0">
+                                       <children>
+                                          <HBox prefHeight="121.0" prefWidth="122.0">
+                                             <children>
+                                                <Label fx:id="lblTop2" text="Laptop Dell XPS 15" styleClass="texto-primario" />
+                                             </children>
+                                          </HBox>
+                                          <Pane prefHeight="110.0" prefWidth="271.0" HBox.hgrow="ALWAYS" />
+                                          <Label text="145" styleClass="texto-secundario" />
+                                       </children>
+                                    </HBox>
+                                    <ProgressBar fx:id="barTop2" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Inicio.css" />
+                                    <Separator maxWidth="1.7976931348623157E308" prefWidth="200.0" styleClass="separador-ligero" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+
+                        <VBox prefHeight="0.0" prefWidth="426.0" spacing="8.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox prefHeight="55.0" prefWidth="426.0" spacing="8.0">
+                                 <children>
+                                    <HBox prefHeight="453.0" prefWidth="426.0" spacing="5.0">
+                                       <children>
+                                          <HBox prefHeight="121.0" prefWidth="122.0">
+                                             <children>
+                                                <Label fx:id="lblTop3" text="Laptop Dell XPS 15" styleClass="texto-primario" />
+                                             </children>
+                                          </HBox>
+                                          <Pane prefHeight="110.0" prefWidth="271.0" HBox.hgrow="ALWAYS" />
+                                          <Label text="145" styleClass="texto-secundario" />
+                                       </children>
+                                    </HBox>
+                                    <ProgressBar fx:id="barTop3" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Inicio.css" />
+                                    <Separator maxWidth="1.7976931348623157E308" prefWidth="200.0" styleClass="separador-ligero" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+
+                        <VBox prefHeight="0.0" prefWidth="426.0" spacing="8.0" VBox.vgrow="ALWAYS">
+                           <children>
+                              <VBox prefHeight="55.0" prefWidth="426.0" spacing="8.0">
+                                 <children>
+                                    <HBox prefHeight="453.0" prefWidth="426.0" spacing="5.0">
+                                       <children>
+                                          <HBox prefHeight="121.0" prefWidth="122.0">
+                                             <children>
+                                                <Label fx:id="lblTop4" text="Laptop Dell XPS 15" styleClass="texto-primario" />
+                                             </children>
+                                          </HBox>
+                                          <Pane prefHeight="110.0" prefWidth="271.0" HBox.hgrow="ALWAYS" />
+                                          <Label text="145" styleClass="texto-secundario" />
+                                       </children>
+                                    </HBox>
+                                    <ProgressBar fx:id="barTop4" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="10.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Inicio.css" />
+                                    <Separator maxWidth="1.7976931348623157E308" prefWidth="200.0" styleClass="separador-ligero" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+
+                     </children>
+                  </VBox>
                </children>
-            </VBox>
+            </HBox>
          </children>
-      </HBox>
-
-      <HBox maxHeight="-Infinity" prefHeight="555.0" prefWidth="953.0" spacing="20.0" VBox.vgrow="ALWAYS">
-         <children>
-
-            <VBox prefWidth="466.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
-               <children>
-                  <Label prefHeight="48.0" prefWidth="185.0" text="Ventas Recientes" styleClass="subtitulo-tarjeta">
-                     <padding>
-                        <Insets bottom="15.0" />
-                     </padding>
-                  </Label>
-
-                  <HBox prefHeight="461.0" prefWidth="426.0" styleClass="item-lista">
-                     <padding><Insets bottom="10.0" top="10.0" /></padding>
-                     <children>
-                        <VBox spacing="5.0">
-                           <children>
-                              <Label text="#0004" styleClass="texto-primario" />
-                              <Label text="Juan Hernandez" styleClass="texto-secundario" />
-                           </children>
-                        </VBox>
-                        <Pane prefHeight="420.0" prefWidth="218.0" HBox.hgrow="ALWAYS" />
-                        <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="73.0">
-                           <children>
-                              <Label text="\$1,234" styleClass="monto-destacado" />
-                              <Label text="27/05/2026" styleClass="texto-secundario" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-                  <Separator prefWidth="200.0" styleClass="separador-ligero" />
-
-                  <HBox prefHeight="461.0" prefWidth="426.0" styleClass="item-lista">
-                     <padding><Insets bottom="10.0" top="10.0" /></padding>
-                     <children>
-                        <VBox spacing="5.0">
-                           <children>
-                              <Label text="#0003" styleClass="texto-primario" />
-                              <Label text="Hernandez" styleClass="texto-secundario" />
-                           </children>
-                        </VBox>
-                        <Pane prefHeight="420.0" prefWidth="218.0" HBox.hgrow="ALWAYS" />
-                        <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="73.0">
-                           <children>
-                              <Label text="\$1,234" styleClass="monto-destacado" />
-                              <Label text="27/05/2026" styleClass="texto-secundario" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-                  <Separator prefWidth="200.0" styleClass="separador-ligero" />
-
-                  <HBox prefHeight="461.0" prefWidth="426.0" styleClass="item-lista">
-                     <padding><Insets bottom="10.0" top="10.0" /></padding>
-                     <children>
-                        <VBox spacing="5.0">
-                           <children>
-                              <Label text="#0002" styleClass="texto-primario" />
-                              <Label text="Hernandez" styleClass="texto-secundario" />
-                           </children>
-                        </VBox>
-                        <Pane prefHeight="420.0" prefWidth="218.0" HBox.hgrow="ALWAYS" />
-                        <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="73.0">
-                           <children>
-                              <Label text="\$1,234" styleClass="monto-destacado" />
-                              <Label text="27/05/2026" styleClass="texto-secundario" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-                  <Separator prefWidth="200.0" styleClass="separador-ligero" />
-
-                  <HBox prefHeight="461.0" prefWidth="426.0" styleClass="item-lista">
-                     <padding><Insets bottom="10.0" top="10.0" /></padding>
-                     <children>
-                        <VBox spacing="5.0">
-                           <children>
-                              <Label text="#0001" styleClass="texto-primario" />
-                              <Label text="Hernandez" styleClass="texto-secundario" />
-                           </children>
-                        </VBox>
-                        <Pane prefHeight="420.0" prefWidth="218.0" HBox.hgrow="ALWAYS" />
-                        <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="73.0">
-                           <children>
-                              <Label text="\$1,234" styleClass="monto-destacado" />
-                              <Label text="27/05/2026" styleClass="texto-secundario" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-                  <Separator prefWidth="200.0" styleClass="separador-ligero" />
-               </children>
-            </VBox>
-
-            <VBox prefWidth="466.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
-               <children>
-                  <Label text="Productos Más Vendidos" styleClass="subtitulo-tarjeta">
-                     <padding>
-                        <Insets bottom="15.0" />
-                     </padding>
-                  </Label>
-
-                  <VBox prefHeight="0.0" prefWidth="426.0" spacing="8.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <VBox prefHeight="55.0" prefWidth="426.0" spacing="8.0">
-                           <children>
-                              <HBox prefHeight="453.0" prefWidth="426.0" spacing="5.0">
-                                 <children>
-                                    <HBox prefHeight="121.0" prefWidth="122.0">
-                                       <children>
-                                          <Label fx:id="lblTop1" text="Laptop Dell XPS 15" styleClass="texto-primario" />
-                                       </children>
-                                    </HBox>
-                                    <Pane prefHeight="22.0" prefWidth="237.0" HBox.hgrow="ALWAYS" />
-                                    <Label text="145" styleClass="texto-secundario" />
-                                 </children>
-                              </HBox>
-                              <ProgressBar fx:id="barTop1" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Inicio.css" />
-                              <Separator maxWidth="1.7976931348623157E308" prefWidth="200.0" styleClass="separador-ligero" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </VBox>
-
-                  <VBox prefHeight="0.0" prefWidth="426.0" spacing="8.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <VBox prefHeight="55.0" prefWidth="426.0" spacing="8.0">
-                           <children>
-                              <HBox prefHeight="453.0" prefWidth="426.0" spacing="5.0">
-                                 <children>
-                                    <HBox prefHeight="121.0" prefWidth="122.0">
-                                       <children>
-                                          <Label fx:id="lblTop2" text="Laptop Dell XPS 15" styleClass="texto-primario" />
-                                       </children>
-                                    </HBox>
-                                    <Pane prefHeight="110.0" prefWidth="271.0" HBox.hgrow="ALWAYS" />
-                                    <Label text="145" styleClass="texto-secundario" />
-                                 </children>
-                              </HBox>
-                              <ProgressBar fx:id="barTop2" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Inicio.css" />
-                              <Separator maxWidth="1.7976931348623157E308" prefWidth="200.0" styleClass="separador-ligero" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </VBox>
-
-                  <VBox prefHeight="0.0" prefWidth="426.0" spacing="8.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <VBox prefHeight="55.0" prefWidth="426.0" spacing="8.0">
-                           <children>
-                              <HBox prefHeight="453.0" prefWidth="426.0" spacing="5.0">
-                                 <children>
-                                    <HBox prefHeight="121.0" prefWidth="122.0">
-                                       <children>
-                                          <Label fx:id="lblTop3" text="Laptop Dell XPS 15" styleClass="texto-primario" />
-                                       </children>
-                                    </HBox>
-                                    <Pane prefHeight="110.0" prefWidth="271.0" HBox.hgrow="ALWAYS" />
-                                    <Label text="145" styleClass="texto-secundario" />
-                                 </children>
-                              </HBox>
-                              <ProgressBar fx:id="barTop3" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Inicio.css" />
-                              <Separator maxWidth="1.7976931348623157E308" prefWidth="200.0" styleClass="separador-ligero" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </VBox>
-
-                  <VBox prefHeight="0.0" prefWidth="426.0" spacing="8.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <VBox prefHeight="55.0" prefWidth="426.0" spacing="8.0">
-                           <children>
-                              <HBox prefHeight="453.0" prefWidth="426.0" spacing="5.0">
-                                 <children>
-                                    <HBox prefHeight="121.0" prefWidth="122.0">
-                                       <children>
-                                          <Label fx:id="lblTop4" text="Laptop Dell XPS 15" styleClass="texto-primario" />
-                                       </children>
-                                    </HBox>
-                                    <Pane prefHeight="110.0" prefWidth="271.0" HBox.hgrow="ALWAYS" />
-                                    <Label text="145" styleClass="texto-secundario" />
-                                 </children>
-                              </HBox>
-                              <ProgressBar fx:id="barTop4" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="10.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Inicio.css" />
-                              <Separator maxWidth="1.7976931348623157E308" prefWidth="200.0" styleClass="separador-ligero" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </VBox>
-
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-   </children>
-</VBox>
+      </VBox>
+   </content>
+</ScrollPane>

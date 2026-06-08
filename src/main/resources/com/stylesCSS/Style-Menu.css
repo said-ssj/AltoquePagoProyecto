@@ -51,6 +51,6 @@
 
 /* Seleccionado / Activo: Fondo azul y texto 100% blanco */
 .toggle-button.menu-boton:selected {
-    -fx-background-color: #2563eb;
+    -fx-background-color: #144DEB;
     -fx-text-fill: white;
 }
