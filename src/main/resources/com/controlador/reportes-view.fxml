@@ -5,13 +5,15 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="800.0" prefWidth="1013.0" spacing="20.0"
       styleClass="fondo-principal" stylesheets="@../stylesCSS/Style-Reportes.css"
-      xmlns="http://javafx.com/javafx/26"
+      xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.controlador.ControladorReportes">
     <padding>
@@ -21,35 +23,65 @@
 
         <Label text="Reportes" styleClass="titulo-principal" />
 
-        <HBox prefWidth="953.0" spacing="20.0">
+        <!-- Se ajustó el HBox principal y se quitó el HBox.hgrow de los hijos -->
+        <HBox spacing="25.0">
             <children>
 
-                <VBox spacing="14.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
+                <!-- TARJETA 1: VENTAS -->
+                <VBox prefHeight="260.0" prefWidth="290.0" spacing="15.0" styleClass="tarjeta-dashboard">
+                    <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                    </padding>
                     <children>
-                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="60.0" styleClass="icono-contenedor-azul" />
+                        <!-- Se unificó el contenedor del icono -->
+                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="55.0" prefWidth="55.0" styleClass="icono-caja-ventas">
+                            <FontIcon iconColor="#2563eb" iconLiteral="fas-file-alt" iconSize="26" />
+                        </StackPane>
+
                         <Label text="Generar Reporte de Ventas" wrapText="true" styleClass="titulo-tarjeta" />
-                        <Label text="Crea un reporte detallado de ventas por período" wrapText="true" styleClass="texto-secundario" />
-                        <Pane VBox.vgrow="ALWAYS" />
+                        <Label prefHeight="40.0" text="Crea un reporte detallado de ventas por período" wrapText="true" styleClass="texto-secundario" />
+
+                        <!-- Region empuja el botón siempre hacia abajo -->
+                        <Region VBox.vgrow="ALWAYS" />
+
                         <Button fx:id="btnGenerarVentas" maxWidth="Infinity" mnemonicParsing="false" text="Generar" styleClass="boton-generar-azul" />
                     </children>
                 </VBox>
 
-                <VBox spacing="14.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
+                <!-- TARJETA 2: INVENTARIO -->
+                <VBox prefHeight="260.0" prefWidth="290.0" spacing="15.0" styleClass="tarjeta-dashboard">
+                    <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                    </padding>
                     <children>
-                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="60.0" styleClass="icono-contenedor-verde" />
+                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="55.0" prefWidth="55.0" styleClass="icono-caja-inventario">
+                            <FontIcon iconColor="#16a34a" iconLiteral="fas-file-alt" iconSize="26" />
+                        </StackPane>
+
                         <Label text="Generar Reporte de Inventario" wrapText="true" styleClass="titulo-tarjeta" />
-                        <Label text="Reporte completo del estado del inventario" wrapText="true" styleClass="texto-secundario" />
-                        <Pane VBox.vgrow="ALWAYS" />
+                        <Label prefHeight="40.0" text="Reporte completo del estado del inventario" wrapText="true" styleClass="texto-secundario" />
+
+                        <Region VBox.vgrow="ALWAYS" />
+
                         <Button fx:id="btnGenerarInventario" maxWidth="Infinity" mnemonicParsing="false" text="Generar" styleClass="boton-generar-verde" />
                     </children>
                 </VBox>
 
-                <VBox spacing="14.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
+                <!-- TARJETA 3: PERSONALIZADO -->
+                <VBox prefHeight="260.0" prefWidth="290.0" spacing="15.0" styleClass="tarjeta-dashboard">
+                    <padding>
+                        <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                    </padding>
                     <children>
-                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="60.0" styleClass="icono-contenedor-morado" />
+                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="55.0" prefWidth="55.0" styleClass="icono-caja-personalizado">
+                            <FontIcon iconColor="#9333ea" iconLiteral="fas-file-alt" iconSize="26" />
+                        </StackPane>
+
                         <Label text="Generar Reporte Personalizado" wrapText="true" styleClass="titulo-tarjeta" />
-                        <Label text="Configura y genera reportes personalizados" wrapText="true" styleClass="texto-secundario" />
-                        <Pane VBox.vgrow="ALWAYS" />
+                        <Label prefHeight="40.0" text="Configura y genera reportes personalizados" wrapText="true" styleClass="texto-secundario" />
+
+                        <Region VBox.vgrow="ALWAYS" />
+
                         <Button fx:id="btnGenerarPersonalizado" maxWidth="Infinity" mnemonicParsing="false" text="Generar" styleClass="boton-generar-morado" />
                     </children>
                 </VBox>
@@ -57,14 +89,19 @@
             </children>
         </HBox>
 
+        <!-- SECCIÓN DE REPORTES RECIENTES -->
         <VBox styleClass="tarjeta-dashboard" VBox.vgrow="ALWAYS">
+            <padding>
+                <Insets bottom="20.0" left="30.0" right="30.0" top="25.0" />
+            </padding>
             <children>
                 <Label text="Reportes Recientes" styleClass="subtitulo-tarjeta">
                     <VBox.margin><Insets bottom="12.0" /></VBox.margin>
                 </Label>
                 <Separator prefWidth="200.0" styleClass="separador-ligero" />
 
-                <HBox alignment="CENTER_LEFT" prefWidth="893.0" styleClass="item-lista">
+                <!-- ITEM 1 -->
+                <HBox alignment="CENTER_LEFT" styleClass="item-lista">
                     <padding><Insets bottom="16.0" top="16.0" /></padding>
                     <children>
                         <VBox spacing="4.0" HBox.hgrow="ALWAYS">
@@ -84,7 +121,8 @@
                 </HBox>
                 <Separator prefWidth="200.0" styleClass="separador-ligero" />
 
-                <HBox alignment="CENTER_LEFT" prefWidth="893.0" styleClass="item-lista">
+                <!-- ITEM 2 -->
+                <HBox alignment="CENTER_LEFT" styleClass="item-lista">
                     <padding><Insets bottom="16.0" top="16.0" /></padding>
                     <children>
                         <VBox spacing="4.0" HBox.hgrow="ALWAYS">
@@ -104,7 +142,8 @@
                 </HBox>
                 <Separator prefWidth="200.0" styleClass="separador-ligero" />
 
-                <HBox alignment="CENTER_LEFT" prefWidth="893.0" styleClass="item-lista">
+                <!-- ITEM 3 -->
+                <HBox alignment="CENTER_LEFT" styleClass="item-lista">
                     <padding><Insets bottom="16.0" top="16.0" /></padding>
                     <children>
                         <VBox spacing="4.0" HBox.hgrow="ALWAYS">

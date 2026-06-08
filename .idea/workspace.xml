@@ -4,14 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad914ce2-ee9f-4d54-88eb-b7cffc66735b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorNuevoEmpleado.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/nuevoempleado-view.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-NuevoEmpleado.css" afterDir="false" />
+    <list default="true" id="ad914ce2-ee9f-4d54-88eb-b7cffc66735b" name="Changes" comment="style: se añadio Style-NuevoEmpleado.css para dar un diseño visual a nuevoempleado-view.fxml&#10;feat: se añadio nuevoempleado-view.fxml para dar configurar la inferzas visual&#10;feat: se añadio ControladorNuevoEmpleado.java para dar control sobre nuevoempleado-view.fxml&#10;refactor: se añadio codigo para el boton de nuevo empleado&#10;refactor: se elimino la palabra volver de nuevoproducto-view.fxml">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/perfiles-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorEmpleados.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorEmpleados.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/empleados-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/empleados-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/nuevoproducto-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/nuevoproducto-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/menu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/menu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/reportes-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/reportes-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Menu.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Menu.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-NuevoEmpleado.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-NuevoEmpleado.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-NuevoProducto.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-NuevoProducto.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Reportes.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-Reportes.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -317,7 +318,15 @@
       <option name="project" value="LOCAL" />
       <updated>1780899617424</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="style: se añadio Style-NuevoEmpleado.css para dar un diseño visual a nuevoempleado-view.fxml&#10;feat: se añadio nuevoempleado-view.fxml para dar configurar la inferzas visual&#10;feat: se añadio ControladorNuevoEmpleado.java para dar control sobre nuevoempleado-view.fxml&#10;refactor: se añadio codigo para el boton de nuevo empleado&#10;refactor: se elimino la palabra volver de nuevoproducto-view.fxml">
+      <option name="closed" value="true" />
+      <created>1780942512169</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1780942512169</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -343,7 +352,8 @@
     <MESSAGE value="Style: se añadio hover en los botones de Style-Productos.css&#10;Style: se añadio hover en los botones de Style-Empleados.css&#10;Style: se añadio hover en los botones de Style-Ventas.css&#10;Style: se añadio hover en los botones de Style-Menu.css&#10;Style: se añadio hover en los botones de Style-NuevaVenta.css&#10;feat: se añadio interfaz en nuevaventa-view.fxml&#10;fix: se arreglo ControladorVentas.java&#10;fix: se arreglo ControladorNuevaVenta.java&#10;fix: se arreglo ControladorPrincipal.java&#10;fix: se cambio el icono volver de ventas-view.fxml" />
     <MESSAGE value="style: se añadi el efecto de hover a los botones de Style-Reportes.css" />
     <MESSAGE value="feat: se añadio ControladorNuevoProducto.java para controlar nuevoproducto-view.fxml&#10;feat: se añadio nuevoproducto-view.fxml para incluir la interfaz al agregar un nuevo producto&#10;feat: se añadio Style-NuevoProducto.css para mejorar visualmente nuevoproducto-view.fxml&#10;refactor: se reestructuro para añadir el boton de abrirNuevoProducto&#10;feat: se añadieron imagenes con la libreria ikonli en el inicio-view.fxml&#10;feat: se añadireron botones de acceso rapido a nuevoproducto-view.fxml y nuevaventa-view.fxml&#10;refactor: cambio en la forma de mostrar ventanas&#10;refactor: se redistribuyo, cambio y elimino algunos textfield" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: se añadio ControladorNuevoProducto.java para controlar nuevoproducto-view.fxml&#10;feat: se añadio nuevoproducto-view.fxml para incluir la interfaz al agregar un nuevo producto&#10;feat: se añadio Style-NuevoProducto.css para mejorar visualmente nuevoproducto-view.fxml&#10;refactor: se reestructuro para añadir el boton de abrirNuevoProducto&#10;feat: se añadieron imagenes con la libreria ikonli en el inicio-view.fxml&#10;feat: se añadireron botones de acceso rapido a nuevoproducto-view.fxml y nuevaventa-view.fxml&#10;refactor: cambio en la forma de mostrar ventanas&#10;refactor: se redistribuyo, cambio y elimino algunos textfield" />
+    <MESSAGE value="style: se añadio Style-NuevoEmpleado.css para dar un diseño visual a nuevoempleado-view.fxml&#10;feat: se añadio nuevoempleado-view.fxml para dar configurar la inferzas visual&#10;feat: se añadio ControladorNuevoEmpleado.java para dar control sobre nuevoempleado-view.fxml&#10;refactor: se añadio codigo para el boton de nuevo empleado&#10;refactor: se elimino la palabra volver de nuevoproducto-view.fxml" />
+    <option name="LAST_COMMIT_MESSAGE" value="style: se añadio Style-NuevoEmpleado.css para dar un diseño visual a nuevoempleado-view.fxml&#10;feat: se añadio nuevoempleado-view.fxml para dar configurar la inferzas visual&#10;feat: se añadio ControladorNuevoEmpleado.java para dar control sobre nuevoempleado-view.fxml&#10;refactor: se añadio codigo para el boton de nuevo empleado&#10;refactor: se elimino la palabra volver de nuevoproducto-view.fxml" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
