@@ -84,6 +84,33 @@
    BOTONES DE GENERACIÓN (TARJETAS)
    ========================================= */
 
+.icono-caja-ventas {
+    -fx-background-color: #dbeafe; /* Fondo verde clarito */
+    -fx-background-radius: 8px;
+    -fx-min-width: 48px;
+    -fx-min-height: 48px;
+    -fx-max-width: 48px;
+    -fx-max-height: 48px;
+}
+
+.icono-caja-inventario {
+    -fx-background-color: #dcfce7; /* Fondo azul clarito */
+    -fx-background-radius: 8px;
+    -fx-min-width: 48px;
+    -fx-min-height: 48px;
+    -fx-max-width: 48px;
+    -fx-max-height: 48px;
+}
+
+.icono-caja-personalizado {
+    -fx-background-color: #f3e8ff; /* Fondo morado clarito */
+    -fx-background-radius: 8px;
+    -fx-min-width: 48px;
+    -fx-min-height: 48px;
+    -fx-max-width: 48px;
+    -fx-max-height: 48px;
+}
+
 /* Clase base compartida para los botones de generar */
 .button.boton-generar-azul {
     -fx-text-fill: white;

@@ -112,7 +112,7 @@
     -fx-cursor: hand;
 }
 .btn-volver:hover {
-    -fx-text-fill: #0f172a;
+    -fx-background-color: #E1E8F1;
 }
 
 /* El interruptor de Modo Búsqueda */
