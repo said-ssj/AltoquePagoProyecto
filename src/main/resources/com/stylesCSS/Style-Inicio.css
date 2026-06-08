@@ -97,3 +97,79 @@
     -fx-background-radius: 10;
     -fx-padding: 8;
 }
+
+/* =========================================
+   CAJITAS DE ICONOS (DASHBOARD)
+   ========================================= */
+.icono-caja-ventas {
+    -fx-background-color: #dcfce7; /* Fondo verde clarito */
+    -fx-background-radius: 8px;
+    -fx-min-width: 48px;
+    -fx-min-height: 48px;
+    -fx-max-width: 48px;
+    -fx-max-height: 48px;
+}
+
+.icono-caja-productos {
+    -fx-background-color: #dbeafe; /* Fondo azul clarito */
+    -fx-background-radius: 8px;
+    -fx-min-width: 48px;
+    -fx-min-height: 48px;
+    -fx-max-width: 48px;
+    -fx-max-height: 48px;
+}
+
+.icono-caja-crecimiento {
+    -fx-background-color: #ffedd5; /* Fondo naranja clarito */
+    -fx-background-radius: 8px;
+    -fx-min-width: 48px;
+    -fx-min-height: 48px;
+    -fx-max-width: 48px;
+    -fx-max-height: 48px;
+}
+
+/* =========================================
+   SCROLLPANE (Barra de desplazamiento invisible)
+   ========================================= */
+.scroll-principal {
+    -fx-background-color: transparent;
+    -fx-background: #f8fafc;
+    -fx-border-color: transparent;
+}
+
+.scroll-principal .viewport {
+    -fx-background-color: transparent;
+}
+
+/* =========================================
+   BOTONES DE ACCIÓN GRANDES
+   ========================================= */
+.btn-accion-grande-verde {
+    -fx-background-color: #008937; /* Azul principal */
+    -fx-text-fill: #ffffff; /* Texto blanco */
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12px; /* Bordes redondeados */
+    -fx-padding: 25px 20px; /* Relleno amplio para hacerlos grandotes */
+    -fx-cursor: hand;
+    -fx-graphic-text-gap: 15px; /* Crea espacio entre el icono y la letra */
+}
+
+.btn-accion-grande-azul {
+    -fx-background-color: #144DEB; /* Azul principal */
+    -fx-text-fill: #ffffff; /* Texto blanco */
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12px; /* Bordes redondeados */
+    -fx-padding: 25px 20px; /* Relleno amplio para hacerlos grandotes */
+    -fx-cursor: hand;
+    -fx-graphic-text-gap: 15px; /* Crea espacio entre el icono y la letra */
+}
+
+.btn-accion-grande-verde:hover {
+    -fx-background-color: #006930; /* Azul más oscuro al pasar el ratón */
+}
+
+.btn-accion-grande-azul:hover {
+    -fx-background-color: #193CBA; /* Azul más oscuro al pasar el ratón */
+}

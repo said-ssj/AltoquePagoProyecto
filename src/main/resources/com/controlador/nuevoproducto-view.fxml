@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-principal" stylesheets="@../stylesCSS/Style-NuevoProducto.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorNuevoProducto">
+    <content>
+        <VBox prefHeight="800.0" prefWidth="1013.0" spacing="25.0" styleClass="fondo-principal">
+            <padding>
+                <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="15.0">
+                <Button fx:id="btnVolver" mnemonicParsing="false" onAction="#abrirProductos" styleClass="btn-volver" text=" Volver">
+                    <graphic>
+
+                         <FontIcon iconColor="#334155" iconLiteral="fas-arrow-left" iconSize="16" />
+
+                     </graphic>
+                 </Button>
+                 <Label styleClass="titulo-vista" text="Nuevo Producto" />
+             </HBox>
+
+             <VBox spacing="20.0" styleClass="tarjeta-cliente">
+
+                 <HBox alignment="CENTER_LEFT">
+                     <Label maxWidth="Infinity" styleClass="subtitulo-seccion" text="Detalles del Producto" HBox.hgrow="ALWAYS" />
+                     <ToggleButton fx:id="btnModoBusqueda" mnemonicParsing="false" styleClass="btn-modo-busqueda" text="🔍 Modo Búsqueda" />
+                 </HBox>
+
+                 <GridPane hgap="20.0" vgap="15.0">
+                     <columnConstraints>
+                         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="50.0" />
+                         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="50.0" />
+                     </columnConstraints>
+
+                     <Label styleClass="etiqueta-form" text="Código de Barras / Búsqueda" GridPane.columnIndex="1" />
+                     <TextField fx:id="txtCodigoBarras" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="418.0" promptText="||||| Escanear código de barras..." styleClass="text-field-busqueda" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                     <Label styleClass="etiqueta-form" text="Categoría" GridPane.rowIndex="4" />
+                     <ComboBox fx:id="cbCategoria" maxWidth="1.7976931348623157E308" promptText="Seleccionar categoría" styleClass="combo-box-form" GridPane.rowIndex="5" />
+
+                     <Label styleClass="etiqueta-form" text="Unidad de Medida" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     <ComboBox fx:id="cbUnidadMedida" maxWidth="-Infinity" prefHeight="47.0" prefWidth="419.0" promptText="Ej: Unidades, Cajas, Metros" styleClass="combo-box-form" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                     <Label styleClass="etiqueta-form" text="Proveedor" GridPane.rowIndex="9" />
+                     <HBox spacing="10.0" GridPane.rowIndex="10">
+                         <ComboBox fx:id="cbProveedor" maxWidth="Infinity" promptText="Seleccionar proveedor" styleClass="combo-box-form" />
+                     </HBox>
+
+                     <Label styleClass="etiqueta-form" text="Precio" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                     <TextField fx:id="txtPrecioVenta" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="44.0" promptText="S/ 0.00" styleClass="text-field-form" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+                     <Label styleClass="etiqueta-form" text="Stock Inicial" GridPane.rowIndex="6" />
+                     <TextField fx:id="txtStockInicial" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="0" styleClass="text-field-form" GridPane.rowIndex="8" />
+
+                     <Label styleClass="etiqueta-form" text="Estado" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                     <ComboBox fx:id="cbEstado" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Activo" styleClass="combo-box-form" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+
+                     <Label styleClass="etiqueta-form" text="Descripción / Observaciones" GridPane.columnSpan="2" GridPane.rowIndex="11" />
+                     <TextArea fx:id="txtDescripcion" prefRowCount="2" promptText="Detalles adicionales..." styleClass="text-area-form" GridPane.columnSpan="2" GridPane.rowIndex="12" />
+
+                     <Label styleClass="etiqueta-form" text="Descripción del Producto" />
+                     <TextField fx:id="txtNombre" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="465.0" promptText="Ej: Multímetro Digital Truper" styleClass="text-field-form" GridPane.rowIndex="1" />
+
+                     <Label styleClass="etiqueta-form" text="Stock Minimo" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                     <TextField fx:id="txtStockMinimo" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="100.0" promptText="Mínimo: 0" styleClass="text-field-form" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+
+                     <Label styleClass="etiqueta-form" text="ID / SKU" GridPane.rowIndex="2" />
+                       <TextField fx:id="txtIDproducto" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="P001" styleClass="text-field-form" GridPane.rowIndex="3" />
+                     <rowConstraints>
+                         <RowConstraints />
+                         <RowConstraints />
+                         <RowConstraints />
+                         <RowConstraints />
+                         <RowConstraints />
+                         <RowConstraints />
+                         <RowConstraints />
+                         <RowConstraints />
+                         <RowConstraints />
+                         <RowConstraints />
+                         <RowConstraints />
+                         <RowConstraints />
+                         <RowConstraints />
+                     </rowConstraints>
+                 </GridPane>
+             </VBox>
+
+             <Region VBox.vgrow="ALWAYS" />
+
+             <HBox alignment="CENTER_RIGHT" spacing="15.0">
+                 <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#abrirProductos" styleClass="btn-cancelar" text="Cancelar" />
+                 <Button fx:id="btnGuardarProducto" mnemonicParsing="false" styleClass="btn-principal" text="Guardar Producto" />
+             </HBox>
+
+         </VBox>
+     </content>
+ </ScrollPane>
