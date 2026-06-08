@@ -85,8 +85,33 @@
    ========================================= */
 
 /* Clase base compartida para los botones de generar */
-.button.boton-generar-azul,
-.button.boton-generar-verde,
+.button.boton-generar-azul {
+    -fx-text-fill: white;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-padding: 11px 0px;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+.button.boton-generar-azul:hover {
+    -fx-background-color: #1547E5;
+}
+
+
+.button.boton-generar-verde {
+    -fx-text-fill: white;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-padding: 11px 0px;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+.button.boton-generar-verde:hover {
+    -fx-background-color: #008234;
+}
+
 .button.boton-generar-morado {
     -fx-text-fill: white;
     -fx-background-radius: 8px;
@@ -95,6 +120,9 @@
     -fx-font-family: "Segoe UI";
     -fx-font-size: 14px;
     -fx-font-weight: bold;
+}
+.button.boton-generar-morado:hover {
+    -fx-background-color: #8200dc;
 }
 
 /* Colores específicos */
