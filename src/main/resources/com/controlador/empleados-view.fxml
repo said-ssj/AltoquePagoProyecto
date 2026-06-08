@@ -28,7 +28,7 @@
             <children>
                 <Label text="Empleados" styleClass="titulo-principal" />
                 <Pane HBox.hgrow="ALWAYS" />
-                <Button fx:id="btnNuevoEmpleado" mnemonicParsing="false" text="+ Nuevo Empleado" styleClass="boton-nuevo" />
+                <Button fx:id="btnNuevoEmpleado" onAction="#abrirNuevoEmpleado" mnemonicParsing="false" text="+ Nuevo Empleado" styleClass="boton-nuevo" />
             </children>
         </HBox>
 
