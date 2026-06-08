@@ -24,7 +24,7 @@
             </padding>
 
             <HBox alignment="CENTER_LEFT" spacing="15.0">
-                <Button fx:id="btnVolver" mnemonicParsing="false" onAction="#abrirProductos" styleClass="btn-volver" text=" Volver">
+                <Button fx:id="btnVolver" mnemonicParsing="false" onAction="#abrirProductos" styleClass="btn-volver" text="">
                     <graphic>
 
                          <FontIcon iconColor="#334155" iconLiteral="fas-arrow-left" iconSize="16" />
