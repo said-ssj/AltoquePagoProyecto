@@ -52,6 +52,9 @@ public class ControladorPrincipal implements Initializable {    // Captura el Bo
         cargarVista("reportes-view.fxml");
     }
 
+    @FXML
+    public void abrirPerfiles() {cargarVista("perfiles-view.fxml");}
+
     //  Lógica central para intercambiar las vistas
     private void cargarVista(String nombreFxml) {
         try {
