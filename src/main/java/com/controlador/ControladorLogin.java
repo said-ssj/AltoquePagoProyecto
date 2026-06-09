@@ -29,8 +29,8 @@ public class ControladorLogin {
     @FXML
     public void iniciarKiosko(ActionEvent event) {
         System.out.println("Iniciando modo Kiosko de Autoservicio...");
-        // Se cambia AutoservicioCheckoutDividida por AutoservicioEscaner
-        cambiarEscena(event, "AutoservicioEscaner.fxml", true);
+        // ¡Carga la pantalla maestra!
+        cambiarEscena(event, "AutoservicioCheckoutDividida.fxml", true);
     }
 
     private void cambiarEscena(ActionEvent event, String fxml, boolean modoKiosko) {

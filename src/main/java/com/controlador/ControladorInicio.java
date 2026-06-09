@@ -1,8 +1,11 @@
 package com.controlador;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+
+import java.io.IOException;
 
 public class ControladorInicio {
     @FXML private Label lblVentasDelMes;
@@ -24,6 +27,32 @@ public class ControladorInicio {
 
     @FXML private Label lblTop4;
     @FXML private ProgressBar barTop4;
+
+    @FXML
+    public void abrirPuntoVenta(javafx.event.ActionEvent event) {
+        cambiarVistaCentro(event, "nuevaventa-view.fxml");
+    }
+
+    @FXML
+    public void abrirVistaProductos(javafx.event.ActionEvent event) {
+        cambiarVistaCentro(event, "nuevoproducto-view.fxml");
+    }
+
+    // Método reutilizable para inyectar vistas en el BorderPane principal
+    private void cambiarVistaCentro(javafx.event.ActionEvent event, String fxml) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+            javafx.scene.Parent vista = loader.load();
+
+            javafx.scene.Node boton = (javafx.scene.Node) event.getSource();
+            javafx.scene.layout.BorderPane panelPrincipal = (javafx.scene.layout.BorderPane) boton.getScene().getRoot();
+
+            panelPrincipal.setCenter(vista);
+        } catch (IOException e) {
+            System.err.println("Error al cargar la vista desde Inicio: " + fxml);
+            e.printStackTrace();
+        }
+    }
 
     public void cargarProductosMasVendidos() {
 

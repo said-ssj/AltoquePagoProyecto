@@ -1,0 +1,31 @@
+/* =========================================
+   PANTALLA DE MÉTODOS DE PAGO
+   ========================================= */
+.caja-metodo-pago {
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent;
+}
+
+.contenedor-qr {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cbd5e1;
+    -fx-border-width: 2px;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-min-width: 150px;
+    -fx-min-height: 150px;
+    -fx-max-width: 150px;
+    -fx-max-height: 150px;
+    -fx-padding: 20px;
+}
+
+.contenedor-pos {
+    -fx-background-color: #f1f5f9; /* Gris sutil para destacar el ícono del POS */
+    -fx-border-color: transparent;
+    -fx-background-radius: 50em; /* Círculo perfecto */
+    -fx-min-width: 140px;
+    -fx-min-height: 140px;
+    -fx-max-width: 140px;
+    -fx-max-height: 140px;
+    -fx-padding: 20px;
+}

@@ -1,14 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0">
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #fafafa;" stylesheets="@../stylesCSS/Style-KioskoDatos.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorAutoservicioDatos">
 
-</AnchorPane>
+    <VBox maxWidth="650.0" spacing="25.0" styleClass="tarjeta-formulario-kiosko">
+        <padding>
+            <Insets bottom="40.0" left="50.0" right="50.0" top="40.0" />
+        </padding>
+
+        <VBox alignment="CENTER" spacing="5.0">
+            <Label style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #0f172a; -fx-font-family: 'Segoe UI';" text="Datos del Cliente" />
+            <Label style="-fx-font-size: 16px; -fx-text-fill: #64748b; -fx-font-family: 'Segoe UI';" text="Ingrese sus datos para emitir su comprobante de pago." />
+        </VBox>
+
+        <HBox alignment="CENTER" spacing="15.0">
+            <fx:define>
+                <ToggleGroup fx:id="grupoComprobante" />
+            </fx:define>
+            <ToggleButton fx:id="btnBoleta" mnemonicParsing="false" prefWidth="180.0" selected="true" styleClass="btn-toggle-comprobante" text="Boleta" toggleGroup="$grupoComprobante" />
+            <ToggleButton fx:id="btnFactura" mnemonicParsing="false" prefWidth="180.0" styleClass="btn-toggle-comprobante" text="Factura" toggleGroup="$grupoComprobante" />
+        </HBox>
+
+        <VBox spacing="20.0">
+
+            <VBox spacing="8.0">
+                <Label styleClass="etiqueta-kiosko" text="DNI / RUC" />
+                <HBox spacing="10.0">
+                    <TextField fx:id="txtDocumento" promptText="Número de documento" styleClass="input-kiosko" HBox.hgrow="ALWAYS" />
+                    <Button fx:id="btnBuscarDoc" mnemonicParsing="false" styleClass="btn-buscar-kiosko">
+                        <graphic>
+                            <FontIcon iconColor="#ffffff" iconLiteral="fas-search" iconSize="18" />
+                        </graphic>
+                    </Button>
+                </HBox>
+            </VBox>
+
+            <VBox spacing="8.0">
+                <Label styleClass="etiqueta-kiosko" text="Nombres / Razón Social" />
+                <TextField fx:id="txtNombreCliente" promptText="Nombre completo o Razón Social" styleClass="input-kiosko" />
+            </VBox>
+
+            <VBox spacing="8.0">
+                <Label styleClass="etiqueta-kiosko" text="Correo Electrónico" />
+                <TextField fx:id="txtCorreoCliente" promptText="cliente@ejemplo.com" styleClass="input-kiosko" />
+            </VBox>
+
+            <VBox spacing="8.0">
+                <Label styleClass="etiqueta-kiosko" text="Dirección (Opcional)" />
+                <TextField fx:id="txtDireccionCliente" promptText="Dirección física" styleClass="input-kiosko" />
+            </VBox>
+
+        </VBox>
+
+        <Region prefHeight="10.0" />
+
+        <HBox alignment="CENTER_RIGHT">
+            <Button fx:id="btnContinuar" mnemonicParsing="false" onAction="#continuarAPago" styleClass="btn-continuar-kiosko" text="Continuar  →" />
+        </HBox>
+
+    </VBox>
+</VBox>

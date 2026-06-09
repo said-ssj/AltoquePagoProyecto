@@ -1,0 +1,80 @@
+/* =========================================
+   FORMULARIO DE DATOS (Kiosko)
+   ========================================= */
+.tarjeta-formulario-kiosko {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 16px;
+    -fx-background-radius: 16px;
+    /* Sombra suave para que resalte sobre el fondo gris */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.06), 15, 0, 0, 8);
+}
+
+.etiqueta-kiosko {
+    -fx-text-fill: #334155;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.input-kiosko {
+    -fx-background-color: #f8fafc;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 14px 15px; /* Más padding para que sea fácil tocarlo en pantalla táctil */
+    -fx-font-size: 16px;
+    -fx-text-fill: #0f172a;
+}
+.input-kiosko:focused {
+    -fx-border-color: #1d4ed8;
+    -fx-border-width: 2px;
+    -fx-padding: 13px 14px;
+    -fx-background-color: #ffffff;
+}
+
+/* =========================================
+   BOTONES DEL FORMULARIO
+   ========================================= */
+.btn-toggle-comprobante {
+    -fx-background-color: #f1f5f9;
+    -fx-text-fill: #64748b;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 12px 0;
+    -fx-cursor: hand;
+}
+.btn-toggle-comprobante:selected {
+    -fx-background-color: #eff6ff;
+    -fx-text-fill: #1d4ed8;
+    -fx-border-color: #1d4ed8;
+    -fx-border-width: 2px;
+}
+
+.btn-buscar-kiosko {
+    -fx-background-color: #1d4ed8;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 0 20px;
+    -fx-cursor: hand;
+}
+.btn-buscar-kiosko:hover {
+    -fx-background-color: #1e40af;
+}
+
+.btn-continuar-kiosko {
+    -fx-background-color: #0f172a; /* Azul casi negro, muy elegante */
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 12px 35px;
+    -fx-cursor: hand;
+}
+.btn-continuar-kiosko:hover {
+    -fx-background-color: #1e293b;
+}
