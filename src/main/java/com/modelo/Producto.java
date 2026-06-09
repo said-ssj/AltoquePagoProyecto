@@ -6,14 +6,16 @@ public class Producto {
     private String codigo_barras;
     private String nombre;
     private double precio;
+    private int stock;
 
     public Producto(){}
 
-    public Producto(int id_producto, String codigo_barras, String nombre, double precio){
+    public Producto(int id_producto, String codigo_barras, String nombre, double precio, int stock){
         this.id_producto = id_producto;
         this.codigo_barras = codigo_barras;
         this.nombre = nombre;
         this.precio = precio;
+        this.stock = stock;
     }
 
     public int getId_producto() {
@@ -51,5 +53,13 @@ public class Producto {
             double precio
     ) {
         this.precio = precio;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 }
