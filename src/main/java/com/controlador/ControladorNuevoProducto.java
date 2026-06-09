@@ -1,87 +1,527 @@
+
 package com.controlador;
 
+
+
+import com.dao.ProductoDAO;
+
+import com.modelo.Producto;
+
 import javafx.application.Platform;
+
 import javafx.fxml.FXML;
+
 import javafx.fxml.FXMLLoader;
+
+import javafx.scene.control.Alert;
+
 import javafx.scene.control.Button;
+
 import javafx.scene.control.ComboBox;
+
+import javafx.scene.control.TextArea;
+
 import javafx.scene.control.TextField;
+
 import javafx.scene.control.ToggleButton;
+
+
 
 import java.io.IOException;
 
+
+
 public class ControladorNuevoProducto {
 
-    @FXML private Button btnVolver;
-    @FXML private TextField txtCodigoBarras;
-    @FXML private TextField txtNombre;
-    @FXML private ComboBox<String> cbCategoria;
-    @FXML private TextField txtMarca;
-    @FXML private TextField txtPrecioCompra;
-    @FXML private TextField txtPrecioVenta;
-    @FXML private TextField txtStockInicial;
-    @FXML private TextField txtStockMinimo;
-    @FXML private ComboBox<String> cbProveedor;
 
-    // El nuevo botón interruptor
+
+    // ── Botones ──────────────────────────────────────────────────
+
+    @FXML private Button     btnVolver;
+
+    @FXML private Button     btnCancelar;
+
+    @FXML private Button     btnGuardarProducto;
+
     @FXML private ToggleButton btnModoBusqueda;
 
+
+
+    // ── Campos de texto ──────────────────────────────────────────
+
+    @FXML private TextField  txtCodigoBarras;
+
+    @FXML private TextField  txtNombre;
+
+    @FXML private TextField  txtIDproducto;
+
+    @FXML private TextField  txtPrecioVenta;
+
+    @FXML private TextField  txtStockInicial;
+
+    @FXML private TextField  txtStockMinimo;
+
+    @FXML private TextArea   txtDescripcion;
+
+
+
+    // ── Combos ───────────────────────────────────────────────────
+
+    @FXML private ComboBox<String> cbCategoria;
+
     @FXML private ComboBox<String> cbUnidadMedida;
+
+    @FXML private ComboBox<String> cbProveedor;
+
     @FXML private ComboBox<String> cbEstado;
-    @FXML private javafx.scene.control.TextArea txtDescripcion;
+
+
+
+    private final ProductoDAO productoDAO = new ProductoDAO();
+
+
+
+    // ============================================================
+
+    //  INICIALIZACIÓN
+
+    // ============================================================
 
     @FXML
+
     public void initialize() {
 
-        // 1. Arranca por defecto en modo código de barras
+
+
+        // 1. Llenar combos
+
+        cbCategoria.getItems().addAll(
+
+                "Computadoras", "Accesorios", "Monitores",
+
+                "Periféricos", "Impresoras", "Almacenamiento", "Otro"
+
+        );
+
+        cbUnidadMedida.getItems().addAll("Unidades", "Cajas", "Metros", "Litros", "Kilogramos");
+
+        cbProveedor.getItems().addAll("Proveedor A", "Proveedor B", "Proveedor C");
+
+        cbEstado.getItems().addAll("Activo", "Inactivo");
+
+        cbEstado.setValue("Activo");
+
+
+
+        // 2. Guardar arranca deshabilitado
+
+        btnGuardarProducto.setDisable(true);
+
+        btnGuardarProducto.setOnAction(e -> guardarProducto());
+
+
+
+        // 3. Modo escáner por defecto
+
         configurarModoCodigoBarras();
 
-        // 2. Evento al hacer clic en el interruptor
+
+
+        // 4. Toggle de modo
+
         btnModoBusqueda.setOnAction(e -> {
+
             if (btnModoBusqueda.isSelected()) {
-                configurarModoBusqueda(); // Búsqueda manual
+
+                configurarModoBusqueda();
+
             } else {
-                configurarModoCodigoBarras(); // Lector láser
+
+                configurarModoCodigoBarras();
+
             }
+
+            resetearEstadoCampo();
+
         });
 
-        // 3. Restricción: Si está en modo escáner, SOLO acepta números
-        txtCodigoBarras.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!btnModoBusqueda.isSelected()) {
-                if (!newValue.matches("\\d*")) {
-                    txtCodigoBarras.setText(newValue.replaceAll("[^\\d]", ""));
-                }
+
+
+        // 5. Listener: busca en BD con cada cambio del campo código
+
+        txtCodigoBarras.textProperty().addListener((obs, oldVal, newVal) -> {
+
+
+
+            // Modo escáner: solo dígitos
+
+            if (!btnModoBusqueda.isSelected() && !newVal.matches("\\d*")) {
+
+                txtCodigoBarras.setText(newVal.replaceAll("[^\\d]", ""));
+
+                return;
+
             }
+
+
+
+            // Campo vacío → reset visual
+
+            if (newVal.trim().isEmpty()) {
+
+                resetearEstadoCampo();
+
+                return;
+
+            }
+
+
+
+            // Consultar BD y pintar verde o rojo
+
+            buscarCodigoEnBD(newVal.trim());
+
         });
+
     }
 
-    // --- Métodos de ayuda visuales ---
+
+
+    // ============================================================
+
+    //  GUARDAR PRODUCTO EN BASE DE DATOS
+
+    // ============================================================
+
+    private void guardarProducto() {
+
+
+
+        // Validar campos obligatorios
+
+        String nombre = txtNombre.getText().trim();
+
+        String codigo = txtCodigoBarras.getText().trim();
+
+
+
+        if (nombre.isEmpty()) {
+
+            mostrarAlerta(Alert.AlertType.WARNING,
+
+                    "Campo requerido", "La descripción del producto no puede estar vacía.");
+
+            txtNombre.requestFocus();
+
+            return;
+
+        }
+
+        if (codigo.isEmpty()) {
+
+            mostrarAlerta(Alert.AlertType.WARNING,
+
+                    "Campo requerido", "El código de barras no puede estar vacío.");
+
+            txtCodigoBarras.requestFocus();
+
+            return;
+
+        }
+
+
+
+        // Parsear precio y stock con valores por defecto si están vacíos
+
+        double precio = 0.0;
+
+        int    stock  = 0;
+
+        try {
+
+            String precioTexto = txtPrecioVenta.getText().trim();
+
+            if (!precioTexto.isEmpty()) {
+
+                precio = Double.parseDouble(precioTexto);
+
+            }
+
+        } catch (NumberFormatException e) {
+
+            mostrarAlerta(Alert.AlertType.WARNING,
+
+                    "Precio inválido", "Ingresa un número válido en el campo Precio. Ejemplo: 29.90");
+
+            txtPrecioVenta.requestFocus();
+
+            return;
+
+        }
+
+        try {
+
+            String stockTexto = txtStockInicial.getText().trim();
+
+            if (!stockTexto.isEmpty()) {
+
+                stock = Integer.parseInt(stockTexto);
+
+            }
+
+        } catch (NumberFormatException e) {
+
+            mostrarAlerta(Alert.AlertType.WARNING,
+
+                    "Stock inválido", "Ingresa un número entero en el campo Stock Inicial.");
+
+            txtStockInicial.requestFocus();
+
+            return;
+
+        }
+
+
+
+        // Construir el objeto Producto con los campos del formulario
+
+        Producto nuevo = new Producto();
+
+        nuevo.setCodigo_barras(codigo);
+
+        nuevo.setNombre(nombre);
+
+        nuevo.setPrecio(precio);
+
+        nuevo.setStock(stock);
+
+
+
+        // Llamar al DAO
+
+        boolean exito = productoDAO.guardarProducto(nuevo);
+
+
+
+        if (exito) {
+
+            mostrarAlerta(Alert.AlertType.INFORMATION,
+
+                    "Producto guardado",
+
+                    "El producto \"" + nombre + "\" fue registrado correctamente.");
+
+            limpiarFormulario();
+
+        } else {
+
+            mostrarAlerta(Alert.AlertType.ERROR,
+
+                    "Error al guardar",
+
+                    "No se pudo guardar el producto. Verifica la conexión a la base de datos.");
+
+        }
+
+    }
+
+
+
+    // ============================================================
+
+    //  BÚSQUEDA EN BASE DE DATOS → VERDE / ROJO
+
+    // ============================================================
+
+    private void buscarCodigoEnBD(String codigo) {
+
+        boolean existe = productoDAO.existePorCodigo(codigo);
+
+
+
+        txtCodigoBarras.getStyleClass().removeAll(
+
+                "text-field-busqueda",
+
+                "text-field-busqueda-encontrado",
+
+                "text-field-busqueda-no-encontrado"
+
+        );
+
+
+
+        if (existe) {
+
+            txtCodigoBarras.getStyleClass().add("text-field-busqueda-encontrado");
+
+            btnGuardarProducto.setDisable(false);
+
+        } else {
+
+            txtCodigoBarras.getStyleClass().add("text-field-busqueda-no-encontrado");
+
+            btnGuardarProducto.setDisable(true);
+
+        }
+
+    }
+
+
+
+    // ============================================================
+
+    //  RESET VISUAL DEL CAMPO (estado azul neutral)
+
+    // ============================================================
+
+    private void resetearEstadoCampo() {
+
+        txtCodigoBarras.getStyleClass().removeAll(
+
+                "text-field-busqueda-encontrado",
+
+                "text-field-busqueda-no-encontrado"
+
+        );
+
+        if (!txtCodigoBarras.getStyleClass().contains("text-field-busqueda")) {
+
+            txtCodigoBarras.getStyleClass().add("text-field-busqueda");
+
+        }
+
+        btnGuardarProducto.setDisable(true);
+
+    }
+
+
+
+    // ============================================================
+
+    //  LIMPIAR FORMULARIO DESPUÉS DE GUARDAR
+
+    // ============================================================
+
+    private void limpiarFormulario() {
+
+        txtCodigoBarras.clear();
+
+        txtNombre.clear();
+
+        txtIDproducto.clear();
+
+        txtPrecioVenta.clear();
+
+        txtStockInicial.clear();
+
+        txtStockMinimo.clear();
+
+        txtDescripcion.clear();
+
+        cbCategoria.setValue(null);
+
+        cbUnidadMedida.setValue(null);
+
+        cbProveedor.setValue(null);
+
+        cbEstado.setValue("Activo");
+
+        resetearEstadoCampo();
+
+        Platform.runLater(() -> txtCodigoBarras.requestFocus());
+
+    }
+
+
+
+    // ============================================================
+
+    //  MODOS ESCÁNER / BÚSQUEDA
+
+    // ============================================================
+
     private void configurarModoCodigoBarras() {
+
         btnModoBusqueda.setText("🔍 Modo Búsqueda");
+
         txtCodigoBarras.setPromptText("||||| Escanear código de barras...");
 
-        // Coloca el cursor automáticamente para estar listo para disparar el lector
         Platform.runLater(() -> txtCodigoBarras.requestFocus());
+
     }
+
+
 
     private void configurarModoBusqueda() {
+
         btnModoBusqueda.setText("||||| Modo Código de Barras");
+
         txtCodigoBarras.setPromptText("🔍 Escribe el nombre o código...");
+
     }
+
+
+
+    // ============================================================
+
+    //  HELPER: mostrar Alert
+
+    // ============================================================
+
+    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
+
+        Alert alert = new Alert(tipo);
+
+        alert.setTitle(titulo);
+
+        alert.setHeaderText(null);
+
+        alert.setContentText(mensaje);
+
+        alert.showAndWait();
+
+    }
+
+
+
+    // ============================================================
+
+    //  NAVEGACIÓN — volver a la lista de productos
+
+    // ============================================================
 
     @FXML
+
     public void abrirProductos(javafx.event.ActionEvent event) {
+
         try {
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("productos-view.fxml"));
+
             javafx.scene.Parent vistaProductos = loader.load();
 
+
+
             javafx.scene.Node boton = (javafx.scene.Node) event.getSource();
-            javafx.scene.layout.BorderPane panelPrincipal = (javafx.scene.layout.BorderPane) boton.getScene().getRoot();
+
+            javafx.scene.layout.BorderPane panelPrincipal =
+
+                    (javafx.scene.layout.BorderPane) boton.getScene().getRoot();
+
+
 
             panelPrincipal.setCenter(vistaProductos);
+
         } catch (IOException e) {
+
             System.err.println("Error al volver a la vista de productos");
+
             e.printStackTrace();
+
         }
+
     }
+
 }
+
