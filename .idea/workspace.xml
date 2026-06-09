@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ad914ce2-ee9f-4d54-88eb-b7cffc66735b" name="Changes" comment="style: se añadieron iconos faltantes con la libreria ikonli">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorNuevoProducto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorNuevoProducto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dao/ProductoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dao/ProductoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/modelo/Producto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/modelo/Producto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-NuevoProducto.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/stylesCSS/Style-NuevoProducto.css" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <excluded-from-favorite>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/master" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </excluded-from-favorite>
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/rama-alvaro" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <option name="PUSH_AUTO_UPDATE" value="true" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Cristian-cret&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/alvaro2016az-ai/AltoquePagoProyecto.git&quot;,
+    &quot;accountId&quot;: &quot;de9b843c-c963-43ce-ab44-02be4bab3044&quot;
+  }
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="3EIEI0rKlTsirApsc7b3i7fvMu0" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.HelloApplication.executor": "Run",
+    "Application.TestConexion.executor": "Run",
+    "Application.TestProducto.executor": "Run",
+    "Maven.AltoquePagoProyecto [clean].executor": "Run",
+    "Maven.AltoquePagoProyecto [compile].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "rama-cristhian",
+    "javascript.preferred.runtime.type.id": "node",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.stylelint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.stylelint": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "kotlinNotebook",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="com.controlador" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Launcher">
+    <configuration name="HelloApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.controlador.HelloApplication" />
+      <module name="AltoquePagoProyecto" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.controlador.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Launcher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.controlador.Launcher" />
+      <module name="AltoquePagoProyecto" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.controlador.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestConexion" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.TestConexion" />
+      <module name="AltoquePagoProyecto" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestProducto" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.TestProducto" />
+      <module name="AltoquePagoProyecto" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestCarrito.testCalcularTotalCarrito" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AltoquePagoProyecto" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com" />
+      <option name="MAIN_CLASS_NAME" value="com.TestCarrito" />
+      <option name="METHOD_NAME" value="testCalcularTotalCarrito" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.HelloApplication" />
+      <item itemvalue="Application.Launcher" />
+      <item itemvalue="Application.TestConexion" />
+      <item itemvalue="Application.TestProducto" />
+      <item itemvalue="JUnit.TestCarrito.testCalcularTotalCarrito" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Launcher" />
+        <item itemvalue="Application.HelloApplication" />
+        <item itemvalue="Application.TestProducto" />
+        <item itemvalue="Application.TestConexion" />
+        <item itemvalue="JUnit.TestCarrito.testCalcularTotalCarrito" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ad914ce2-ee9f-4d54-88eb-b7cffc66735b" name="Changes" comment="" />
+      <created>1779857600346</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1779857600346</updated>
+      <workItem from="1779857602284" duration="3390000" />
+      <workItem from="1779906319229" duration="6353000" />
+      <workItem from="1779927336669" duration="1537000" />
+      <workItem from="1779932029199" duration="640000" />
+      <workItem from="1779932687065" duration="284000" />
+      <workItem from="1779932988806" duration="44000" />
+      <workItem from="1779933059865" duration="91000" />
+      <workItem from="1779933163299" duration="4528000" />
+      <workItem from="1779938589583" duration="16000" />
+      <workItem from="1779938617689" duration="811000" />
+      <workItem from="1779981774356" duration="1040000" />
+    </task>
+    <task id="LOCAL-00001" summary="eooo">
+      <option name="closed" value="true" />
+      <created>1779982637132</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1779982637132</updated>
+    </task>
+    <task id="LOCAL-00002" summary="eooo">
+      <option name="closed" value="true" />
+      <created>1779982809468</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1779982809468</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fix: prueba">
+      <option name="closed" value="true" />
+      <created>1780716831034</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1780716831034</updated>
+    </task>
+    <task id="LOCAL-00004" summary="style: se agrego Style-Consultas.css&#10;style: se agrego Style-Empleados.css&#10;style: se agrego Style-Inicio.css&#10;refactor: se depuro el codigo de consultas-view.fxml&#10;refactor: se depuro el codigo de empleados-view.fxml&#10;refactor: se depuro el codigo de inicio-view.fxml&#10;refactor: se depuro el codigo de menu.fxml">
+      <option name="closed" value="true" />
+      <created>1780724363112</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1780724363112</updated>
+    </task>
+    <task id="LOCAL-00005" summary="style: se agrego Style-Productos.css&#10;style: se agrego Style-Reportes.css&#10;refactor: se mejoro Style-Empleados.css&#10;refactor: se mejoro Style-Table.css&#10;refactor: se mejoro Style-Ventas.css&#10;refactor: se mejoro Style-Inicio.css&#10;refactor: se mejoro Style-Menu.css&#10;refactor: se depuro productos-view.fxml&#10;refactor: se depuro reportes-view.fxml&#10;refactor: se depuro inicio-view.fxml&#10;refactor: se depuro menu.fxml&#10;refactor: se elimino Style-Bar.css&#10;refactor: se elimino Style-Buton.css&#10;refactor: se elimino Style-Dashboard.css">
+      <option name="closed" value="true" />
+      <created>1780729111864</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1780729111864</updated>
+    </task>
+    <task id="LOCAL-00006" summary="style: se renombro Style-Table.css a Style-Tables.css&#10;style: se agrego css en Style-Ventas.css, Style-Empleados.css, Style-Productos.css para el combobox de filtros&#10;refactor: se adapto la logica de combobox a ventas-view.fxml&#10;refactor: se adapto la logica de combobox a productos-view.fxml&#10;refactor: se adapto la logica de combobox a empleados-view.fxml&#10;refactor: se adapto la logia de combobox a ControladorEmpleados.java&#10;refactor: se adapto la logia de combobox a ControladorProductos.java&#10;refactor: se adapto la logia de combobox a ControladorVentas.java">
+      <option name="closed" value="true" />
+      <created>1780800567449</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1780800567449</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Style: se añadio hover en los botones de Style-Productos.css&#10;Style: se añadio hover en los botones de Style-Empleados.css&#10;Style: se añadio hover en los botones de Style-Ventas.css&#10;Style: se añadio hover en los botones de Style-Menu.css&#10;Style: se añadio hover en los botones de Style-NuevaVenta.css&#10;feat: se añadio interfaz en nuevaventa-view.fxml&#10;fix: se arreglo ControladorVentas.java&#10;fix: se arreglo ControladorNuevaVenta.java&#10;fix: se arreglo ControladorPrincipal.java&#10;fix: se cambio el icono volver de ventas-view.fxml">
+      <option name="closed" value="true" />
+      <created>1780874054843</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1780874054843</updated>
+    </task>
+    <task id="LOCAL-00008" summary="style: se añadi el efecto de hover a los botones de Style-Reportes.css">
+      <option name="closed" value="true" />
+      <created>1780887057645</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1780887057645</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat: se añadio ControladorNuevoProducto.java para controlar nuevoproducto-view.fxml&#10;feat: se añadio nuevoproducto-view.fxml para incluir la interfaz al agregar un nuevo producto&#10;feat: se añadio Style-NuevoProducto.css para mejorar visualmente nuevoproducto-view.fxml&#10;refactor: se reestructuro para añadir el boton de abrirNuevoProducto&#10;feat: se añadieron imagenes con la libreria ikonli en el inicio-view.fxml&#10;feat: se añadireron botones de acceso rapido a nuevoproducto-view.fxml y nuevaventa-view.fxml&#10;refactor: cambio en la forma de mostrar ventanas&#10;refactor: se redistribuyo, cambio y elimino algunos textfield">
+      <option name="closed" value="true" />
+      <created>1780899617424</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1780899617424</updated>
+    </task>
+    <task id="LOCAL-00010" summary="style: se añadio Style-NuevoEmpleado.css para dar un diseño visual a nuevoempleado-view.fxml&#10;feat: se añadio nuevoempleado-view.fxml para dar configurar la inferzas visual&#10;feat: se añadio ControladorNuevoEmpleado.java para dar control sobre nuevoempleado-view.fxml&#10;refactor: se añadio codigo para el boton de nuevo empleado&#10;refactor: se elimino la palabra volver de nuevoproducto-view.fxml">
+      <option name="closed" value="true" />
+      <created>1780942512169</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1780942512169</updated>
+    </task>
+    <task id="LOCAL-00011" summary="style: se añadieron iconos faltantes con la libreria ikonli">
+      <option name="closed" value="true" />
+      <created>1780950164406</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1780950164406</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="eooo" />
+    <MESSAGE value="fix: prueba" />
+    <MESSAGE value="style: se agrego Style-Consultas.css&#10;style: se agrego Style-Empleados.css&#10;style: se agrego Style-Inicio.css&#10;refactor: se depuro el codigo de consultas-view.fxml&#10;refactor: se depuro el codigo de empleados-view.fxml&#10;refactor: se depuro el codigo de inicio-view.fxml&#10;refactor: se depuro el codigo de menu.fxml" />
+    <MESSAGE value="style: se agrego Style-Productos.css&#10;style: se agrego Style-Reportes.css&#10;refactor: se mejoro Style-Empleados.css&#10;refactor: se mejoro Style-Table.css&#10;refactor: se mejoro Style-Ventas.css&#10;refactor: se mejoro Style-Inicio.css&#10;refactor: se mejoro Style-Menu.css&#10;refactor: se depuro productos-view.fxml&#10;refactor: se depuro reportes-view.fxml&#10;refactor: se depuro inicio-view.fxml&#10;refactor: se depuro menu.fxml&#10;refactor: se elimino Style-Bar.css&#10;refactor: se elimino Style-Buton.css&#10;refactor: se elimino Style-Dashboard.css" />
+    <MESSAGE value="style: se renombro Style-Table.css a Style-Tables.css&#10;style: se agrego css en Style-Ventas.css, Style-Empleados.css, Style-Productos.css para el combobox de filtros&#10;refactor: se adapto la logica de combobox a ventas-view.fxml&#10;refactor: se adapto la logica de combobox a productos-view.fxml&#10;refactor: se adapto la logica de combobox a empleados-view.fxml&#10;refactor: se adapto la logia de combobox a ControladorEmpleados.java&#10;refactor: se adapto la logia de combobox a ControladorProductos.java&#10;refactor: se adapto la logia de combobox a ControladorVentas.java" />
+    <MESSAGE value="Style: se añadio hover en los botones de Style-Productos.css&#10;Style: se añadio hover en los botones de Style-Empleados.css&#10;Style: se añadio hover en los botones de Style-Ventas.css&#10;Style: se añadio hover en los botones de Style-Menu.css&#10;Style: se añadio hover en los botones de Style-NuevaVenta.css&#10;feat: se añadio interfaz en nuevaventa-view.fxml&#10;fix: se arreglo ControladorVentas.java&#10;fix: se arreglo ControladorNuevaVenta.java&#10;fix: se arreglo ControladorPrincipal.java&#10;fix: se cambio el icono volver de ventas-view.fxml" />
+    <MESSAGE value="style: se añadi el efecto de hover a los botones de Style-Reportes.css" />
+    <MESSAGE value="feat: se añadio ControladorNuevoProducto.java para controlar nuevoproducto-view.fxml&#10;feat: se añadio nuevoproducto-view.fxml para incluir la interfaz al agregar un nuevo producto&#10;feat: se añadio Style-NuevoProducto.css para mejorar visualmente nuevoproducto-view.fxml&#10;refactor: se reestructuro para añadir el boton de abrirNuevoProducto&#10;feat: se añadieron imagenes con la libreria ikonli en el inicio-view.fxml&#10;feat: se añadireron botones de acceso rapido a nuevoproducto-view.fxml y nuevaventa-view.fxml&#10;refactor: cambio en la forma de mostrar ventanas&#10;refactor: se redistribuyo, cambio y elimino algunos textfield" />
+    <MESSAGE value="style: se añadio Style-NuevoEmpleado.css para dar un diseño visual a nuevoempleado-view.fxml&#10;feat: se añadio nuevoempleado-view.fxml para dar configurar la inferzas visual&#10;feat: se añadio ControladorNuevoEmpleado.java para dar control sobre nuevoempleado-view.fxml&#10;refactor: se añadio codigo para el boton de nuevo empleado&#10;refactor: se elimino la palabra volver de nuevoproducto-view.fxml" />
+    <MESSAGE value="style: se añadieron iconos faltantes con la libreria ikonli" />
+    <option name="LAST_COMMIT_MESSAGE" value="style: se añadieron iconos faltantes con la libreria ikonli" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand>
+      <path>
+        <item name="AltoquePagoProyecto1" type="b2602c69:ProjectViewProjectNode" />
+        <item name="dir{file://C:/Users/User/Downloads/AltoquePagoProyecto1}" type="462c0819:PsiDirectoryNode" />
+      </path>
+    </expand>
+    <select />
+  </component>
+</project>

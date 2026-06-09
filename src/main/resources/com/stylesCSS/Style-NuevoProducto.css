@@ -165,3 +165,38 @@
 .combo-box-form .arrow-button, .combo-box-form .arrow {
     -fx-background-color: transparent;
 }
+
+/* =========================================
+   ESTADOS DEL CAMPO CÓDIGO DE BARRAS
+   ========================================= */
+
+/* Producto encontrado en BD → borde verde */
+.text-field-busqueda-encontrado {
+    -fx-background-color: #f0fdf4;
+    -fx-border-color: #16a34a;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-border-width: 2px;
+    -fx-padding: 7px 12px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #15803d;
+}
+
+/* Producto NO encontrado en BD → borde rojo */
+.text-field-busqueda-no-encontrado {
+    -fx-background-color: #fff1f2;
+    -fx-border-color: #dc2626;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-border-width: 2px;
+    -fx-padding: 7px 12px;
+    -fx-font-size: 14px;
+    -fx-text-fill: #b91c1c;
+}
+
+/* Botón Guardar deshabilitado */
+.btn-principal:disabled {
+    -fx-background-color: #94a3b8;
+    -fx-cursor: default;
+    -fx-opacity: 1;
+}
