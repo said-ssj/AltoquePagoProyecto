@@ -16,6 +16,8 @@
 
 
 <?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
 <ScrollPane fitToWidth="true" styleClass="scroll-principal" stylesheets="@../stylesCSS/Style-NuevaVenta.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorNuevaVenta">
     <content>
         <VBox prefHeight="800.0" prefWidth="1013.0" spacing="20.0" styleClass="fondo-principal">
@@ -120,7 +122,25 @@
                     <TextField fx:id="txtSubtotal" disable="true" prefWidth="110.0" promptText="S/ 0.00" styleClass="text-field-disabled" />
                 </HBox>
 
-                <Button fx:id="btnAgregarProducto" mnemonicParsing="false" styleClass="btn-link" text="+ Agregar otro producto" />
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="Stock disponible:" styleClass="etiqueta-form"/>
+                    <Label fx:id="lblStock" text="-" styleClass="etiqueta-stock"/>
+                </HBox>
+
+                <HBox spacing="10">
+                    <Button fx:id="btnAgregarProducto" mnemonicParsing="false" styleClass="btn-link" text="+ Agregar otro producto" />
+                    <Button fx:id="btnEliminarProducto" text="Eliminar Producto"/>
+                </HBox>
+
+                <TableView fx:id="tablaDetalleVenta" prefHeight="200.0">
+
+                    <columns>
+                        <TableColumn fx:id="colProducto" text="Producto" prefWidth="300"/>
+                        <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="100"/>
+                        <TableColumn fx:id="colPrecio" text="Precio" prefWidth="120"/>
+                        <TableColumn fx:id="colSubtotal" text="Subtotal" prefWidth="120"/>
+                    </columns>
+                </TableView>
             </VBox>
 
             <GridPane hgap="20.0" vgap="5.0">
@@ -146,7 +166,7 @@
 
                 <HBox alignment="CENTER_RIGHT" spacing="15.0">
                     <Button fx:id="btnCancelarVenta" mnemonicParsing="false" styleClass="btn-cancelar" text="Cancelar" />
-                    <Button fx:id="btnGuardarVenta" mnemonicParsing="false" styleClass="btn-principal" text="Guardar Venta" />
+                    <Button fx:id="btnGuardarVenta" mnemonicParsing="false" styleClass="btn-principal" text="Guardar Venta" onAction="#guardarVenta"/>
                 </HBox>
             </VBox>
         </VBox>

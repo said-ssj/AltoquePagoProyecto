@@ -50,13 +50,35 @@ public class ProductoDAO {
         return null;
     }
 
-    // ============================================================
-    //  VERIFICAR SI UN CÓDIGO YA EXISTE EN BD
-    // ============================================================
-    public boolean existePorCodigo(String codigo) {
-        try {
+    public Producto buscarPorNombre(String nombre){
+        try{
             Connection cn = ConexionDB.conectar();
-            String sql = "SELECT COUNT(*) FROM producto WHERE codigo_barras = ?";
+            String sql = "SELECT * FROM producto " +
+                            "WHERE nombre LIKE ?";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setString(1, "%" + nombre + "%");
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return new Producto(
+                        rs.getInt("id_producto"),
+                        rs.getString("codigo_barras"),
+                        rs.getString("nombre"),
+                        rs.getDouble("precio"),
+                        rs.getInt("stock")
+                );
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void actualizarStock(
+            int idProducto,
+            int cantidad
+    ){
+        try{Connection cn = ConexionDB.conectar();
+            String sql = "UPDATE producto " + "SET stock = stock - ? " + "WHERE id_producto=?";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.setString(1, codigo);
             ResultSet rs = ps.executeQuery();
@@ -82,60 +104,13 @@ public class ProductoDAO {
             ps.setDouble(3, p.getPrecio());
             ps.setInt(4, p.getStock());
             ps.executeUpdate();
-            logger.info("Producto guardado: {} - {}", p.getCodigo_barras(), p.getNombre());
-            return true;
-
-        } catch (Exception e) {
-            logger.error("Error al guardar producto: {}", p.getNombre(), e);
-            return false;
-        }
-    }
-
-    // ============================================================
-    //  LISTAR TODOS LOS PRODUCTOS (para la tabla)
-    // ============================================================
-    public List<Producto> listarProductos() {
-        List<Producto> lista = new ArrayList<>();
-        String sql = "SELECT * FROM producto ORDER BY id_producto DESC";
-        try (Connection cn = ConexionDB.conectar();
-             PreparedStatement ps = cn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-
-            while (rs.next()) {
-                lista.add(mapear(rs));
-            }
-        } catch (Exception e) {
-            logger.error("Error al listar productos", e);
-        }
-        return lista;
-    }
-
-    // ============================================================
-    //  ACTUALIZAR STOCK (descontar al vender)
-    // ============================================================
-    public void actualizarStock(int idProducto, int cantidad) {
-        try (Connection cn = ConexionDB.conectar()) {
-            String sql = "UPDATE producto SET stock = stock - ? WHERE id_producto = ?";
-            PreparedStatement ps = cn.prepareStatement(sql);
-            ps.setInt(1, cantidad);
-            ps.setInt(2, idProducto);
-            ps.executeUpdate();
-            logger.info("Stock actualizado. Producto: {} - Cantidad descontada: {}", idProducto, cantidad);
-        } catch (Exception e) {
-            logger.error("Error al actualizar stock. ID: {}, Cantidad: {}", idProducto, cantidad, e);
-        }
-    }
-
-    // ============================================================
-    //  MAPEAR ResultSet → Producto (método privado de apoyo)
-    // ============================================================
-    private Producto mapear(ResultSet rs) throws SQLException {
-        return new Producto(
-                rs.getInt("id_producto"),
-                rs.getString("codigo_barras"),
-                rs.getString("nombre"),
-                rs.getDouble("precio"),
-                rs.getInt("stock")
-        );
+            System.out.println(
+                    "Stock actualizado. Producto: "
+                            + idProducto +
+                            " Cantidad descontada: "
+                            + cantidad
+            );
+        }catch(Exception e){
+            logger.error("Error al actualizar el stock. ID Producto: {}, Cantidad a restar: {}", idProducto, cantidad, e);        }
     }
 }

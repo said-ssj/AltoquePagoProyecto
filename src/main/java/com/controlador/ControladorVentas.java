@@ -1,5 +1,6 @@
 package com.controlador;
 
+import com.dao.VentaDAO;
 import com.modelo.Venta;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -81,14 +82,12 @@ public class ControladorVentas {
             }
         });
 
-        // Asignar la lista a la tabla
+        VentaDAO dao = new VentaDAO();
+        listaVentas.addAll(dao.listarVentas());
         tablaVentas.setItems(listaVentas);
-        listaVentas.addAll(
-                new Venta("#1234", "27/05/2026", "Juan Pérez", 3, 1234, "Completada"),
-                new Venta("#1235", "27/05/2026", "María García", 2, 856, "Completada"),
-                new Venta("#1236", "26/05/2026", "Carlos López", 5, 2100, "Pendiente")
-        );
+        colCliente.setCellValueFactory(new PropertyValueFactory<>("cliente"));
     }
+
     @FXML
     public void abrirNuevaVenta(javafx.event.ActionEvent event) {
         try {
@@ -108,6 +107,4 @@ public class ControladorVentas {
             e.printStackTrace();
         }
     }
-
-
 }
