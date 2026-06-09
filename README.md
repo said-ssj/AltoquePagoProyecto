@@ -6,7 +6,7 @@ ALToque Pago es una aplicación de escritorio desarrollada en **JavaFX** orienta
 
 ## Características Principales
 
-###Módulo de Gestión (Back-Office)
+### Módulo de Gestión (Back-Office)
 * **Gestión de Productos:** Registro, actualización y control de inventario con alertas de stock mínimo.
 * **Control de Empleados:** Administración del personal y tipos de contrato.
 * **Sistema de Ventas:** Punto de venta tradicional para cajeros.
@@ -33,10 +33,10 @@ El proyecto sigue el patrón de diseño **Modelo-Vista-Controlador (MVC)**, sepa
   * `SLF4J & Logback`: Para el monitoreo y registro (logging) de errores transaccionales en un archivo local.
   * `Ikonli (FontAwesome)`: Para la iconografía vectorial y moderna de la interfaz gráfica.
   
-##Estructura de la Base de Datos
+## Estructura de la Base de Datos
 El sistema se apoya en una base de datos relacional compuesta por 11 tablas principales que gestionan la trazabilidad completa, desde el ingreso del producto por el proveedor hasta la emisión del comprobante de pago al cliente.
 
-##Instalación y Configuración
+## Instalación y Configuración
 
 1. **Clonar el repositorio:**
    ```bash
