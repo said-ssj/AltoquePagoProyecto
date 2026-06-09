@@ -1,0 +1,66 @@
+/* =========================================
+   BARRA SUPERIOR (Azul)
+   ========================================= */
+.barra-superior-kiosko {
+    -fx-background-color: #ffffff;
+    /* Ligera sombra para separar del contenido central */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 3);
+}
+
+.logo-kiosko {
+    -fx-text-fill: #000000;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.btn-cancelar-kiosko {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-border-color: #ffffff;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+.btn-cancelar-kiosko:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* =========================================
+   BARRA INFERIOR (Blanca con botón grande)
+   ========================================= */
+.barra-inferior-kiosko {
+    -fx-background-color: #ffffff;
+    /* Sombra hacia arriba para destacar */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, -3);
+}
+
+.etiqueta-total {
+    -fx-text-fill: #64748b;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.monto-total-kiosko {
+    -fx-text-fill: #0f172a;
+    -fx-font-size: 36px; /* Grande para que el cliente lo vea claro */
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.btn-pagar-kiosko {
+    -fx-background-color: #16a34a; /* Verde confirmación */
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-cursor: hand;
+}
+.btn-pagar-kiosko:hover {
+    -fx-background-color: #15803d;
+}

@@ -10,12 +10,26 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        // Cambiamos a menu.fxml
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("menu.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1280, 800);
-        stage.setTitle("ALToque Pago - Sistema de Autoservicio");
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
+
+        // Tamaño pequeño definido para el Login
+        Scene scene = new Scene(fxmlLoader.load(), 900, 600);
+
+        stage.setTitle("ALToque Pago");
         stage.setScene(scene);
-        stage.setMaximized(true); // Se mantiene en pantalla completa
+
+        // Aseguramos que NO inicie maximizado y bloqueamos el redimensionamiento
+        stage.setMaximized(false);
+        stage.setResizable(false);
+
         stage.show();
+
+        // Centramos la ventana exactamente en el medio del monitor
+        stage.centerOnScreen();
     }
+
+    public static void main(String[] args) {
+        launch();
+    }
+
 }

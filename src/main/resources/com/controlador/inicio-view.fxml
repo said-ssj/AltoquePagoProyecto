@@ -23,19 +23,21 @@
 
             <HBox spacing="20.0" prefWidth="953.0">
                <children>
-                  <Button fx:id="btnIrPuntoVenta" maxWidth="Infinity" HBox.hgrow="ALWAYS" styleClass="btn-accion-grande-azul" text="Ir al Punto de Venta">
+                  <Button fx:id="btnIrPuntoVenta" onAction="#abrirPuntoVenta" maxWidth="Infinity" HBox.hgrow="ALWAYS" styleClass="btn-accion-grande-azul" text="Ir al Punto de Venta">
                      <graphic>
                         <FontIcon iconColor="#ffffff" iconLiteral="fas-shopping-cart" iconSize="24" />
                      </graphic>
                   </Button>
 
-                  <Button fx:id="btnEscanearProductos" maxWidth="Infinity" HBox.hgrow="ALWAYS" styleClass="btn-accion-grande-verde" text="Escanear Productos">
+                  <Button fx:id="btnEscanearProductos" onAction="#abrirVistaProductos" maxWidth="Infinity" HBox.hgrow="ALWAYS" styleClass="btn-accion-grande-verde" text="Escanear Productos">
                      <graphic>
                         <FontIcon iconColor="#ffffff" iconLiteral="fas-barcode" iconSize="24" />
                      </graphic>
                   </Button>
                </children>
             </HBox>
+
+            <!-- Targetas / Dashboards  Ventas del mes - Total de productos - Crecimiento-->
 
             <HBox prefHeight="190.0" prefWidth="953.0" spacing="20.0">
                <children>
@@ -82,6 +84,8 @@
                   </VBox>
                </children>
             </HBox>
+
+            <!-- Targetas / Dashboards  Ventas Recientes - Productos mas vendidos -->
 
             <HBox maxHeight="-Infinity" prefHeight="555.0" prefWidth="953.0" spacing="20.0" VBox.vgrow="ALWAYS">
                <children>

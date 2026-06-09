@@ -11,10 +11,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ControladorPrincipal implements Initializable {    // Captura el BorderPane principal que definiste en menu.fxml
-
+public class ControladorPrincipal implements Initializable {
     @FXML private BorderPane panelPrincipal;
     @FXML private ToggleButton btnInicio;
+
     // Metodo para Inicializar
     @Override
     public void initialize(URL location, ResourceBundle resources) {
