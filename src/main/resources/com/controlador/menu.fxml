@@ -6,9 +6,13 @@
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
+<?import javafx.scene.control.Button?>
 <BorderPane fx:id="panelPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../stylesCSS/Style-Menu.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorPrincipal">
    <left>
       <VBox prefHeight="800.0" prefWidth="267.0" styleClass="menu-lateral" BorderPane.alignment="TOP_CENTER">
@@ -96,11 +100,30 @@
                </graphic>
             </ToggleButton>
 
-            <Separator prefWidth="200.0" styleClass="separador-menu">
-               <VBox.margin>
-                  <Insets top="150.0" />
-               </VBox.margin>
-            </Separator>
+            <Region VBox.vgrow="ALWAYS" />
+
+            <Separator prefWidth="200.0" styleClass="separador-menu" />
+
+            <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="contenedor-perfil">
+               <padding>
+                  <Insets bottom="30.0" left="25.0" right="20.0" top="20.0" />
+               </padding>
+               <children>
+                  <Button fx:id="btnPerfiles" mnemonicParsing="false" onAction="#abrirPerfiles" styleClass="btn-avatar-perfil">
+                     <graphic>
+                        <FontIcon iconColor="#ffffff" iconLiteral="fas-user-cog" iconSize="20" />
+                     </graphic>
+                  </Button>
+
+                  <VBox alignment="CENTER_LEFT" spacing="2.0">
+                     <children>
+                        <Label fx:id="lblNombreUsuario" styleClass="perfil-nombre" text="Usuario" />
+                        <Label fx:id="lblRolUsuario" styleClass="perfil-rol" text="Administrador" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+
          </children>
       </VBox>
    </left>

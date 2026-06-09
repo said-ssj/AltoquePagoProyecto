@@ -1,0 +1,97 @@
+/* =========================================
+   SCROLL Y FONDOS
+   ========================================= */
+.scroll-principal {
+    -fx-background-color: transparent;
+    -fx-background: #f8fafc;
+    -fx-border-color: transparent;
+}
+.scroll-principal .viewport {
+    -fx-background-color: transparent;
+}
+.fondo-principal {
+    -fx-background-color: #f8fafc;
+}
+
+/* =========================================
+   TEXTOS Y TARJETAS
+   ========================================= */
+.titulo-principal {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+.subtitulo-seccion {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+.texto-secundario {
+    -fx-font-size: 14px;
+    -fx-text-fill: #64748b;
+}
+.etiqueta-form {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+.separador-ligero {
+    -fx-padding: 5px 0;
+}
+.tarjeta-dashboard {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-padding: 30px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 4);
+}
+.fila-permiso {
+    -fx-padding: 10px 0;
+}
+
+/* =========================================
+   BOTONES DE ROLES (Menú Izquierdo)
+   ========================================= */
+.btn-rol {
+    -fx-background-color: transparent;
+    -fx-text-fill: #475569;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-alignment: center-left;
+    -fx-padding: 12px 20px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+}
+.btn-rol:hover {
+    -fx-background-color: #f1f5f9;
+}
+.btn-rol:selected {
+    -fx-background-color: #eff6ff; /* Fondo azul claro */
+    -fx-text-fill: #2563eb;        /* Texto azul fuerte */
+    -fx-border-color: #2563eb;
+    -fx-border-width: 0 0 0 4px;   /* Línea azul a la izquierda */
+    -fx-border-radius: 8px;
+}
+
+/* =========================================
+   CHECKBOXES Y BOTÓN GUARDAR
+   ========================================= */
+.checkbox-switch {
+    
+    -fx-font-size: 16px;
+    -fx-cursor: hand;
+}
+.btn-principal {
+    -fx-background-color: #1d4ed8;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 12px 30px;
+    -fx-cursor: hand;
+}
+.btn-principal:hover {
+    -fx-background-color: #1e40af;
+}

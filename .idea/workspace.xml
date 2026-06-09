@@ -4,8 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad914ce2-ee9f-4d54-88eb-b7cffc66735b" name="Changes" comment="feat: conectar cliente, productos y estado en ventas&#10;feat: agregar estado de pago en listado de ventas&#10;feat: mostrar estado de pago desde tabla pago en ventas&#10;feat: integrar cliente, productos y estado en listado de ventas&#10;refactor: mejorar consulta SQL de ventas con JOINs&#10;style: se agrego boton de eliminar producto y un tabla para visualizar los productos que agrega y una visualizacion del stock de cada producto">
+    <list default="true" id="ad914ce2-ee9f-4d54-88eb-b7cffc66735b" name="Changes" comment="style: se renombro Style-Table.css a Style-Tables.css&#10;style: se agrego css en Style-Ventas.css, Style-Empleados.css, Style-Productos.css para el combobox de filtros&#10;refactor: se adapto la logica de combobox a ventas-view.fxml&#10;refactor: se adapto la logica de combobox a productos-view.fxml&#10;refactor: se adapto la logica de combobox a empleados-view.fxml&#10;refactor: se adapto la logia de combobox a ControladorEmpleados.java&#10;refactor: se adapto la logia de combobox a ControladorProductos.java&#10;refactor: se adapto la logia de combobox a ControladorVentas.java">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/dao/ClienteDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/dao/ComprobanteDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/dao/DetalleVentaDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/dao/PagoDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/modelo/Cliente.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/modelo/DetalleVenta.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/modelo/ItemVenta.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorNuevaVenta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorNuevaVenta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorVentas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/controlador/ControladorVentas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dao/ProductoDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dao/ProductoDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dao/VentaDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dao/VentaDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/modelo/Producto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/modelo/Producto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/modelo/Venta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/modelo/Venta.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/nuevaventa-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/nuevaventa-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/controlador/ventas-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/controlador/ventas-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/db.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/db.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -289,15 +305,7 @@
       <option name="project" value="LOCAL" />
       <updated>1780800567449</updated>
     </task>
-    <task id="LOCAL-00007" summary="feat: conectar cliente, productos y estado en ventas&#10;feat: agregar estado de pago en listado de ventas&#10;feat: mostrar estado de pago desde tabla pago en ventas&#10;feat: integrar cliente, productos y estado en listado de ventas&#10;refactor: mejorar consulta SQL de ventas con JOINs&#10;style: se agrego boton de eliminar producto y un tabla para visualizar los productos que agrega y una visualizacion del stock de cada producto">
-      <option name="closed" value="true" />
-      <created>1780985329099</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1780985329100</updated>
-    </task>
-    <option name="localTasksCounter" value="8" />
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -320,8 +328,7 @@
     <MESSAGE value="style: se agrego Style-Consultas.css&#10;style: se agrego Style-Empleados.css&#10;style: se agrego Style-Inicio.css&#10;refactor: se depuro el codigo de consultas-view.fxml&#10;refactor: se depuro el codigo de empleados-view.fxml&#10;refactor: se depuro el codigo de inicio-view.fxml&#10;refactor: se depuro el codigo de menu.fxml" />
     <MESSAGE value="style: se agrego Style-Productos.css&#10;style: se agrego Style-Reportes.css&#10;refactor: se mejoro Style-Empleados.css&#10;refactor: se mejoro Style-Table.css&#10;refactor: se mejoro Style-Ventas.css&#10;refactor: se mejoro Style-Inicio.css&#10;refactor: se mejoro Style-Menu.css&#10;refactor: se depuro productos-view.fxml&#10;refactor: se depuro reportes-view.fxml&#10;refactor: se depuro inicio-view.fxml&#10;refactor: se depuro menu.fxml&#10;refactor: se elimino Style-Bar.css&#10;refactor: se elimino Style-Buton.css&#10;refactor: se elimino Style-Dashboard.css" />
     <MESSAGE value="style: se renombro Style-Table.css a Style-Tables.css&#10;style: se agrego css en Style-Ventas.css, Style-Empleados.css, Style-Productos.css para el combobox de filtros&#10;refactor: se adapto la logica de combobox a ventas-view.fxml&#10;refactor: se adapto la logica de combobox a productos-view.fxml&#10;refactor: se adapto la logica de combobox a empleados-view.fxml&#10;refactor: se adapto la logia de combobox a ControladorEmpleados.java&#10;refactor: se adapto la logia de combobox a ControladorProductos.java&#10;refactor: se adapto la logia de combobox a ControladorVentas.java" />
-    <MESSAGE value="feat: conectar cliente, productos y estado en ventas&#10;feat: agregar estado de pago en listado de ventas&#10;feat: mostrar estado de pago desde tabla pago en ventas&#10;feat: integrar cliente, productos y estado en listado de ventas&#10;refactor: mejorar consulta SQL de ventas con JOINs&#10;style: se agrego boton de eliminar producto y un tabla para visualizar los productos que agrega y una visualizacion del stock de cada producto" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: conectar cliente, productos y estado en ventas&#10;feat: agregar estado de pago en listado de ventas&#10;feat: mostrar estado de pago desde tabla pago en ventas&#10;feat: integrar cliente, productos y estado en listado de ventas&#10;refactor: mejorar consulta SQL de ventas con JOINs&#10;style: se agrego boton de eliminar producto y un tabla para visualizar los productos que agrega y una visualizacion del stock de cada producto" />
+    <option name="LAST_COMMIT_MESSAGE" value="style: se renombro Style-Table.css a Style-Tables.css&#10;style: se agrego css en Style-Ventas.css, Style-Empleados.css, Style-Productos.css para el combobox de filtros&#10;refactor: se adapto la logica de combobox a ventas-view.fxml&#10;refactor: se adapto la logica de combobox a productos-view.fxml&#10;refactor: se adapto la logica de combobox a empleados-view.fxml&#10;refactor: se adapto la logia de combobox a ControladorEmpleados.java&#10;refactor: se adapto la logia de combobox a ControladorProductos.java&#10;refactor: se adapto la logia de combobox a ControladorVentas.java" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
