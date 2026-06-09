@@ -24,4 +24,7 @@ public class Venta {
     public int getProductos() { return productos; }
     public double getTotal() { return total; }
     public String getEstado() { return estado; }
+    public void setProductos(int productos) {
+        this.productos = productos;
+    }
 }

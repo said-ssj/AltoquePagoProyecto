@@ -45,7 +45,7 @@
                 <TableColumn fx:id="colCliente" prefWidth="200.0" text="Cliente" />
                 <TableColumn fx:id="colProductos" prefWidth="120.0" text="Productos" />
                 <TableColumn fx:id="colTotal" prefWidth="120.0" text="Total" />
-                <TableColumn fx:id="colEstado" prefWidth="120.0" text="Estado" />
+                <TableColumn fx:id="colEstado" prefWidth="120.0" text="Estado"/>
             </columns>
         </TableView>
     </children>
