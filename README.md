@@ -40,4 +40,4 @@ El sistema se apoya en una base de datos relacional compuesta por 11 tablas prin
 
 1. **Clonar el repositorio:**
    ```bash
-git clone [https://github.com/alvaro2016az-ai/AltoquePagoProyecto.git](https://github.com/alvaro2016az-ai/AltoquePagoProyecto.git)
+   git clone [https://github.com/alvaro2016az-ai/AltoquePagoProyecto.git](https://github.com/alvaro2016az-ai/AltoquePagoProyecto.git)
