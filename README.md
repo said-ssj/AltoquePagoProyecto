@@ -26,7 +26,8 @@ El proyecto sigue el patrón de diseño **Modelo-Vista-Controlador (MVC)**, sepa
 * **Interfaz Gráfica:** JavaFX (Archivos FXML estilizados con CSS nativo).
 * **Base de Datos:** MySQL (Diseño relacional en 3FN).
 * **Gestor de Dependencias:** Maven.
-* **Librerías Adicionales:** * `OpenPDF`: Para la emisión de tickets de venta y generación de reportes en PDF.
+* **Librerías Adicionales:**
+  * `OpenPDF`: Para la emisión de tickets de venta y generación de reportes en PDF.
   * `Apache POI`: Para la exportación de historiales y cuadres de caja a formatos de Microsoft Excel (.xlsx).
   * `Gson (Google)`: Para parsear e integrar la respuesta JSON de la API pública de SUNAT (búsqueda automática de DNI).
   * `ZXing (Zebra Crossing)`: Para la generación dinámica de códigos QR bidimensionales en la pasarela de cobro (Yape / Plin).
