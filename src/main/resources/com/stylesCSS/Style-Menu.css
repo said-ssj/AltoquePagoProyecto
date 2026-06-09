@@ -54,3 +54,37 @@
     -fx-background-color: #144DEB;
     -fx-text-fill: white;
 }
+/* =========================================
+   BOTÓN CIRCULAR DEL PERFIL
+   ========================================= */
+.btn-avatar-perfil {
+    -fx-background-color: #2563eb; /* Azul brillante */
+    -fx-background-radius: 50em; /* Lo hace un círculo perfecto */
+    -fx-min-width: 44px;
+    -fx-min-height: 44px;
+    -fx-max-width: 44px;
+    -fx-max-height: 44px;
+    -fx-cursor: hand;
+    -fx-alignment: center;
+    -fx-padding: 0; /* Quita el relleno por defecto para centrar bien el icono */
+}
+
+/* Efecto al pasar el ratón */
+.btn-avatar-perfil:hover {
+    -fx-background-color: #1e40af; /* Se pone azul más oscuro */
+    -fx-effect: dropshadow(three-pass-box, rgba(37, 99, 235, 0.4), 10, 0, 0, 0); /* Brillo sutil */
+}
+
+/* Nombre principal */
+.perfil-nombre {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 16px;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* Rol del sistema */
+.perfil-rol {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 13px;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
