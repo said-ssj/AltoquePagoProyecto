@@ -124,4 +124,34 @@ public class ProductoDAO {
             return false;
         }
     }
+
+    public List<Producto> listarProductos() {
+
+        List<Producto> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM producto";
+
+        try (Connection cn = ConexionDB.conectar();
+             PreparedStatement ps = cn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+
+                Producto p = new Producto(
+                        rs.getInt("id_producto"),
+                        rs.getString("codigo_barras"),
+                        rs.getString("nombre"),
+                        rs.getDouble("precio"),
+                        rs.getInt("stock")
+                );
+
+                lista.add(p);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
 }
