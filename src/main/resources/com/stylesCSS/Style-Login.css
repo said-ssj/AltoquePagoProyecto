@@ -1,0 +1,113 @@
+/* =========================================
+   PANELES PRINCIPALES
+   ========================================= */
+.panel-izquierdo {
+    -fx-background-color: #1d4ed8; /* Azul principal de ALToque Pago */
+}
+
+.panel-derecho {
+    -fx-background-color: #ffffff;
+}
+
+/* =========================================
+   TEXTOS BRANDING (Izquierda)
+   ========================================= */
+.logo-texto {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.logo-subtexto {
+    -fx-text-fill: #bfdbfe; /* Azul muy clarito */
+    -fx-font-size: 16px;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+
+/* =========================================
+   TEXTOS FORMULARIO (Derecha)
+   ========================================= */
+.titulo-login {
+    -fx-text-fill: #0f172a;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.subtitulo-login {
+    -fx-text-fill: #64748b;
+    -fx-font-size: 15px;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.etiqueta-form {
+    -fx-text-fill: #334155;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* =========================================
+   INPUTS
+   ========================================= */
+.text-field-login {
+    -fx-background-color: #f8fafc;
+    -fx-border-color: #cbd5e1;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 12px 15px;
+    -fx-font-size: 15px;
+    -fx-text-fill: #0f172a;
+}
+
+.text-field-login:focused {
+    -fx-border-color: #3b82f6;
+    -fx-border-width: 2px;
+    -fx-padding: 11px 14px;
+    -fx-background-color: #ffffff;
+}
+
+/* =========================================
+   BOTONES Y SEPARADOR
+   ========================================= */
+.btn-login-principal {
+    -fx-background-color: #1d4ed8;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-padding: 14px 0;
+    -fx-cursor: hand;
+}
+.btn-login-principal:hover {
+    -fx-background-color: #1e40af;
+}
+
+.btn-login-secundario {
+    -fx-background-color: transparent;
+    -fx-text-fill: #1d4ed8;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-border-color: #1d4ed8;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 12px 0;
+    -fx-cursor: hand;
+}
+.btn-login-secundario:hover {
+    -fx-background-color: #eff6ff; /* Fondo azul super clarito al pasar el mouse */
+}
+
+.linea-separadora {
+    -fx-background-color: #e2e8f0;
+    -fx-pref-height: 0.5px;
+}
+
+.texto-separador {
+    -fx-text-fill: #94a3b8;
+    -fx-font-size: 13px;
+    -fx-padding: 0 10px;
+}
