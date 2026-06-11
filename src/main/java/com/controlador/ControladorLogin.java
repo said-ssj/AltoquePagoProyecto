@@ -21,30 +21,24 @@ public class ControladorLogin {
 
     @FXML
     public void ingresarGestion(ActionEvent event) {
-        // Aquí luego agregarás la validación de usuario y contraseña con la BD
         System.out.println("Iniciando sesión en Gestión...");
-        cambiarEscena(event, "menu.fxml", false);
+        cambiarEscena(event, "/com/vista/menu-view.fxml", false);
     }
 
     @FXML
     public void iniciarKiosko(ActionEvent event) {
         System.out.println("Iniciando modo Kiosko de Autoservicio...");
-        // ¡Carga la pantalla maestra!
-        cambiarEscena(event, "AutoservicioCheckoutDividida.fxml", true);
+        cambiarEscena(event, "/com/vista/AutoservicioCheckoutDividida-view.fxml", true);
     }
 
     private void cambiarEscena(ActionEvent event, String fxml, boolean modoKiosko) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Parent root = loader.load();
-
-            // Obtener la ventana (Stage) actual
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
-
-            // 1. Desbloqueamos el tamaño de la ventana para que pueda crecer
             stage.setResizable(true);
 
             if (modoKiosko) {

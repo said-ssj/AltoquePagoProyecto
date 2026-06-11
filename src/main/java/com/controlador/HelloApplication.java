@@ -10,21 +10,14 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-view.fxml"));
+        // La ruta ahora empieza con /com/vista/ y tiene el sufijo -view
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/vista/Login-view.fxml"));
 
-        // Tamaño pequeño definido para el Login
-        Scene scene = new Scene(fxmlLoader.load(), 900, 600);
-
-        stage.setTitle("ALToque Pago");
+        Scene scene = new Scene(fxmlLoader.load(), 900, 600); // Tamaño del login
+        stage.setTitle("ALToque Pago - Sistema de Autoservicio");
         stage.setScene(scene);
-
-        // Aseguramos que NO inicie maximizado y bloqueamos el redimensionamiento
         stage.setMaximized(false);
-        stage.setResizable(false);
-
         stage.show();
-
-        // Centramos la ventana exactamente en el medio del monitor
         stage.centerOnScreen();
     }
 

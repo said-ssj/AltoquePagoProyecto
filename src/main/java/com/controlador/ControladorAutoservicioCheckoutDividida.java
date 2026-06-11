@@ -17,15 +17,9 @@ public class ControladorAutoservicioCheckoutDividida {
     @FXML private Button btnCancelarCompra;
     @FXML private Button btnProcederPago;
 
-    @FXML
-    public void initialize() {
-        // Apenas cargue, inyectamos el escáner en el centro
-        cargarVistaCentral("AutoservicioEscaner.fxml");
-    }
-
     private void cargarVistaCentral(String fxml) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vista/" + fxml));
             Parent vistaCentro = loader.load();
             panelKioskoPrincipal.setCenter(vistaCentro);
         } catch (IOException e) {
@@ -35,20 +29,21 @@ public class ControladorAutoservicioCheckoutDividida {
     }
 
     @FXML
+    public void initialize() {
+        cargarVistaCentral("AutoservicioEscaner-view.fxml");
+    }
+    @FXML
     public void procederAlPago(ActionEvent event) {
-        System.out.println("Cambiando a pantalla de Datos del Cliente...");
-        // 1. Cargamos el formulario de datos
-        cargarVistaCentral("AutoservicioDatos.fxml");
-        // 2. Ocultamos el botón verde de abajo para que usen el botón de la tarjeta
+        cargarVistaCentral("AutoservicioDatos-view.fxml");
         btnProcederPago.setVisible(false);
     }
 
     @FXML
     public void cancelarCompra(ActionEvent event) {
         System.out.println("Compra cancelada. Limpiando carrito y regresando al inicio...");
-        // 1. Volvemos al escáner
-        cargarVistaCentral("AutoservicioEscaner.fxml");
-        // 2. Restauramos el botón verde y el total
+        // Volvemos al escáner
+        cargarVistaCentral("AutoservicioEscaner-view.fxml");
+        // Restauramos el botón verde y el total
         btnProcederPago.setVisible(true);
         lblTotalKiosko.setText("S/ 0.00");
     }

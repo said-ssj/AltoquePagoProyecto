@@ -65,7 +65,7 @@
         <Region prefHeight="10.0" />
 
         <HBox alignment="CENTER_RIGHT">
-            <Button fx:id="btnContinuar" mnemonicParsing="false" onAction="#continuarAPago" styleClass="btn-continuar-kiosko" text="Continuar  →" />
+            <Button fx:id="btnContinuar" mnemonicParsing="false" onAction="#continuarAPago" styleClass="btn-continuar-kiosko" text="Continuar" />
         </HBox>
 
     </VBox>

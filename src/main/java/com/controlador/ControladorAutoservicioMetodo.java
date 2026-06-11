@@ -32,8 +32,7 @@ public class ControladorAutoservicioMetodo {
         System.out.println("Compra finalizada. Reiniciando kiosko...");
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("AutoservicioEscaner.fxml"));
-            Parent vistaEscaner = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vista/AutoservicioEscaner-view.fxml"));            Parent vistaEscaner = loader.load();
 
             Node botonPresionado = (Node) event.getSource();
             BorderPane panelKioskoPrincipal = (BorderPane) botonPresionado.getScene().getRoot();
