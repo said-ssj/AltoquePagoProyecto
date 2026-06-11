@@ -224,3 +224,65 @@
 .scroll-principal .viewport {
     -fx-background-color: transparent;
 }
+
+/* =========================================
+   TABLA CONVERTIDA EN LISTA MODERNA
+   ========================================= */
+
+/* Fondo transparente y sin bordes exteriores */
+.tabla-lista {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+/* 1. MAGIA: Ocultar el encabezado feo por defecto de JavaFX */
+.tabla-lista .column-header-background {
+    -fx-max-height: 0;
+    -fx-pref-height: 0;
+    -fx-min-height: 0;
+    -fx-padding: 0;
+    -fx-opacity: 0;
+}
+
+/* 2. Diseño de las filas (Separador horizontal sutil) */
+.tabla-lista .table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #e2e8f0 transparent; /* Solo línea abajo */
+    -fx-border-width: 1px;
+    -fx-cell-size: 45px; /* Altura cómoda para leer */
+}
+
+/* Efecto al pasar el mouse sobre un producto de la lista */
+.tabla-lista .table-row-cell:hover {
+    -fx-background-color: #f1f5f9;
+    -fx-background-radius: 8px; /* Bordes redonditos al hacer hover */
+    -fx-border-color: transparent; /* Quitamos la linea inferior en el hover para más limpieza */
+}
+
+/* Efecto cuando seleccionas un producto (para eliminarlo) */
+.tabla-lista .table-row-cell:selected {
+    -fx-background-color: #e0f2fe; /* Azul muy clarito */
+    -fx-background-radius: 8px;
+    -fx-border-color: transparent;
+}
+
+/* 3. Diseño de las celdas (Sin bordes verticales) */
+.tabla-lista .table-cell {
+    -fx-border-color: transparent;
+    -fx-padding: 0 10px;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #334155;
+    -fx-alignment: CENTER-LEFT;
+}
+
+/* Ocultar la barra de desplazamiento horizontal */
+.tabla-lista .scroll-bar:horizontal {
+    -fx-opacity: 0;
+}
+
+/* Quitar el color de fondo cuando la tabla está vacía */
+.tabla-lista .table-view .empty {
+    -fx-background-color: transparent;
+}

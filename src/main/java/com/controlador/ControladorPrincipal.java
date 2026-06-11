@@ -55,11 +55,11 @@ public class ControladorPrincipal implements Initializable {
     @FXML
     public void abrirPerfiles() {cargarVista("perfiles-view.fxml");}
 
-    //  Lógica central para intercambiar las vistas
     private void cargarVista(String nombreFxml) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(nombreFxml));
-            javafx.scene.Parent vista = loader.load();// Coloca la vista seleccionada en el centro del BorderPane
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vista/" + nombreFxml));
+            javafx.scene.Parent vista = loader.load();
+
             panelPrincipal.setCenter(vista);
         } catch (IOException e) {
             System.err.println("Error al cargar la vista: " + nombreFxml);

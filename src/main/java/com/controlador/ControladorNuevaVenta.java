@@ -59,11 +59,11 @@ public class ControladorNuevaVenta {
     @FXML
     public void initialize() {
 
-        // 1. Ocultar panel de cliente al inicio (Asegurarnos de que arranque cerrado)
+        // Ocultar panel de cliente al inicio (Asegurarnos de que arranque cerrado)
         panelDatosCliente.setVisible(false);
         panelDatosCliente.setManaged(false);
 
-        // 2. Lógica del botón Desplegable del Cliente
+        // Lógica del botón Desplegable del Cliente
         btnMostrarDatosCliente.setOnAction(e -> {
             panelDatosCliente.setVisible(true);
             panelDatosCliente.setManaged(true);
@@ -78,10 +78,10 @@ public class ControladorNuevaVenta {
             btnMostrarDatosCliente.setManaged(true);
         });
 
-        // 3. Poner la fecha actual automáticamente
+        // Poner la fecha actual automáticamente
         txtFechaVenta.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
-        // 4. Lógica interactiva del Buscador vs Código de Barras
+        // Lógica interactiva del Buscador vs Código de Barras
         configurarModoCodigoBarras(); // Arranca por defecto en modo código de barras
 
         btnModoBusqueda.setOnAction(e -> {
@@ -94,9 +94,9 @@ public class ControladorNuevaVenta {
             }
         });
 
-        // 5. Restricción para que solo acepte números cuando está en modo escáner
+        // Restricción para que solo acepte números cuando está en modo escáner
         txtBuscarProducto.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!btnModoBusqueda.isSelected()) { // Si NO está presionado (Modo Escáner)
+            if (!btnModoBusqueda.isSelected()) { // Si no está presionado (Modo Escáner)
                 if (!newValue.matches("\\d*")) { // Si detecta una letra o símbolo
                     txtBuscarProducto.setText(newValue.replaceAll("[^\\d]", "")); // Lo borra automáticamente
                 }

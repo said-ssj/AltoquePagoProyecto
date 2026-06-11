@@ -49,7 +49,7 @@ public class ControladorNuevoProducto {
     // ============================================================
     @FXML
     public void initialize() {
-        // 1. Llenar combos
+        // Llenar combos
         cbCategoria.getItems().addAll(
                 "Computadoras", "Accesorios", "Monitores",
                 "Periféricos", "Impresoras", "Almacenamiento", "Otro"
@@ -58,12 +58,12 @@ public class ControladorNuevoProducto {
         cbProveedor.getItems().addAll("Proveedor A", "Proveedor B", "Proveedor C");
         cbEstado.getItems().addAll("Activo", "Inactivo");
         cbEstado.setValue("Activo");
-        // 2. Guardar arranca deshabilitado
+        // Guardar arranca deshabilitado
         btnGuardarProducto.setDisable(true);
         btnGuardarProducto.setOnAction(e -> guardarProducto());
-        // 3. Modo escáner por defecto
+        // Modo escáner por defecto
         configurarModoCodigoBarras();
-        // 4. Toggle de modo
+        // Toggle de modo
         btnModoBusqueda.setOnAction(e -> {
             if (btnModoBusqueda.isSelected()) {
                 configurarModoBusqueda();
@@ -72,7 +72,7 @@ public class ControladorNuevoProducto {
             }
             resetearEstadoCampo();
         });
-        // 5. Listener: busca en BD con cada cambio del campo código
+        // Listener: busca en BD con cada cambio del campo código
         txtCodigoBarras.textProperty().addListener((obs, oldVal, newVal) -> {
             // Modo escáner: solo dígitos
             if (!btnModoBusqueda.isSelected() && !newVal.matches("\\d*")) {
@@ -105,12 +105,12 @@ public class ControladorNuevoProducto {
         );
 
         if (existe) {
-            // Si EXISTE, es un error. Rojo y bloquear.
+            // Si existe, es un error. Rojo y bloquear.
             txtCodigoBarras.getStyleClass().add("text-field-busqueda-no-encontrado");
             btnGuardarProducto.setDisable(true);
             mostrarAlerta(Alert.AlertType.WARNING, "Código Duplicado", "Este código de barras ya está registrado en el sistema.");
         } else {
-            // Si NO EXISTE, es perfecto. Verde y permitir guardar.
+            // Si no existe, es perfecto. Verde y permitir guardar.
             txtCodigoBarras.getStyleClass().add("text-field-busqueda-encontrado");
             btnGuardarProducto.setDisable(false);
         }
@@ -166,7 +166,8 @@ public class ControladorNuevoProducto {
         }
 
         // Construir el objeto Producto
-        // Nota: Usamos el constructor con parámetros que ya tienes en tus otros DAO.
+        // Nota:
+        // Usamos el constructor con parámetros que ya hay en el DAO.
         // Ponemos "0" en el ID porque MySQL lo autogenerará (Auto Increment).
         Producto nuevo = new Producto(0, codigo, nombre, precio, stock);
 

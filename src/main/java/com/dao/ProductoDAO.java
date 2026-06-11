@@ -13,7 +13,7 @@ public class ProductoDAO {
     private static final Logger logger = LoggerFactory.getLogger(ProductoDAO.class);
 
     // ============================================================
-    //  BUSCAR POR CÓDIGO DE BARRAS (exacto)
+    //  BUSCAR POR CÓDIGO DE BARRAS
     // ============================================================
     public Producto buscarPorCodigo(String codigo){
         String sql = "SELECT * FROM producto WHERE codigo_barras=?";
@@ -40,7 +40,7 @@ public class ProductoDAO {
     }
 
     // ============================================================
-    //  BUSCAR POR NOMBRE (LIKE) - [DUPLICADO CORREGIDO]
+    //  BUSCAR POR NOMBRE (LIKE)
     // ============================================================
     public Producto buscarPorNombre(String nombre) {
         String sql = "SELECT * FROM producto WHERE nombre LIKE ?";
@@ -66,7 +66,7 @@ public class ProductoDAO {
     }
 
     // ============================================================
-    //  VERIFICAR SI EXISTE UN CÓDIGO (Rescatado de tu código mezclado)
+    //  VERIFICAR SI EXISTE UN CÓDIGO
     // ============================================================
     public boolean existeCodigo(String codigo) {
         String sql = "SELECT COUNT(*) FROM producto WHERE codigo_barras=?";
@@ -85,7 +85,7 @@ public class ProductoDAO {
     }
 
     // ============================================================
-    //  ACTUALIZAR STOCK AL VENDER (Corregido)
+    //  ACTUALIZAR STOCK AL VENDER
     // ============================================================
     public void actualizarStock(int idProducto, int cantidad) {
         String sql = "UPDATE producto SET stock = stock - ? WHERE id_producto=?";
@@ -104,7 +104,7 @@ public class ProductoDAO {
     }
 
     // ============================================================
-    //  GUARDAR NUEVO PRODUCTO (Corregido)
+    //  GUARDAR NUEVO PRODUCTO
     // ============================================================
     public boolean guardarProducto(Producto p) {
         String sql = "INSERT INTO producto (codigo_barras, nombre, precio, stock) VALUES (?, ?, ?, ?)";

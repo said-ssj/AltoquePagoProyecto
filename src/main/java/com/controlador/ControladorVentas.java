@@ -42,7 +42,7 @@ public class ControladorVentas {
         });
 
         // CONFIGURACION DE LA TABLA
-        // 1. Vincular columnas del FXML con las propiedades de la clase Venta
+        // Vincular columnas del FXML con las propiedades de la clase Venta
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
         colCliente.setCellValueFactory(new PropertyValueFactory<>("cliente"));
@@ -91,15 +91,15 @@ public class ControladorVentas {
     @FXML
     public void abrirNuevaVenta(javafx.event.ActionEvent event) {
         try {
-            // 1. Cargamos el diseño de la Nueva Venta
+            // Cargamos el diseño de la Nueva Venta
             FXMLLoader loader = new FXMLLoader(getClass().getResource("nuevaventa-view.fxml"));
             javafx.scene.Parent vistaNuevaVenta = loader.load();
 
-            // 2. Usamos el botón clickeado para rastrear y encontrar el BorderPane principal
+            // Usamos el botón clickeado para rastrear y encontrar el BorderPane principal
             javafx.scene.Node boton = (javafx.scene.Node) event.getSource();
             javafx.scene.layout.BorderPane panelPrincipal = (javafx.scene.layout.BorderPane) boton.getScene().getRoot();
 
-            // 3. Reemplazamos el centro del programa con tu nueva vista
+            // Reemplazamos el centro del programa con tu nueva vista
             panelPrincipal.setCenter(vistaNuevaVenta);
 
         } catch (IOException e) {

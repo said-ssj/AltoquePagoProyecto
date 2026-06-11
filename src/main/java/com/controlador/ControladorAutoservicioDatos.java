@@ -41,26 +41,20 @@ public class ControladorAutoservicioDatos {
 
     @FXML
     public void continuarAPago(ActionEvent event) {
-        // 1. Validar que los campos obligatorios no estén vacíos
+        // Validar que los campos obligatorios no estén vacíos
         if(txtDocumento.getText().trim().isEmpty() || txtNombreCliente.getText().trim().isEmpty()) {
             System.out.println("Alerta: Debe completar los campos obligatorios.");
-            // Opcional: Aquí podrías poner el txtDocumento.requestFocus() o cambiarle el borde a rojo
             return;
         }
 
         System.out.println("Datos confirmados. Pasando a selección de Método de Pago...");
 
-        // 2. Hacer el salto de pantalla en el centro del Kiosko
         try {
-            // Cargamos la siguiente pantalla (asegúrate de que este archivo exista)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("AutoservicioMetodo.fxml"));
-            Parent vistaMetodoPago = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vista/AutoservicioMetodo-view.fxml"));            Parent vistaMetodoPago = loader.load();
 
-            // Atrapamos la ventana principal desde el botón que acabamos de hacer clic
             Node botonPresionado = (Node) event.getSource();
             BorderPane panelKioskoPrincipal = (BorderPane) botonPresionado.getScene().getRoot();
 
-            // Inyectamos la nueva vista en el centro, reemplazando el formulario de datos
             panelKioskoPrincipal.setCenter(vistaMetodoPago);
 
         } catch (IOException e) {

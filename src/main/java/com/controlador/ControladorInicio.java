@@ -41,7 +41,8 @@ public class ControladorInicio {
     // Método reutilizable para inyectar vistas en el BorderPane principal
     private void cambiarVistaCentro(javafx.event.ActionEvent event, String fxml) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+            // AQUÍ AGREGAMOS LA RUTA: /com/vista/
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vista/" + fxml));
             javafx.scene.Parent vista = loader.load();
 
             javafx.scene.Node boton = (javafx.scene.Node) event.getSource();
