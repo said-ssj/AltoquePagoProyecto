@@ -264,7 +264,7 @@ public class ControladorNuevoProducto {
     @FXML
     public void abrirProductos(javafx.event.ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("productos-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vista/productos-view.fxml"));
             javafx.scene.Parent vistaProductos = loader.load();
             javafx.scene.Node boton = (javafx.scene.Node) event.getSource();
             javafx.scene.layout.BorderPane panelPrincipal =

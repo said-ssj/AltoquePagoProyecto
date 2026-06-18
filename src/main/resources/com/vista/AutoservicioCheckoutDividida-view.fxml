@@ -16,11 +16,12 @@
                 <Insets left="40.0" right="40.0" />
             </padding>
             <children>
-                <VBox alignment="CENTER_LEFT" HBox.hgrow="NEVER">
+                <HBox alignment="CENTER_LEFT" spacing="15.0" HBox.hgrow="NEVER">
                     <children>
-                        <Label style="-fx-text-fill: #1d4ed8; -fx-font-size: 28px; -fx-font-weight: bold; -fx-font-family: 'Segoe UI';" text="ALToque Pago" />
+                        <Button fx:id="btnVolver" mnemonicParsing="false" onAction="#volverPasoAnterior" style="-fx-background-color: transparent; -fx-text-fill: #0f172a; -fx-font-size: 24px; -fx-font-weight: bold; -fx-cursor: hand;" text="&lt;" />
+                        <Label style="-fx-text-fill: #0f172a; -fx-font-size: 28px; -fx-font-weight: bold; -fx-font-family: 'Segoe UI';" text="ALToque Pago" />
                     </children>
-                </VBox>
+                </HBox>
 
                 <Pane HBox.hgrow="ALWAYS" />
 
@@ -51,7 +52,7 @@
 
                 <Pane HBox.hgrow="ALWAYS" />
 
-                <Button fx:id="btnProcederPago" mnemonicParsing="false" onAction="#procederAlPago" style="-fx-background-color: #16a34a; -fx-text-fill: #ffffff; -fx-font-size: 22px; -fx-font-weight: bold; -fx-background-radius: 12px; -fx-cursor: hand;" text="Continuar">
+                <Button fx:id="btnProcederPago" mnemonicParsing="false" onAction="#avanzarPaso" style="-fx-background-color: #16a34a; -fx-text-fill: #ffffff; -fx-font-size: 22px; -fx-font-weight: bold; -fx-background-radius: 12px; -fx-cursor: hand;" text="Proceder al Pago">
                     <padding>
                         <Insets bottom="15.0" left="40.0" right="40.0" top="15.0" />
                     </padding>

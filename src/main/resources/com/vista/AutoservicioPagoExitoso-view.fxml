@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+
+
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #fafafa;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+
+    <VBox alignment="CENTER" maxWidth="600.0" spacing="20.0" style="-fx-background-color: #ffffff; -fx-border-color: #e2e8f0; -fx-border-radius: 16px; -fx-background-radius: 16px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.06), 15, 0, 0, 8);">
+        <padding>
+            <Insets bottom="60.0" left="40.0" right="40.0" top="60.0" />
+        </padding>
+        <!--
+        <FontIcon iconColor="#16a34a" iconLiteral="bxs-check-circle" iconSize="100" />
+        -->
+        <Label style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #0f172a; -fx-font-family: 'Segoe UI';" text="¡Pago Exitoso!" />
+
+        <Label style="-fx-font-size: 18px; -fx-text-fill: #64748b; -fx-font-family: 'Segoe UI';" text="Por favor, retire su comprobante y sus productos." />
+    </VBox>
+
+</VBox>

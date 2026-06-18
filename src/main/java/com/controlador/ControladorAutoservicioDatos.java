@@ -46,7 +46,6 @@ public class ControladorAutoservicioDatos {
             System.out.println("Alerta: Debe completar los campos obligatorios.");
             return;
         }
-
         System.out.println("Datos confirmados. Pasando a selección de Método de Pago...");
 
         try {

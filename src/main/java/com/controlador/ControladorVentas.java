@@ -92,7 +92,7 @@ public class ControladorVentas {
     public void abrirNuevaVenta(javafx.event.ActionEvent event) {
         try {
             // Cargamos el diseño de la Nueva Venta
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("nuevaventa-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vista/nuevaventa-view.fxml"));
             javafx.scene.Parent vistaNuevaVenta = loader.load();
 
             // Usamos el botón clickeado para rastrear y encontrar el BorderPane principal

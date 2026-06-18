@@ -56,7 +56,7 @@
         </HBox>
 
         <HBox alignment="CENTER">
-            <Button fx:id="btnFinalizarExito" mnemonicParsing="false" onAction="#finalizarCompra" styleClass="btn-continuar-kiosko" text="Simular Pago Exitoso ✓" />
+            <Button fx:id="btnFinalizarExito" mnemonicParsing="false" onAction="#finalizarCompra" styleClass="btn-continuar-kiosko" text="Simular Pago Exitoso" />
         </HBox>
 
     </VBox>
