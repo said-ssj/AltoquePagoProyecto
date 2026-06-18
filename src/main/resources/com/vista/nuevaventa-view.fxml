@@ -51,56 +51,57 @@
 
             <Button fx:id="btnMostrarDatosCliente" maxWidth="Infinity" mnemonicParsing="false" styleClass="btn-desplegable" text="+ Agregar Datos del Cliente" />
 
-                <VBox fx:id="panelDatosCliente" managed="false" spacing="15.0" styleClass="tarjeta-cliente" visible="false">
+            <VBox fx:id="panelDatosCliente" managed="false" spacing="15.0" styleClass="tarjeta-cliente" visible="false">
 
-                    <HBox alignment="CENTER_LEFT">
-                        <Label maxWidth="Infinity" styleClass="subtitulo-tarjeta" text="Datos del Cliente" HBox.hgrow="ALWAYS" />
-                        <Button fx:id="btnCerrarDatosCliente" mnemonicParsing="false" styleClass="btn-cerrar" text="✕" />
+                <HBox alignment="CENTER_LEFT">
+                    <Label maxWidth="Infinity" styleClass="subtitulo-tarjeta" text="Datos del Cliente" HBox.hgrow="ALWAYS" />
+                    <Button fx:id="btnCerrarDatosCliente" mnemonicParsing="false" styleClass="btn-cerrar" text="✕" />
+                </HBox>
+
+                <VBox spacing="5.0">
+                    <Label styleClass="etiqueta-form" text="Razón Social / Nombre" />
+                    <TextField fx:id="txtRazonSocial" promptText="Nombre o empresa del cliente" styleClass="text-field-form" />
+                </VBox>
+
+                <VBox spacing="5.0">
+                    <Label styleClass="etiqueta-form" text="Dirección" />
+                    <TextField fx:id="txtDireccion" promptText="Ej. Av. Principal 123, La Tinguiña" styleClass="text-field-form" />
+                </VBox>
+
+                <GridPane hgap="15.0" vgap="5.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
+                    </columnConstraints>
+
+                    <Label styleClass="etiqueta-form" text="RUC/DNI" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <HBox spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <FontIcon iconColor="#991b1b" iconLiteral="fas-id-card" iconSize="30" />
+                        <TextField fx:id="txtRucDni" promptText="Número de documento" styleClass="text-field-form" HBox.hgrow="ALWAYS" />
                     </HBox>
 
-                    <VBox spacing="5.0">
-                        <Label styleClass="etiqueta-form" text="Razón Social" />
-                        <TextField fx:id="txtRazonSocial" promptText="Nombre o empresa del cliente" styleClass="text-field-form" />
-                    </VBox>
+                    <Label styleClass="etiqueta-form" text="Correo" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    <TextField fx:id="txtCorreoCliente" promptText="cliente@ejemplo.com" styleClass="text-field-form" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                    <GridPane hgap="15.0" vgap="5.0">
-                        <columnConstraints>
-                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
-                            <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
-                        </columnConstraints>
+                    <Label styleClass="etiqueta-form" text="Teléfono" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <TextField fx:id="txtTelefonoCliente" promptText="(555) 123-4567" styleClass="text-field-form" GridPane.columnIndex="0" GridPane.rowIndex="3" />
 
-                        <Label styleClass="etiqueta-form" text="RUC/DNI" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                        <HBox spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <Label styleClass="etiqueta-form" text="Moneda" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    <ComboBox fx:id="cbMoneda" maxWidth="Infinity" promptText="Soles (S/)" styleClass="combo-box-form" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                </GridPane>
 
-
-                            <FontIcon iconColor="#991b1b" iconLiteral="fas-id-card" iconSize="30" />
-
-
-                            <TextField fx:id="txtRucDni" promptText="Número de documento" styleClass="text-field-form" HBox.hgrow="ALWAYS" />
-                        </HBox>
-
-                        <Label styleClass="etiqueta-form" text="Correo" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                        <TextField fx:id="txtCorreoCliente" promptText="cliente@ejemplo.com" styleClass="text-field-form" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-
-                        <Label styleClass="etiqueta-form" text="Teléfono" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                        <TextField fx:id="txtTelefonoCliente" promptText="(555) 123-4567" styleClass="text-field-form" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-
-                        <Label styleClass="etiqueta-form" text="Moneda" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <ComboBox fx:id="cbMoneda" maxWidth="Infinity" promptText="Soles (S/)" styleClass="combo-box-form" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                    </GridPane>
-
-                    <VBox spacing="5.0">
-                        <Label styleClass="etiqueta-form" text="Observación" />
-                        <TextArea fx:id="txtObservacion" prefRowCount="2" promptText="Observaciones adicionales..." styleClass="text-area-form" />
-                    </VBox>
-
-                    <VBox spacing="5.0">
-                        <Label styleClass="etiqueta-form" text="Cargo/Descuentos" />
-                        <ComboBox fx:id="cbDescuentos" maxWidth="Infinity" promptText="Sin descuento" styleClass="combo-box-form" />
-                    </VBox>
-
-                    <Button fx:id="btnGuardarCliente" maxWidth="Infinity" mnemonicParsing="false" styleClass="btn-secundario" text="Guardar Cambios" />
+                <VBox spacing="5.0">
+                    <Label styleClass="etiqueta-form" text="Observación" />
+                    <TextArea fx:id="txtObservacion" prefRowCount="2" promptText="Observaciones adicionales..." styleClass="text-area-form" />
                 </VBox>
+
+                <VBox spacing="5.0">
+                    <Label styleClass="etiqueta-form" text="Cargo/Descuentos" />
+                    <ComboBox fx:id="cbDescuentos" maxWidth="Infinity" promptText="Sin descuento" styleClass="combo-box-form" />
+                </VBox>
+
+                <Button fx:id="btnGuardarCliente" maxWidth="Infinity" mnemonicParsing="false" styleClass="btn-secundario" text="Guardar Cambios" />
+            </VBox>
 
             <VBox spacing="10.0">
                 <HBox alignment="CENTER_LEFT">
@@ -129,7 +130,7 @@
 
                 <HBox spacing="10">
                     <Button fx:id="btnAgregarProducto" mnemonicParsing="false" styleClass="btn-link" text="+ Agregar otro producto" />
-                    <Button fx:id="btnEliminarProducto" text="Eliminar Producto"/>
+                    <Button fx:id="btnEliminarProducto" mnemonicParsing="false" styleClass="btn-eliminar" text="- Eliminar producto" />
                 </HBox>
 
                 <TableView fx:id="tablaDetalleVenta" prefHeight="250.0" styleClass="tabla-lista" VBox.vgrow="ALWAYS">

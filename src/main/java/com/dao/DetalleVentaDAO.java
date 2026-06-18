@@ -15,9 +15,9 @@ public class DetalleVentaDAO {
         try {
             Connection cn = ConexionDB.conectar();
             String sql = "INSERT INTO detalle_venta(" +
-                            "id_venta,id_producto,cantidad," +
-                            "precio_unitario,subtotal) " +
-                            "VALUES(?,?,?,?,?)";
+                    "id_venta,id_producto,cantidad," +
+                    "precio_unitario,subtotal) " +
+                    "VALUES(?,?,?,?,?)";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.setInt(1, idVenta);
             ps.setInt(2, idProducto);

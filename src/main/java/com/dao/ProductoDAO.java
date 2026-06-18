@@ -17,52 +17,64 @@ public class ProductoDAO {
     // ============================================================
     public Producto buscarPorCodigo(String codigo){
         String sql = "SELECT * FROM producto WHERE codigo_barras=?";
-        try (Connection cn = ConexionDB.conectar();
-             PreparedStatement ps = cn.prepareStatement(sql)) {
 
-            ps.setString(1, codigo);
-            ResultSet rs = ps.executeQuery();
+        // Solo obtenemos la conexión primero
+        try (Connection cn = ConexionDB.conectar()) {
 
-            if(rs.next()){
-                return new Producto(
-                        rs.getInt("id_producto"),
-                        rs.getString("codigo_barras"),
-                        rs.getString("nombre"),
-                        rs.getDouble("precio"),
-                        rs.getInt("stock")
-                );
+            // Verificamos que no sea nula para evitar el NullPointerException
+            if (cn == null) {
+                logger.error("No se pudo conectar a la base de datos.");
+                return null;
             }
 
+            // Ahora sí preparamos el statement
+            try (PreparedStatement ps = cn.prepareStatement(sql)) {
+                ps.setString(1, codigo);
+                ResultSet rs = ps.executeQuery();
+
+                if(rs.next()){
+                    return new Producto(
+                            rs.getInt("id_producto"),
+                            rs.getString("codigo_barras"),
+                            rs.getString("nombre"),
+                            rs.getDouble("precio"),
+                            rs.getInt("stock")
+                    );
+                }
+            }
         } catch(Exception e){
             logger.error("Error al consultar el producto con código de barras: {}", codigo, e);
         }
         return null;
     }
 
+
     // ============================================================
     //  BUSCAR POR NOMBRE (LIKE)
     // ============================================================
-    public Producto buscarPorNombre(String nombre) {
-        String sql = "SELECT * FROM producto WHERE nombre LIKE ?";
+    public List<Producto> buscarPorNombre(String nombreParcial) {
+        List<Producto> lista = new ArrayList<>();
+        String sql = "SELECT * FROM producto WHERE nombre LIKE ? AND estado = 'Activo'"; // Solo productos activos
+
         try (Connection cn = ConexionDB.conectar();
              PreparedStatement ps = cn.prepareStatement(sql)) {
 
-            ps.setString(1, "%" + nombre + "%");
+            ps.setString(1, nombreParcial);
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
-                return new Producto(
+            while (rs.next()) {
+                lista.add(new Producto(
                         rs.getInt("id_producto"),
                         rs.getString("codigo_barras"),
                         rs.getString("nombre"),
                         rs.getDouble("precio"),
                         rs.getInt("stock")
-                );
+                ));
             }
         } catch (Exception e) {
-            logger.error("Error al buscar por nombre: {}", nombre, e);
+            logger.error("Error al buscar por nombre: {}", nombreParcial, e);
         }
-        return null;
+        return lista;
     }
 
     // ============================================================
@@ -70,13 +82,22 @@ public class ProductoDAO {
     // ============================================================
     public boolean existeCodigo(String codigo) {
         String sql = "SELECT COUNT(*) FROM producto WHERE codigo_barras=?";
-        try (Connection cn = ConexionDB.conectar();
-             PreparedStatement ps = cn.prepareStatement(sql)) {
+        // 1. Primero obtenemos la conexión
+        try (Connection cn = ConexionDB.conectar()) {
 
-            ps.setString(1, codigo);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getInt(1) > 0;
+            // 2. Verificamos que no sea nula ANTES de preparar el statement
+            if (cn == null) {
+                logger.error("Conexión nula al verificar código.");
+                return false;
+            }
+
+            // 3. Ahora sí preparamos el statement
+            try (PreparedStatement ps = cn.prepareStatement(sql)) {
+                ps.setString(1, codigo);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
             }
         } catch (Exception e) {
             logger.error("Error al verificar existencia del código: {}", codigo, e);
@@ -104,21 +125,26 @@ public class ProductoDAO {
     }
 
     // ============================================================
-    //  GUARDAR NUEVO PRODUCTO
+    //  GUARDAR NUEVO PRODUCTO (Corregido para evitar NullPointer)
     // ============================================================
     public boolean guardarProducto(Producto p) {
         String sql = "INSERT INTO producto (codigo_barras, nombre, precio, stock) VALUES (?, ?, ?, ?)";
-        try (Connection cn = ConexionDB.conectar();
-             PreparedStatement ps = cn.prepareStatement(sql)) {
 
-            ps.setString(1, p.getCodigo_barras());
-            ps.setString(2, p.getNombre());
-            ps.setDouble(3, p.getPrecio());
-            ps.setInt(4, p.getStock());
+        try (Connection cn = ConexionDB.conectar()) {
+            if (cn == null) {
+                logger.error("No se pudo conectar a la base de datos para guardar el producto.");
+                return false;
+            }
 
-            int filasAfectadas = ps.executeUpdate();
-            return filasAfectadas > 0;
+            try (PreparedStatement ps = cn.prepareStatement(sql)) {
+                ps.setString(1, p.getCodigo_barras());
+                ps.setString(2, p.getNombre());
+                ps.setDouble(3, p.getPrecio());
+                ps.setInt(4, p.getStock());
 
+                int filasAfectadas = ps.executeUpdate();
+                return filasAfectadas > 0;
+            }
         } catch(Exception e){
             logger.error("Error al guardar el producto: {}", p.getNombre(), e);
             return false;

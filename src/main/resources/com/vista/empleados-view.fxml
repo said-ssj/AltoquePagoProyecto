@@ -42,14 +42,11 @@
             </children>
         </HBox>
 
-        <TableView fx:id="tablaVentas" stylesheets="@../stylesCSS/Style-Tables.css" VBox.vgrow="ALWAYS">
+        <TableView fx:id="tablaEmpleados" stylesheets="@../stylesCSS/Style-Tables.css" VBox.vgrow="ALWAYS">
             <columns>
-                <TableColumn fx:id="colId" prefWidth="80.0" text="ID" />
-                <TableColumn fx:id="colFecha" prefWidth="130.0" text="Fecha" />
-                <TableColumn fx:id="colCliente" prefWidth="200.0" text="Cliente" />
-                <TableColumn fx:id="colProductos" prefWidth="120.0" text="Productos" />
-                <TableColumn fx:id="colTotal" prefWidth="120.0" text="Total" />
-                <TableColumn fx:id="colEstado" prefWidth="120.0" text="Estado" />
+                <TableColumn fx:id="colNombre" prefWidth="250.0" text="Nombre del Empleado" />
+                <TableColumn fx:id="colEmail" prefWidth="300.0" text="Correo Electrónico" />
+                <TableColumn fx:id="colRol" prefWidth="180.0" text="Rol / Puesto" />
             </columns>
             <styleClass>
                 <String fx:value="tabla" />
