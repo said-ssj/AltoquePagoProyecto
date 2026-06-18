@@ -103,21 +103,29 @@ public class ProductoDAO {
     // ============================================================
     //  ACTUALIZAR STOCK AL VENDER
     // ============================================================
-    public void actualizarStock(int idProducto, int cantidad) {
-        String sql = "UPDATE producto SET stock = stock - ? WHERE id_producto=?";
+    public boolean actualizarStock(int idProducto, int cantidad) {
+        String sql = "UPDATE producto SET stock = stock - ? WHERE id_producto=? AND stock >= ?";
 
         try (Connection cn = ConexionDB.conectar()) {
-            if (cn == null) return;
+            if (cn == null) return false;
 
             try (PreparedStatement ps = cn.prepareStatement(sql)) {
                 ps.setInt(1, cantidad);
                 ps.setInt(2, idProducto);
-                ps.executeUpdate();
+                ps.setInt(3,cantidad);
 
-                System.out.println("Stock actualizado. Producto ID: " + idProducto + " | Cantidad descontada: " + cantidad);
+                int filasAfectadas = ps.executeUpdate();
+
+                // Si filasAfectadas es 0, significa que no se actualizó porque el stock era menor a la cantidad
+                if (filasAfectadas == 0) {
+                    System.out.println("No hay stock suficiente para el producto ID: " + idProducto);
+                    return false;
+                }
+                return true;
             }
         } catch(Exception e){
             logger.error("Error al actualizar el stock. ID Producto: {}, Cantidad a restar: {}", idProducto, cantidad, e);
+            return false;
         }
     }
 

@@ -73,6 +73,10 @@ public class ControladorNuevaVenta {
     @FXML
     public void initialize() {
 
+        // Bloquear edición manual de precios y subtotales
+        txtPrecio.setEditable(false);
+        txtSubtotal.setEditable(false);
+
         // Ocultar panel de cliente al inicio (Asegurarnos de que arranque cerrado)
         panelDatosCliente.setVisible(false);
         panelDatosCliente.setManaged(false);
@@ -347,7 +351,36 @@ public class ControladorNuevaVenta {
             String precio = txtPrecio.getText();
             double subtotal = Double.parseDouble(txtSubtotal.getText());
             int cantidadSolicitada = Integer.parseInt(txtCantidad.getText());
+            // Calcular cuánto de este producto ya está en el carrito
+            int cantidadYaEnCarrito = 0;
+            for (DetalleVenta d : detallesVenta) {
+                if (d.getIdProducto() == productoSeleccionado.getId_producto()) {
+                    cantidadYaEnCarrito += d.getCantidad();
+                }
+            }
 
+            // Validar la cantidad sumada total contra el stock real
+            if ((cantidadSolicitada + cantidadYaEnCarrito) > productoSeleccionado.getStock()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Stock insuficiente");
+                alert.setHeaderText(null);
+                alert.setContentText("No puedes agregar esta cantidad. Ya tienes " + cantidadYaEnCarrito +
+                        " en el carrito y el stock total es " + productoSeleccionado.getStock() + ".");
+                alert.showAndWait();
+                return;
+            }
+
+            // Evitar que vendan cantidades negativas o cero
+            if (cantidadSolicitada <= 0) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Cantidad inválida");
+                alert.setHeaderText(null);
+                alert.setContentText("La cantidad a vender debe ser al menos 1.");
+                alert.showAndWait();
+                return; // Detenemos la ejecución aquí
+            }
+
+            //Evitar que se venden cantidades insuficientes de stock
             if(cantidadSolicitada > productoSeleccionado.getStock()){
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Stock insuficiente");
@@ -475,7 +508,25 @@ public class ControladorNuevaVenta {
                 return;
             }
 
+            // Calcular el total real aplicando el descuento seleccionado
             double total = totalVenta;
+            String descuentoSeleccionado = cbDescuentos.getValue();
+
+            if (descuentoSeleccionado != null && !descuentoSeleccionado.equals("SIN DESCUENTO")) {
+                try {
+                    // Extraer solo el número (ej: sacar el "10" de "10%")
+                    String porcentajeStr = descuentoSeleccionado.replace("%", "").trim();
+                    double porcentaje = Double.parseDouble(porcentajeStr);
+
+                    // Restar el descuento al total
+                    double montoDescuento = total * (porcentaje / 100.0);
+                    total = total - montoDescuento;
+
+                    System.out.println("Descuento aplicado: " + porcentaje + "%. Total final: " + total);
+                } catch (Exception ex) {
+                    System.err.println("Error al aplicar el descuento: " + ex.getMessage());
+                }
+            }
             VentaDAO ventaDAO = new VentaDAO();
             int idVenta = ventaDAO.guardarVenta(idCliente, total);
 
@@ -530,13 +581,33 @@ public class ControladorNuevaVenta {
     }
 
     private void eliminarProducto() {
-        ItemVenta item = tablaDetalleVenta.getSelectionModel().getSelectedItem();
-        if(item == null){
+        // Obtener el índice (la fila) que el usuario seleccionó en la tabla
+        int index = tablaDetalleVenta.getSelectionModel().getSelectedIndex();
+
+        // Si no hay nada seleccionado, no hacemos nada
+        if(index < 0){
             return;
         }
+
+        // Obtener el ítem visual para saber cuánto dinero restar
+        ItemVenta item = listaItems.get(index);
+
+        // Restar el subtotal del total de la venta
         totalVenta -= item.getSubtotal();
-        lblTotal.setText("S/ " + String.format("%.2f", totalVenta));
-        listaItems.remove(item);
+
+        // Evitar que queden decimales negativos raros por problemas de Java (ej. -0.00)
+        if (totalVenta < 0.01) {
+            totalVenta = 0.0;
+        }
+
+        lblTotal.setText("S/ " + String.format(java.util.Locale.US, "%.2f", totalVenta));
+
+        // ELIMINAR EL PRODUCTO DE TODAS LAS LISTAS
+        listaItems.remove(index);       // Lo quita de la pantalla
+        detallesVenta.remove(index);    // Lo quita de la base de datos para que no se guarde
+        productosVenta.remove(index);   // Lo quita de tu registro en memoria
+
+        System.out.println("Producto eliminado correctamente. Ítems restantes en BD: " + detallesVenta.size());
     }
 
     private void limpiarFormulario() {

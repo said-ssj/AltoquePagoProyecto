@@ -16,13 +16,17 @@ public class ConexionDB {
                 System.out.println("No se encontro db.properties");
                 return null;
             }
+
             prop.load(input);
+
             String url = prop.getProperty("db.url");
             String usuario = prop.getProperty("db.user");
             String clave = prop.getProperty("db.password");
+
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             conexion = DriverManager.getConnection(url, usuario, clave);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
