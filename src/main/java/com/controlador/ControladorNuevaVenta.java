@@ -178,7 +178,7 @@ public class ControladorNuevaVenta {
                 // MODO BÚSQUEDA MANUAL: Muestra el menú de resultados
                 if (newValue.trim().length() >= 2) {
                     ProductoDAO dao = new ProductoDAO();
-                    List<Producto> resultados = dao.buscarListaPorNombre(newValue.trim());
+                    List<Producto> resultados = dao.buscarPorNombre(newValue.trim());
 
                     if (!resultados.isEmpty()) {
                         mostrarResultados(resultados);
@@ -243,7 +243,7 @@ public class ControladorNuevaVenta {
 
         if (btnModoBusqueda.isSelected()) {
             // MODO BÚSQUEDA MANUAL
-            List<Producto> resultados = dao.buscarListaPorNombre(texto.trim());
+            List<Producto> resultados = dao.buscarPorNombre(texto.trim());
 
             if (resultados != null && !resultados.isEmpty()) {
                 productoSeleccionado = resultados.get(0);

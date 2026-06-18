@@ -18,16 +18,12 @@ public class ProductoDAO {
     public Producto buscarPorCodigo(String codigo){
         String sql = "SELECT * FROM producto WHERE codigo_barras=?";
 
-        // Solo obtenemos la conexión primero
         try (Connection cn = ConexionDB.conectar()) {
-
-            // Verificamos que no sea nula para evitar el NullPointerException
             if (cn == null) {
                 logger.error("No se pudo conectar a la base de datos.");
                 return null;
             }
 
-            // Ahora sí preparamos el statement
             try (PreparedStatement ps = cn.prepareStatement(sql)) {
                 ps.setString(1, codigo);
                 ResultSet rs = ps.executeQuery();
@@ -48,28 +44,30 @@ public class ProductoDAO {
         return null;
     }
 
-
     // ============================================================
-    //  BUSCAR POR NOMBRE (LIKE)
+    //  BUSCAR POR NOMBRE (LIKE) - CORREGIDO (Sin columna 'estado')
     // ============================================================
     public List<Producto> buscarPorNombre(String nombreParcial) {
         List<Producto> lista = new ArrayList<>();
-        String sql = "SELECT * FROM producto WHERE nombre LIKE ? AND estado = 'Activo'"; // Solo productos activos
+        // Se quitó "AND estado = 'Activo'" porque no existe en MySQL actual
+        String sql = "SELECT * FROM producto WHERE nombre LIKE ?";
 
-        try (Connection cn = ConexionDB.conectar();
-             PreparedStatement ps = cn.prepareStatement(sql)) {
+        try (Connection cn = ConexionDB.conectar()) {
+            if (cn == null) return lista;
 
-            ps.setString(1, nombreParcial);
-            ResultSet rs = ps.executeQuery();
+            try (PreparedStatement ps = cn.prepareStatement(sql)) {
+                ps.setString(1, "%" + nombreParcial + "%"); // Añadimos los % para que funcione el LIKE
+                ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
-                lista.add(new Producto(
-                        rs.getInt("id_producto"),
-                        rs.getString("codigo_barras"),
-                        rs.getString("nombre"),
-                        rs.getDouble("precio"),
-                        rs.getInt("stock")
-                ));
+                while (rs.next()) {
+                    lista.add(new Producto(
+                            rs.getInt("id_producto"),
+                            rs.getString("codigo_barras"),
+                            rs.getString("nombre"),
+                            rs.getDouble("precio"),
+                            rs.getInt("stock")
+                    ));
+                }
             }
         } catch (Exception e) {
             logger.error("Error al buscar por nombre: {}", nombreParcial, e);
@@ -82,16 +80,13 @@ public class ProductoDAO {
     // ============================================================
     public boolean existeCodigo(String codigo) {
         String sql = "SELECT COUNT(*) FROM producto WHERE codigo_barras=?";
-        // 1. Primero obtenemos la conexión
-        try (Connection cn = ConexionDB.conectar()) {
 
-            // 2. Verificamos que no sea nula ANTES de preparar el statement
+        try (Connection cn = ConexionDB.conectar()) {
             if (cn == null) {
                 logger.error("Conexión nula al verificar código.");
                 return false;
             }
 
-            // 3. Ahora sí preparamos el statement
             try (PreparedStatement ps = cn.prepareStatement(sql)) {
                 ps.setString(1, codigo);
                 ResultSet rs = ps.executeQuery();
@@ -110,22 +105,24 @@ public class ProductoDAO {
     // ============================================================
     public void actualizarStock(int idProducto, int cantidad) {
         String sql = "UPDATE producto SET stock = stock - ? WHERE id_producto=?";
-        try (Connection cn = ConexionDB.conectar();
-             PreparedStatement ps = cn.prepareStatement(sql)) {
 
-            ps.setInt(1, cantidad);
-            ps.setInt(2, idProducto);
-            ps.executeUpdate();
+        try (Connection cn = ConexionDB.conectar()) {
+            if (cn == null) return;
 
-            System.out.println("Stock actualizado. Producto ID: " + idProducto + " | Cantidad descontada: " + cantidad);
+            try (PreparedStatement ps = cn.prepareStatement(sql)) {
+                ps.setInt(1, cantidad);
+                ps.setInt(2, idProducto);
+                ps.executeUpdate();
 
+                System.out.println("Stock actualizado. Producto ID: " + idProducto + " | Cantidad descontada: " + cantidad);
+            }
         } catch(Exception e){
             logger.error("Error al actualizar el stock. ID Producto: {}, Cantidad a restar: {}", idProducto, cantidad, e);
         }
     }
 
     // ============================================================
-    //  GUARDAR NUEVO PRODUCTO (Corregido para evitar NullPointer)
+    //  GUARDAR NUEVO PRODUCTO
     // ============================================================
     public boolean guardarProducto(Producto p) {
         String sql = "INSERT INTO producto (codigo_barras, nombre, precio, stock) VALUES (?, ?, ?, ?)";
@@ -151,33 +148,33 @@ public class ProductoDAO {
         }
     }
 
-    public List<Producto> listarProductos() {
-
+    // ============================================================
+    //  OBTENER TODOS LOS PRODUCTOS (Renombrado para tu Controlador)
+    // ============================================================
+    public List<Producto> obtenerTodos() {
         List<Producto> lista = new ArrayList<>();
-
         String sql = "SELECT * FROM producto";
 
-        try (Connection cn = ConexionDB.conectar();
-             PreparedStatement ps = cn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection cn = ConexionDB.conectar()) {
+            if (cn == null) return lista;
 
-            while (rs.next()) {
+            try (PreparedStatement ps = cn.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
 
-                Producto p = new Producto(
-                        rs.getInt("id_producto"),
-                        rs.getString("codigo_barras"),
-                        rs.getString("nombre"),
-                        rs.getDouble("precio"),
-                        rs.getInt("stock")
-                );
-
-                lista.add(p);
+                while (rs.next()) {
+                    Producto p = new Producto(
+                            rs.getInt("id_producto"),
+                            rs.getString("codigo_barras"),
+                            rs.getString("nombre"),
+                            rs.getDouble("precio"),
+                            rs.getInt("stock")
+                    );
+                    lista.add(p);
+                }
             }
-
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error al listar los productos", e);
         }
-
         return lista;
     }
 }
