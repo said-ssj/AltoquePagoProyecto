@@ -2,6 +2,7 @@ package com.dao;
 
 import com.DB.ConexionDB;
 import com.modelo.UsuarioPersonal;
+import com.servicio.Seguridad; // Importación necesaria para el Login
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -69,7 +70,6 @@ public class UsuarioPersonalDAO {
                 u.setNombre(rs.getString("nombre"));
                 u.setEmail(rs.getString("email"));
                 u.setIdRol(rs.getInt("id_rol"));
-                // Puedes extraer los demás campos aquí si planeas mostrarlos en la tabla visualmente
 
                 lista.add(u);
             }
@@ -77,5 +77,41 @@ public class UsuarioPersonalDAO {
             e.printStackTrace();
         }
         return lista;
+    }
+
+    // ============================================================
+    //  AUTENTICAR USUARIO (Para el Login seguro con SHA-256)
+    // ============================================================
+    public UsuarioPersonal autenticarUsuario(String email, String passwordTextoPlano) {
+        String sql = "SELECT * FROM usuario_personal WHERE email = ? AND contraseña = ?";
+
+        try (Connection cn = ConexionDB.conectar()) {
+            if (cn == null) return null;
+
+            try (PreparedStatement ps = cn.prepareStatement(sql)) {
+                ps.setString(1, email);
+
+                // Encriptamos la contraseña digitada para compararla con el Hash guardado en MySQL
+                String passwordEncriptado = Seguridad.encriptarPassword(passwordTextoPlano);
+                ps.setString(2, passwordEncriptado);
+
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        UsuarioPersonal u = new UsuarioPersonal();
+                        u.setIdUsuario(rs.getInt("id_usuario"));
+                        u.setNombre(rs.getString("nombre"));
+                        u.setEmail(rs.getString("email"));
+                        u.setContraseña(rs.getString("contraseña"));
+                        u.setIdRol(rs.getInt("id_rol"));
+
+                        return u; // Login exitoso
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error al autenticar al usuario.");
+            e.printStackTrace();
+        }
+        return null; // Credenciales incorrectas o error de BD
     }
 }
