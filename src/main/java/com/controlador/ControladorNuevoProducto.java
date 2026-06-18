@@ -165,6 +165,22 @@ public class ControladorNuevoProducto {
             return;
         }
 
+        // Evitar precio cero o negativo
+        if (precio <= 0) {
+            mostrarAlerta(Alert.AlertType.WARNING,
+                    "Precio inválido", "El precio de venta debe ser mayor a 0.");
+            txtPrecioVenta.requestFocus();
+            return;
+        }
+
+        // Evitar stock negativo
+        if (stock < 0) {
+            mostrarAlerta(Alert.AlertType.WARNING,
+                    "Stock inválido", "El stock inicial no puede ser un número negativo.");
+            txtStockInicial.requestFocus();
+            return;
+        }
+
         // Construir el objeto Producto
         // Nota:
         // Usamos el constructor con parámetros que ya hay en el DAO.

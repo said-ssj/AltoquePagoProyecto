@@ -72,10 +72,12 @@ public class ControladorVentas {
                     badge.setPadding(new Insets(4, 12, 4, 12));
                     badge.setStyle("-fx-background-radius: 12px; -fx-font-size: 12px; -fx-font-weight: bold;");
 
-                    if (item.equalsIgnoreCase("Completada")) {
+                    if (item.equalsIgnoreCase("Pagado")) {
                         badge.setStyle(badge.getStyle() + "-fx-background-color: #dcfce7; -fx-text-fill: #166534;");
                     } else if (item.equalsIgnoreCase("Pendiente")) {
                         badge.setStyle(badge.getStyle() + "-fx-background-color: #fef9c3; -fx-text-fill: #854d0e;");
+                    } else if (item.equalsIgnoreCase("Rechazado")) {
+                        badge.setStyle(badge.getStyle() + "-fx-background-color: #fad1d0; -fx-text-fill: #a61511;");
                     }
                     setGraphic(badge);
                 }
