@@ -151,66 +151,33 @@ public class ProductoDAO {
         }
     }
 
-    // ============================================================
-    //  OBTENER TODOS LOS PRODUCTOS (Nuevo para la Tabla)
-    // ============================================================
-    public List<Producto> obtenerTodos() {
+    public List<Producto> listarProductos() {
+
         List<Producto> lista = new ArrayList<>();
+
         String sql = "SELECT * FROM producto";
 
-        try (Connection cn = ConexionDB.conectar()) {
-            if (cn == null) return lista;
+        try (Connection cn = ConexionDB.conectar();
+             PreparedStatement ps = cn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-            try (PreparedStatement ps = cn.prepareStatement(sql);
-                 ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
 
-                while (rs.next()) {
-                    lista.add(new Producto(
-                            rs.getInt("id_producto"),
-                            rs.getString("codigo_barras"),
-                            rs.getString("nombre"),
-                            rs.getDouble("precio"),
-                            rs.getInt("stock")
-                    ));
-                }
+                Producto p = new Producto(
+                        rs.getInt("id_producto"),
+                        rs.getString("codigo_barras"),
+                        rs.getString("nombre"),
+                        rs.getDouble("precio"),
+                        rs.getInt("stock")
+                );
+
+                lista.add(p);
             }
+
         } catch (Exception e) {
-            logger.error("Error al obtener todos los productos", e);
+            e.printStackTrace();
         }
-        return lista;
-    }
 
-    // ============================================================
-    //  BUSCAR LISTA DE PRODUCTOS POR NOMBRE (PARA EL DESPLEGABLE)
-    // ============================================================
-    public List<Producto> buscarListaPorNombre(String nombreParcial) {
-        List<Producto> lista = new ArrayList<>();
-        String sql = "SELECT * FROM producto WHERE nombre LIKE ?";
-
-        try (Connection cn = ConexionDB.conectar()) {
-            if (cn == null) {
-                logger.error("No se pudo conectar a la base de datos.");
-                return lista;
-            }
-
-            try (PreparedStatement ps = cn.prepareStatement(sql)) {
-                // Buscamos cualquier coincidencia que contenga el texto
-                ps.setString(1, "%" + nombreParcial + "%");
-                ResultSet rs = ps.executeQuery();
-
-                while (rs.next()) {
-                    lista.add(new Producto(
-                            rs.getInt("id_producto"),
-                            rs.getString("codigo_barras"),
-                            rs.getString("nombre"),
-                            rs.getDouble("precio"),
-                            rs.getInt("stock")
-                    ));
-                }
-            }
-        } catch (Exception e) {
-            logger.error("Error al buscar lista por nombre: {}", nombreParcial, e);
-        }
         return lista;
     }
 }
