@@ -28,6 +28,9 @@ public class ControladorInicio {
     @FXML private Label lblTop4;
     @FXML private ProgressBar barTop4;
 
+    @FXML private javafx.scene.control.Button btnIrPuntoVenta;
+    @FXML private javafx.scene.control.Button btnEscanearProductos;
+
     @FXML
     public void abrirPuntoVenta(javafx.event.ActionEvent event) {
         cambiarVistaCentro(event, "nuevaventa-view.fxml");
@@ -72,6 +75,26 @@ public class ControladorInicio {
         // 4to Producto
         lblTop4.setText("Monitor LG 27\"");
         barTop4.setProgress(0.15);
+    }
+
+    // =========================================================
+    // LÓGICA DE PERMISOS PARA ACCESOS RÁPIDOS
+    // =========================================================
+    public void configurarAccesosRapidos(int idRol) {
+        // Asegurarnos de que los botones ya están cargados
+        if (btnIrPuntoVenta == null || btnEscanearProductos == null) return;
+
+        // idRol 1 = Administrador (Ve ambos, no hacemos nada)
+
+        if (idRol == 2) {
+            // VENDEDOR: Ocultamos el botón de Escanear Productos
+            btnEscanearProductos.setVisible(false);
+            btnEscanearProductos.setManaged(false);
+        } else if (idRol == 3) {
+            // ALMACÉN: Ocultamos el botón de Punto de Venta
+            btnIrPuntoVenta.setVisible(false);
+            btnIrPuntoVenta.setManaged(false);
+        }
     }
 
 }

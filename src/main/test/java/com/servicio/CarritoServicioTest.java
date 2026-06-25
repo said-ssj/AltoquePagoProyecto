@@ -11,7 +11,7 @@ public class CarritoServicioTest {
     public void agregarProductoIncrementaTotal() {
         CarritoServicio s = new CarritoServicio();
 
-        Producto p = new Producto(1, "123", "Leche", 4.50);
+        Producto p = new Producto(1, "123", "Leche", 4.50,10);
 
         s.agregarProducto(p);
         assertEquals(4.50, s.obtenerTotal(), "El total debe ser igual al precio del único producto agregado");

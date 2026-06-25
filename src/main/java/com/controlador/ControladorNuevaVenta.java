@@ -549,7 +549,7 @@ public class ControladorNuevaVenta {
             }
 
             PagoDAO pagoDAO = new PagoDAO();
-            pagoDAO.guardarPago(
+            pagoDAO.registrarPago(
                     idVenta,
                     cbMetodoPago.getValue(),
                     total,

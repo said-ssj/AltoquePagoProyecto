@@ -10,7 +10,7 @@ import java.time.Duration;
 
 public class ApiSunatServicio {
 
-    // REEMPLAZA ESTO CON TU TOKEN REAL GENERADO EN JSON.PE
+    // TOKEN GENERADO EN JSON.PE
     private static final String TOKEN = "5db222f8fa1e10b3a8f89ff40fd49524d9e6b583ea7237d38b655e037832";
 
     public static JsonObject consultarDocumento(String numero) {

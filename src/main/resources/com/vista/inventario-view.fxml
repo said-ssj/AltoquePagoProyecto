@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@../stylesCSS/Style-Tables.css, @../stylesCSS/Style-Inventario.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorInventario">
+    <center>
+        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+            <items>
+                <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: #f1f5f9;">
+                    <children>
+                        <Label styleClass="titulo-vista" text="Inventario de Productos" />
+                        <HBox spacing="10.0">
+                            <children>
+                                <TextField fx:id="txtBuscarProducto" prefHeight="35.0" prefWidth="300.0" promptText="Buscar producto por nombre o código..." />
+                                <Button mnemonicParsing="false" onAction="#buscarProducto" prefHeight="35.0" prefWidth="90.0" styleClass="btn-secundario" text="Buscar" />
+                            </children>
+                        </HBox>
+                        <TableView fx:id="tablaProductos" prefHeight="200.0" prefWidth="200.0" styleClass="tabla" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colProdId" prefWidth="50.0" text="ID" />
+                                <TableColumn fx:id="colProdCodigo" prefWidth="120.0" text="Código" />
+                                <TableColumn fx:id="colProdNombre" prefWidth="250.0" text="Producto" />
+                                <TableColumn fx:id="colProdPrecio" prefWidth="90.0" text="Precio (S/)" />
+                                <TableColumn fx:id="colProdStock" prefWidth="90.0" text="Stock Actual" />
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+                        </TableView>
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="20.0" right="10.0" top="20.0" />
+                    </padding>
+                </VBox>
+
+                <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" style="-fx-background-color: #f1f5f9;">
+                    <children>
+                        <Label fx:id="lblTituloKardex" styleClass="subtitulo-vista" text="Kardex: Seleccione un producto" />
+                        <TableView fx:id="tablaKardex" prefHeight="200.0" prefWidth="200.0" styleClass="tabla" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colKarFecha" prefWidth="130.0" text="Fecha y Hora" />
+                                <TableColumn fx:id="colKarTipo" prefWidth="100.0" text="Movimiento" />
+                                <TableColumn fx:id="colKarCantidad" prefWidth="90.0" text="Cantidad" />
+                                <TableColumn fx:id="colKarDescripcion" prefWidth="300.0" text="Descripción / Motivo" />
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                            </columnResizePolicy>
+                        </TableView>
+                    </children>
+                    <padding>
+                        <Insets bottom="20.0" left="20.0" right="10.0" top="10.0" />
+                    </padding>
+                </VBox>
+            </items>
+        </SplitPane>
+    </center>
+
+    <right>
+        <VBox prefHeight="700.0" prefWidth="320.0" spacing="15.0" style="-fx-background-color: #f1f5f9;" styleClass="panel-formulario" BorderPane.alignment="CENTER">
+            <children>
+                <Label styleClass="subtitulo-vista" text="Registrar Movimiento" />
+                <Separator prefWidth="200.0" />
+
+                <Label text="Producto:" />
+                <TextField fx:id="txtProductoSeleccionado" editable="false" prefHeight="35.0" prefWidth="280.0" promptText="Seleccione de la tabla..." styleClass="input-bloqueado" />
+
+                <Label text="Tipo de Movimiento:" />
+                <ComboBox fx:id="cbTipoMovimiento" prefHeight="35.0" prefWidth="280.0" promptText="Seleccione tipo..." />
+
+                <Label text="Cantidad:" />
+                <TextField fx:id="txtCantidad" prefHeight="35.0" prefWidth="280.0" promptText="Ej: 50" />
+
+                <Label text="Descripción o Motivo:" />
+                <TextArea fx:id="txtDescripcionMovimiento" prefHeight="80.0" prefWidth="280.0" promptText="Ej: Compra a proveedor distribuidor Coca Cola..." wrapText="true" />
+
+                <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0" VBox.vgrow="ALWAYS">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#guardarMovimiento" prefHeight="45.0" prefWidth="280.0" styleClass="btn-guardar-movimiento" text="Guardar Movimiento" />
+                        <Button mnemonicParsing="false" onAction="#limpiarFormulario" prefHeight="40.0" prefWidth="280.0" styleClass="btn-limpiar" text="Limpiar Campos" />
+                    </children>
+                    <padding>
+                        <Insets bottom="20.0" />
+                    </padding>
+                </VBox>
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+        </VBox>
+    </right>
+</BorderPane>

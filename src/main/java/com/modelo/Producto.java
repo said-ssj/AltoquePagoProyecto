@@ -29,9 +29,7 @@ public class Producto {
         return codigo_barras;
     }
 
-    public void setCodigo_barras(
-            String codigo_barras
-    ) {
+    public void setCodigo_barras(String codigo_barras) {
         this.codigo_barras = codigo_barras;
     }
 
@@ -39,9 +37,7 @@ public class Producto {
         return nombre;
     }
 
-    public void setNombre(
-            String nombre
-    ) {
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
@@ -49,13 +45,15 @@ public class Producto {
         return precio;
     }
 
-    public void setPrecio(
-            double precio
-    ) {
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
 
     public int getStock() {
         return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 }

@@ -50,7 +50,7 @@
                         <HBox alignment="CENTER_LEFT" styleClass="fila-permiso">
                             <VBox spacing="5.0" HBox.hgrow="ALWAYS">
                                 <Label styleClass="etiqueta-form" text="Módulo de Ventas" />
-                                <Label styleClass="texto-secundario" text="Acceso al punto de venta y registro de transacciones" />
+                                <Label styleClass="texto-secundario" text="Acceso al punto de venta y transacciones" />
                             </VBox>
                             <CheckBox fx:id="chkVentas" mnemonicParsing="false" styleClass="checkbox-switch" />
                         </HBox>
@@ -59,7 +59,7 @@
                         <HBox alignment="CENTER_LEFT" styleClass="fila-permiso">
                             <VBox spacing="5.0" HBox.hgrow="ALWAYS">
                                 <Label styleClass="etiqueta-form" text="Módulo de Productos" />
-                                <Label styleClass="texto-secundario" text="Creación, edición y control de inventario" />
+                                <Label styleClass="texto-secundario" text="Creación y edición de catálogo de productos" />
                             </VBox>
                             <CheckBox fx:id="chkProductos" mnemonicParsing="false" styleClass="checkbox-switch" />
                         </HBox>
@@ -67,8 +67,35 @@
 
                         <HBox alignment="CENTER_LEFT" styleClass="fila-permiso">
                             <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                <Label styleClass="etiqueta-form" text="Módulo de Ofertas" />
+                                <Label styleClass="texto-secundario" text="Gestión de descuentos y promociones" />
+                            </VBox>
+                            <CheckBox fx:id="chkOfertas" mnemonicParsing="false" styleClass="checkbox-switch" />
+                        </HBox>
+                        <Separator styleClass="separador-ligero" />
+
+                        <HBox alignment="CENTER_LEFT" styleClass="fila-permiso">
+                            <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                <Label styleClass="etiqueta-form" text="Módulo de Inventario" />
+                                <Label styleClass="texto-secundario" text="Control de stock, entradas y salidas" />
+                            </VBox>
+                            <CheckBox fx:id="chkInventario" mnemonicParsing="false" styleClass="checkbox-switch" />
+                        </HBox>
+                        <Separator styleClass="separador-ligero" />
+
+                        <HBox alignment="CENTER_LEFT" styleClass="fila-permiso">
+                            <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                <Label styleClass="etiqueta-form" text="Módulo de Caja y Arqueo" />
+                                <Label styleClass="texto-secundario" text="Apertura, cierre de caja y control de efectivo" />
+                            </VBox>
+                            <CheckBox fx:id="chkCaja" mnemonicParsing="false" styleClass="checkbox-switch" />
+                        </HBox>
+                        <Separator styleClass="separador-ligero" />
+
+                        <HBox alignment="CENTER_LEFT" styleClass="fila-permiso">
+                            <VBox spacing="5.0" HBox.hgrow="ALWAYS">
                                 <Label styleClass="etiqueta-form" text="Módulo de Empleados" />
-                                <Label styleClass="texto-secundario" text="Gestión de personal y contratos" />
+                                <Label styleClass="texto-secundario" text="Gestión de personal y accesos" />
                             </VBox>
                             <CheckBox fx:id="chkEmpleados" mnemonicParsing="false" styleClass="checkbox-switch" />
                         </HBox>
@@ -77,7 +104,7 @@
                         <HBox alignment="CENTER_LEFT" styleClass="fila-permiso">
                             <VBox spacing="5.0" HBox.hgrow="ALWAYS">
                                 <Label styleClass="etiqueta-form" text="Módulo de Reportes" />
-                                <Label styleClass="texto-secundario" text="Visualización de métricas y exportación de datos" />
+                                <Label styleClass="texto-secundario" text="Visualización de métricas y estadísticas" />
                             </VBox>
                             <CheckBox fx:id="chkReportes" mnemonicParsing="false" styleClass="checkbox-switch" />
                         </HBox>
@@ -86,7 +113,7 @@
                         <HBox alignment="CENTER_LEFT" styleClass="fila-permiso">
                             <VBox spacing="5.0" HBox.hgrow="ALWAYS">
                                 <Label styleClass="etiqueta-form" text="Configuración del Sistema" />
-                                <Label styleClass="texto-secundario" text="Acceso a roles, permisos y ajustes generales" />
+                                <Label styleClass="texto-secundario" text="Ajustes generales, impresoras y seguridad" />
                             </VBox>
                             <CheckBox fx:id="chkConfiguracion" mnemonicParsing="false" styleClass="checkbox-switch" />
                         </HBox>

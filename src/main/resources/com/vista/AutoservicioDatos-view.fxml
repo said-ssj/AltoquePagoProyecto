@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.*?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: transparent; -fx-background: #fafafa; -fx-border-color: transparent;" stylesheets="@../stylesCSS/Style-KioskoDatos.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorAutoservicioDatos">
+<ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-background-color: transparent; -fx-background: #fafafa; -fx-border-color: transparent;" stylesheets="@../stylesCSS/Style-KioskoDatos.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorAutoservicioDatos">
     <content>
         <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #fafafa;">
             <padding>
                 <Insets bottom="30.0" top="30.0" />
             </padding>
 
-            <VBox maxWidth="650.0" spacing="15.0" styleClass="tarjeta-formulario-kiosko">
+            <VBox maxWidth="669.0" prefHeight="570.0" prefWidth="669.0" spacing="15.0" styleClass="tarjeta-formulario-kiosko">
                 <padding>
                     <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
                 </padding>
@@ -32,7 +26,10 @@
                     <fx:define>
                         <ToggleGroup fx:id="grupoComprobante" />
                     </fx:define>
-                    <ToggleButton fx:id="btnBoleta" mnemonicParsing="false" prefWidth="180.0" selected="true" styleClass="btn-toggle-comprobante" text="Boleta" toggleGroup="$grupoComprobante" />
+                    <ToggleButton fx:id="btnBoleta" mnemonicParsing="false" prefWidth="180.0" selected="true" styleClass="btn-toggle-comprobante" text="Boleta">
+                  <toggleGroup>
+                     <ToggleGroup fx:id="grupoComprobante" />
+                  </toggleGroup></ToggleButton>
                     <ToggleButton fx:id="btnFactura" mnemonicParsing="false" prefWidth="180.0" styleClass="btn-toggle-comprobante" text="Factura" toggleGroup="$grupoComprobante" />
                 </HBox>
 
@@ -42,7 +39,7 @@
                         <Label styleClass="etiqueta-kiosko" text="DNI / RUC" />
                         <HBox spacing="10.0">
                             <TextField fx:id="txtDocumento" promptText="Número de documento" styleClass="input-kiosko" HBox.hgrow="ALWAYS" />
-                            <Button fx:id="btnBuscarDoc" mnemonicParsing="false" styleClass="btn-buscar-kiosko">
+                            <Button fx:id="btnBuscarDoc" mnemonicParsing="false" prefHeight="55.0" prefWidth="58.0" styleClass="btn-buscar-kiosko">
                                 <graphic>
                                     <FontIcon iconColor="#ffffff" iconLiteral="fas-search" iconSize="18" />
                                 </graphic>

@@ -12,8 +12,8 @@ public class TestCarrito {
 
         CarritoServicio carrito = new CarritoServicio();
 
-        Producto galleta = new Producto(1, "7590011251100", "Oreo clásica (paquete comercial de 36 g)", 2.00);
-        Producto gaseosa = new Producto(2, "7750236173896", "Inca Kola de 500 ml", 3.50);
+        Producto galleta = new Producto(1, "7590011251100", "Oreo clásica (paquete comercial de 36 g)", 2.00,10);
+        Producto gaseosa = new Producto(2, "7750236173896", "Inca Kola de 500 ml", 3.50,10);
 
         carrito.agregarProducto(galleta);
         carrito.agregarProducto(galleta);
