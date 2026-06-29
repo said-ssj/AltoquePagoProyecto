@@ -55,6 +55,18 @@ public class ControladorPrincipal implements Initializable {
     @FXML
     public void abrirPerfiles() {cargarVista("perfiles-view.fxml");}
 
+    @FXML
+    public void abrirOfertas() {cargarVista("ofertas-view.fxml");}
+
+    @FXML
+    public void abrirInventario() {cargarVista("inventario-view.fxml");}
+
+    @FXML
+    public void abrirCaja() {cargarVista("caja-view.fxml");}
+
+    @FXML
+    public void abrirConfiguracion() {cargarVista("configuracion-view.fxml");}
+
     private void cargarVista(String nombreFxml) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vista/" + nombreFxml));
