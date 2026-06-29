@@ -428,7 +428,7 @@ public class ControladorNuevaVenta {
     @FXML
     public void abrirVentas(javafx.event.ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ventas-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vista/ventas-view.fxml"));
             javafx.scene.Parent vistaVentas = loader.load();
 
             javafx.scene.Node boton = (javafx.scene.Node) event.getSource();
@@ -549,7 +549,7 @@ public class ControladorNuevaVenta {
             }
 
             PagoDAO pagoDAO = new PagoDAO();
-            pagoDAO.registrarPago(
+            pagoDAO.guardarPago(
                     idVenta,
                     cbMetodoPago.getValue(),
                     total,

@@ -13,7 +13,7 @@ public class ProductoDAO {
     private static final Logger logger = LoggerFactory.getLogger(ProductoDAO.class);
 
     // ============================================================
-    //  BUSCAR POR CÓDIGO DE BARRAS (Usado en Kiosko y NuevaVenta)
+    //  BUSCAR POR CÓDIGO DE BARRAS
     // ============================================================
     public Producto buscarPorCodigo(String codigo){
         String sql = "SELECT * FROM producto WHERE codigo_barras=?";
@@ -45,17 +45,18 @@ public class ProductoDAO {
     }
 
     // ============================================================
-    //  BUSCAR POR NOMBRE (LIKE)
+    //  BUSCAR POR NOMBRE (LIKE) - CORREGIDO (Sin columna 'estado')
     // ============================================================
     public List<Producto> buscarPorNombre(String nombreParcial) {
         List<Producto> lista = new ArrayList<>();
+        // Se quitó "AND estado = 'Activo'" porque no existe en MySQL actual
         String sql = "SELECT * FROM producto WHERE nombre LIKE ?";
 
         try (Connection cn = ConexionDB.conectar()) {
             if (cn == null) return lista;
 
             try (PreparedStatement ps = cn.prepareStatement(sql)) {
-                ps.setString(1, "%" + nombreParcial + "%");
+                ps.setString(1, "%" + nombreParcial + "%"); // Añadimos los % para que funcione el LIKE
                 ResultSet rs = ps.executeQuery();
 
                 while (rs.next()) {
@@ -100,7 +101,7 @@ public class ProductoDAO {
     }
 
     // ============================================================
-    //  ACTUALIZAR STOCK AL VENDER (USADO POR NUEVAVENTA)
+    //  ACTUALIZAR STOCK AL VENDER
     // ============================================================
     public boolean actualizarStock(int idProducto, int cantidad) {
         String sql = "UPDATE producto SET stock = stock - ? WHERE id_producto=? AND stock >= ?";
@@ -115,6 +116,7 @@ public class ProductoDAO {
 
                 int filasAfectadas = ps.executeUpdate();
 
+                // Si filasAfectadas es 0, significa que no se actualizó porque el stock era menor a la cantidad
                 if (filasAfectadas == 0) {
                     System.out.println("No hay stock suficiente para el producto ID: " + idProducto);
                     return false;
@@ -155,7 +157,7 @@ public class ProductoDAO {
     }
 
     // ============================================================
-    //  OBTENER TODOS LOS PRODUCTOS
+    //  OBTENER TODOS LOS PRODUCTOS (Renombrado para tu Controlador)
     // ============================================================
     public List<Producto> obtenerTodos() {
         List<Producto> lista = new ArrayList<>();
@@ -182,31 +184,5 @@ public class ProductoDAO {
             logger.error("Error al listar los productos", e);
         }
         return lista;
-    }
-
-    // ============================================================
-    //  NUEVO: ACTUALIZAR STOCK DESDE INVENTARIO / KARDEX
-    // ============================================================
-    public boolean actualizarStock(int idProducto, int cantidad, String tipoMovimiento) {
-        String sql;
-        // Si es ENTRADA sumamos al stock, si es SALIDA o MERMA restamos
-        if (tipoMovimiento.equalsIgnoreCase("ENTRADA") || tipoMovimiento.equalsIgnoreCase("AJUSTE_POSITIVO")) {
-            sql = "UPDATE producto SET stock = stock + ? WHERE id_producto = ?";
-        } else {
-            sql = "UPDATE producto SET stock = stock - ? WHERE id_producto = ?";
-        }
-
-        try (Connection cn = ConexionDB.conectar()) {
-            if (cn == null) return false;
-
-            try (PreparedStatement ps = cn.prepareStatement(sql)) {
-                ps.setInt(1, cantidad);
-                ps.setInt(2, idProducto);
-                return ps.executeUpdate() > 0;
-            }
-        } catch (Exception e) {
-            logger.error("Error al actualizar stock desde Inventario. ID Producto: {}", idProducto, e);
-            return false;
-        }
     }
 }

@@ -20,8 +20,10 @@
         <HBox alignment="CENTER_LEFT" prefWidth="953.0">
             <children>
                 <Label styleClass="titulo-principal" text="Ventas" />
-                <Pane HBox.hgrow="ALWAYS" />
-                <Button fx:id="btnNuevaVenta" onAction="#abrirNuevaVenta"  styleClass="boton-nuevo" text="+ Nueva Venta" />
+                <Pane HBox.hgrow="ALWAYS"/>
+                    <Button fx:id="btnEditar" layoutX="560.0" styleClass="boton-nuevo" text="Editar" />
+                    <Button fx:id="btnEliminar" layoutX="398.0" styleClass="boton-nuevo" text="Eliminar" />
+                    <Button fx:id="btnNuevaVenta" onAction="#abrirNuevaVenta" styleClass="boton-nuevo" text="+ Nueva Venta" />
             </children>
         </HBox>
 
@@ -31,10 +33,7 @@
                 <Label styleClass="icono-busqueda" text="🔍" />
                 <TextField fx:id="txtBuscarVenta" promptText="Buscar ventas..." styleClass="campo-busqueda" HBox.hgrow="ALWAYS" />
                 <Separator orientation="VERTICAL" prefHeight="28.0" styleClass="separador-busqueda" />
-                <ComboBox fx:id="cbFiltrosVentas"
-                          promptText="Filtros"
-                          styleClass="boton-filtros"
-                          prefWidth="120" />
+                <ComboBox fx:id="cbFiltrosVentas" prefWidth="120" promptText="Filtros" styleClass="boton-filtros" />
             </children>
         </HBox>
 
@@ -45,7 +44,7 @@
                 <TableColumn fx:id="colCliente" prefWidth="200.0" text="Cliente" />
                 <TableColumn fx:id="colProductos" prefWidth="120.0" text="Productos" />
                 <TableColumn fx:id="colTotal" prefWidth="120.0" text="Total" />
-                <TableColumn fx:id="colEstado" prefWidth="120.0" text="Estado"/>
+                <TableColumn fx:id="colEstado" prefWidth="120.0" text="Estado" />
             </columns>
         </TableView>
     </children>

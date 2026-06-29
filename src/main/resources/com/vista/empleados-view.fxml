@@ -3,6 +3,7 @@
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
@@ -12,11 +13,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.control.ComboBox?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="800.0" prefWidth="1013.0" spacing="20.0"
+      prefHeight="800.0" prefWidth="1060.0" spacing="20.0"
       styleClass="fondo-principal" stylesheets="@../stylesCSS/Style-Empleados.css"
-      xmlns="http://javafx.com/javafx/26"
+      xmlns="http://javafx.com/javafx/21"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.controlador.ControladorEmpleados">
     <padding>
@@ -24,37 +24,39 @@
     </padding>
     <children>
 
-        <HBox alignment="CENTER_LEFT" prefWidth="953.0">
+        <HBox alignment="CENTER_LEFT" prefWidth="1000.0">
             <children>
                 <Label text="Empleados" styleClass="titulo-principal" />
                 <Pane HBox.hgrow="ALWAYS" />
-                <Button fx:id="btnNuevoEmpleado" onAction="#abrirNuevoEmpleado" mnemonicParsing="false" text="+ Nuevo Empleado" styleClass="boton-nuevo" />
+                <Button fx:id="btnNuevoEmpleado" onAction="#abrirNuevoEmpleado"
+                        mnemonicParsing="false" text="+ Nuevo Empleado" styleClass="boton-nuevo" />
             </children>
         </HBox>
 
-        <HBox alignment="CENTER_LEFT" prefWidth="953.0" spacing="12.0" styleClass="barra-busqueda">
+        <HBox alignment="CENTER_LEFT" prefWidth="1000.0" spacing="12.0" styleClass="barra-busqueda">
             <padding><Insets bottom="14.0" left="16.0" right="16.0" top="14.0" /></padding>
             <children>
                 <Label text="🔍" styleClass="icono-busqueda" />
-                <TextField fx:id="txtBuscarEmpleado" promptText="Buscar empleados..." HBox.hgrow="ALWAYS" styleClass="campo-busqueda" />
+                <TextField fx:id="txtBuscarEmpleado" promptText="Buscar empleados..."
+                           HBox.hgrow="ALWAYS" styleClass="campo-busqueda" />
                 <Separator orientation="VERTICAL" prefHeight="28.0" styleClass="separador-busqueda" />
-                <ComboBox fx:id="cbFiltrosEmpleados" promptText="Filtros" styleClass="boton-filtros" prefWidth="120" />
+                <ComboBox fx:id="cbFiltrosEmpleados" promptText="Filtros"
+                          styleClass="boton-filtros" prefWidth="120" />
             </children>
         </HBox>
 
-        <TableView fx:id="tablaEmpleados" stylesheets="@../stylesCSS/Style-Tables.css" VBox.vgrow="ALWAYS">
+        <TableView fx:id="tablaEmpleados" stylesheets="" VBox.vgrow="ALWAYS">
             <columns>
-                <TableColumn fx:id="colNombre" prefWidth="250.0" text="Nombre del Empleado" />
-                <TableColumn fx:id="colEmail" prefWidth="300.0" text="Correo Electrónico" />
-                <TableColumn fx:id="colRol" prefWidth="180.0" text="Rol / Puesto" />
+                <TableColumn fx:id="colNombre"   prefWidth="220.0" text="Nombre del Empleado" />
+                <TableColumn fx:id="colEmail"    prefWidth="260.0" text="Correo Electrónico" />
+                <TableColumn fx:id="colTelefono" prefWidth="140.0" text="Teléfono" />
+                <TableColumn fx:id="colNumeroDocumento" prefWidth="140.0" text="Nº Documento" />
+                <TableColumn fx:id="colRol"      prefWidth="150.0" text="Rol / Puesto" />
+                <TableColumn fx:id="colAcciones" prefWidth="200.0" text="Acciones" />
             </columns>
+
             <styleClass>
                 <String fx:value="tabla" />
-                <String fx:value="column-header" />
-                <String fx:value="column-header-background" />
-                <String fx:value="label" />
-                <String fx:value="table-cell" />
-                <String fx:value="table-row-cell" />
             </styleClass>
         </TableView>
     </children>

@@ -8,9 +8,10 @@ public class Producto {
     private double precio;
     private int stock;
 
-    public Producto(){}
+    public Producto() {
+    }
 
-    public Producto(int id_producto, String codigo_barras, String nombre, double precio, int stock){
+    public Producto(int id_producto, String codigo_barras, String nombre, double precio, int stock) {
         this.id_producto = id_producto;
         this.codigo_barras = codigo_barras;
         this.nombre = nombre;
@@ -25,11 +26,14 @@ public class Producto {
     public void setId_producto(int id_producto) {
         this.id_producto = id_producto;
     }
+
     public String getCodigo_barras() {
         return codigo_barras;
     }
 
-    public void setCodigo_barras(String codigo_barras) {
+    public void setCodigo_barras(
+            String codigo_barras
+    ) {
         this.codigo_barras = codigo_barras;
     }
 
@@ -37,7 +41,9 @@ public class Producto {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
+    public void setNombre(
+            String nombre
+    ) {
         this.nombre = nombre;
     }
 
@@ -45,15 +51,16 @@ public class Producto {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(
+            double precio
+    ) {
         this.precio = precio;
-    }
-
-    public int getStock() {
-        return stock;
     }
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+    public int getStock() {
+        return stock;
     }
 }

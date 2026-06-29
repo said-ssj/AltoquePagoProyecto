@@ -1,13 +1,20 @@
 package com.controlador;
 
+import com.DB.ConexionDB;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 
 import java.io.IOException;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ResourceBundle;
 
-public class ControladorInicio {
+public class ControladorInicio implements Initializable{
     @FXML private Label lblVentasDelMes;
 
     @FXML private Label lblTotalDeProductos;
@@ -17,19 +24,14 @@ public class ControladorInicio {
     //  PRODUCTOS MÁS VENDIDOS
 
     @FXML private Label lblTop1;
-    @FXML private ProgressBar barTop1;
-
     @FXML private Label lblTop2;
-    @FXML private ProgressBar barTop2;
-
     @FXML private Label lblTop3;
-    @FXML private ProgressBar barTop3;
-
     @FXML private Label lblTop4;
-    @FXML private ProgressBar barTop4;
 
-    @FXML private javafx.scene.control.Button btnIrPuntoVenta;
-    @FXML private javafx.scene.control.Button btnEscanearProductos;
+    @FXML private ProgressBar barTop1;
+    @FXML private ProgressBar barTop2;
+    @FXML private ProgressBar barTop3;
+    @FXML private ProgressBar barTop4;
 
     @FXML
     public void abrirPuntoVenta(javafx.event.ActionEvent event) {
@@ -41,6 +43,14 @@ public class ControladorInicio {
         cambiarVistaCentro(event, "nuevoproducto-view.fxml");
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        cargarVentasDelMes();
+        cargarTotalProductos();
+        cargarProductosMasVendidos();
+        cargarCrecimiento();
+    }
     // Método reutilizable para inyectar vistas en el BorderPane principal
     private void cambiarVistaCentro(javafx.event.ActionEvent event, String fxml) {
         try {
@@ -58,43 +68,157 @@ public class ControladorInicio {
         }
     }
 
-    public void cargarProductosMasVendidos() {
+    private void cargarProductosMasVendidos() {
 
-        // 1er Producto
-        lblTop1.setText("Laptop Dell XPS 15");
-        barTop1.setProgress(0.85);
+        String sql = """
+        SELECT p.nombre,
+               SUM(dv.cantidad) AS vendidos
+        FROM detalle_venta dv
+        INNER JOIN producto p
+            ON dv.id_producto = p.id_producto
+        GROUP BY p.nombre
+        ORDER BY vendidos DESC
+        LIMIT 4
+    """;
 
-        // 2do Producto
-        lblTop2.setText("Mouse Logitech MX");
-        barTop2.setProgress(0.60);
+        try (Connection cn = ConexionDB.conectar();
+             PreparedStatement ps = cn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-        // 3er Producto
-        lblTop3.setText("Teclado Mecánico RGB");
-        barTop3.setProgress(0.40);
+            Label[] labels = {lblTop1, lblTop2, lblTop3, lblTop4};
+            ProgressBar[] bars = {barTop1, barTop2, barTop3, barTop4};
 
-        // 4to Producto
-        lblTop4.setText("Monitor LG 27\"");
-        barTop4.setProgress(0.15);
-    }
+            int index = 0;
+            int maxVentas = 1;
 
-    // =========================================================
-    // LÓGICA DE PERMISOS PARA ACCESOS RÁPIDOS
-    // =========================================================
-    public void configurarAccesosRapidos(int idRol) {
-        // Asegurarnos de que los botones ya están cargados
-        if (btnIrPuntoVenta == null || btnEscanearProductos == null) return;
+            // Obtener máximo para porcentaje
+            if (rs.next()) {
 
-        // idRol 1 = Administrador (Ve ambos, no hacemos nada)
+                maxVentas = rs.getInt("vendidos");
 
-        if (idRol == 2) {
-            // VENDEDOR: Ocultamos el botón de Escanear Productos
-            btnEscanearProductos.setVisible(false);
-            btnEscanearProductos.setManaged(false);
-        } else if (idRol == 3) {
-            // ALMACÉN: Ocultamos el botón de Punto de Venta
-            btnIrPuntoVenta.setVisible(false);
-            btnIrPuntoVenta.setManaged(false);
+                labels[0].setText(
+                        rs.getString("nombre") + " (" + maxVentas + ")"
+                );
+
+                bars[0].setProgress(1.0);
+
+                index = 1;
+            }
+            if (index == 0) {
+                lblTop1.setText("Sin ventas");
+                lblTop2.setText("Sin ventas");
+                lblTop3.setText("Sin ventas");
+                lblTop4.setText("Sin ventas");
+
+                barTop1.setProgress(0);
+                barTop2.setProgress(0);
+                barTop3.setProgress(0);
+                barTop4.setProgress(0);
+
+                return;
+            }
+
+            while (rs.next() && index < 4) {
+
+                int vendidos = rs.getInt("vendidos");
+
+                labels[index].setText(
+                        rs.getString("nombre") + " (" + vendidos + ")"
+                );
+
+                bars[index].setProgress(
+                        (double) vendidos / maxVentas
+                );
+
+                index++;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
+    private void cargarVentasDelMes() {
+
+        String sql = """
+        SELECT IFNULL(SUM(total),0) AS total_mes
+        FROM venta
+        WHERE MONTH(fecha_venta)=MONTH(CURDATE())
+        AND YEAR(fecha_venta)=YEAR(CURDATE())
+    """;
+
+        try (Connection cn = ConexionDB.conectar();
+             PreparedStatement ps = cn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                double total = rs.getDouble("total_mes");
+                lblVentasDelMes.setText("S/ " + String.format("%.2f", total));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void cargarTotalProductos() {
+
+        String sql = "SELECT COUNT(*) AS total FROM producto";
+
+        try (Connection cn = ConexionDB.conectar();
+             PreparedStatement ps = cn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+                lblTotalDeProductos.setText(
+                        String.valueOf(rs.getInt("total"))
+                );
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void cargarCrecimiento() {
+
+        String sql = """
+        SELECT
+        (
+            SELECT IFNULL(SUM(total),0)
+            FROM venta
+            WHERE MONTH(fecha_venta)=MONTH(CURDATE())
+            AND YEAR(fecha_venta)=YEAR(CURDATE())
+        ) AS actual,
+
+        (
+            SELECT IFNULL(SUM(total),0)
+            FROM venta
+            WHERE MONTH(fecha_venta)=MONTH(CURDATE()-INTERVAL 1 MONTH)
+            AND YEAR(fecha_venta)=YEAR(CURDATE()-INTERVAL 1 MONTH)
+        ) AS anterior
+    """;
+
+        try (Connection cn = ConexionDB.conectar();
+             PreparedStatement ps = cn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            if (rs.next()) {
+
+                double actual = rs.getDouble("actual");
+                double anterior = rs.getDouble("anterior");
+
+                double crecimiento = 0;
+
+                if (anterior > 0) {
+                    crecimiento = ((actual - anterior) / anterior) * 100;
+                }
+
+                lblCrecimiento.setText(
+                        String.format("%.1f%%", crecimiento)
+                );
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

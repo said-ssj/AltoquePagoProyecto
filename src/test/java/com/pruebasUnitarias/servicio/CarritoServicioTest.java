@@ -1,4 +1,4 @@
-package com.servicio;
+package com.pruebasUnitarias.servicio;
 
 import com.modelo.Producto;
 import com.servicio.CarritoServicio;

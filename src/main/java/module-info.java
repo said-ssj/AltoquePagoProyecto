@@ -1,14 +1,18 @@
 module com.example.altoquepagoproyecto {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.swing;
     requires mysql.connector.j;
-
-    // El permiso MySQL
     requires java.sql;
     requires org.slf4j;
     requires java.net.http;
     requires com.google.gson;
+    requires org.kordamp.ikonli.core;
+    requires org.kordamp.ikonli.javafx;
+
     opens com.controlador to javafx.fxml;
+    opens com.modelo to javafx.base;
+
     exports com.controlador;
     exports com.modelo;
 }

@@ -1,4 +1,4 @@
-package com.controlador;
+package com.pruebasUnitarias.controlador;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

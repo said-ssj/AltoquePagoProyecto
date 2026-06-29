@@ -14,6 +14,59 @@
 }
 
 /* =========================================
+   ESTILO DE TABLA "FLOTANTE"
+   ========================================= */
+/* Contenedor principal que da el efecto de tarjeta */
+.tabla {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 6, 0, 0, 1);
+}
+
+.tabla .column-header-background {
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #e2e8f0;
+}
+
+.tabla .column-header {
+    -fx-background-color: transparent;
+    -fx-size: 45px;
+}
+
+.tabla .column-header .label {
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 13px;
+    -fx-text-fill: #64748b;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 0 0 10px;
+}
+
+.tabla .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #f1f5f9;
+    -fx-cell-size: 50px;
+}
+
+.tabla .table-cell {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-text-fill: #1e293b;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 10px;
+}
+
+.tabla .table-row-cell:hover {
+    -fx-background-color: #f8fafc;
+}
+
+.tabla .table-row-cell:selected {
+    -fx-background-color: #e0f2fe;
+}
+/* =========================================
    ESTILOS DE BOTONES
    ========================================= */
 
@@ -102,4 +155,35 @@
 /* Línea separadora */
 .separator.separador-busqueda {
     -fx-opacity: 0.3;
+}
+/* ============================================================
+   BOTONES EDITAR / ELIMINAR EN TABLA
+   ============================================================ */
+
+.boton-editar {
+    -fx-background-color: #dbeafe;
+    -fx-text-fill: #1d4ed8;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 5px 12px;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.boton-editar:hover {
+    -fx-background-color: #bfdbfe;
+}
+
+.boton-eliminar {
+    -fx-background-color: #fee2e2;
+    -fx-text-fill: #dc2626;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 5px 12px;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.boton-eliminar:hover {
+    -fx-background-color: #fecaca;
 }

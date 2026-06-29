@@ -23,13 +23,12 @@ public class ControladorLogin {
     @FXML private Button btnEntrarGestion;
     @FXML private Button btnKiosko;
 
+    // Instanciamos el DAO para consultar la base de datos
     private final UsuarioPersonalDAO usuarioDAO = new UsuarioPersonalDAO();
-
-    // Variable para guardar quién inició sesión
-    private UsuarioPersonal usuarioActual;
 
     @FXML
     public void ingresarGestion(ActionEvent event) {
+        // Solo cambia de escena si las credenciales son válidas
         if (validarCredenciales()) {
             System.out.println("Iniciando sesión en Gestión...");
             cambiarEscena(event, "/com/vista/menu-view.fxml", false);
@@ -38,26 +37,35 @@ public class ControladorLogin {
 
     @FXML
     public void iniciarKiosko(ActionEvent event) {
-        // Ingreso directo al modo Kiosko sin requerir autenticación
-        System.out.println("Iniciando modo Kiosko de Autoservicio (Acceso Libre)...");
-        cambiarEscena(event, "/com/vista/AutoservicioCheckoutDividida-view.fxml", true);
+        // Exigimos que un empleado inicie sesión para activar el terminal de Kiosko
+        if (validarCredenciales()) {
+            System.out.println("Iniciando modo Kiosko de Autoservicio...");
+            cambiarEscena(event, "/com/vista/AutoservicioCheckoutDividida-view.fxml", true);
+        }
     }
 
+    /**
+     * Extrae los datos de los campos de texto, verifica que no estén vacíos
+     * y consulta la base de datos para autenticar al usuario.
+     */
     private boolean validarCredenciales() {
         String email = txtUsuario.getText().trim();
         String password = txtPassword.getText();
 
+        // Validar campos vacíos
         if (email.isEmpty() || password.isEmpty()) {
             mostrarAlerta(Alert.AlertType.WARNING, "Campos Vacíos", "Por favor, ingresa tu email y contraseña para continuar.");
             return false;
         }
 
-        // Guardamos el usuario en nuestra variable global de la clase
-        usuarioActual = usuarioDAO.autenticarUsuario(email, password);
+        // Validar contra la base de datos (Este método ya encripta la contraseña internamente)
+        UsuarioPersonal usuarioLogueado = usuarioDAO.autenticarUsuario(email, password);
 
-        if (usuarioActual != null) {
-            return true; // Login exitoso
+        if (usuarioLogueado != null) {
+            // Login exitoso
+            return true;
         } else {
+            // Login fallido
             mostrarAlerta(Alert.AlertType.ERROR, "Acceso Denegado", "El email o la contraseña son incorrectos. Intenta nuevamente.");
             return false;
         }
@@ -67,22 +75,18 @@ public class ControladorLogin {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Parent root = loader.load();
-
-            // Antes de mostrar la escena, le pasamos el ROL al Menú Principal
-            if (fxml.equals("/com/vista/menu-view.fxml")) {
-                ControladorPrincipal controllerMenu = loader.getController();
-                controllerMenu.configurarAccesos(usuarioActual.getIdRol());
-            }
-
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setResizable(true);
 
             if (modoKiosko) {
+                // MODO KIOSKO: Oculta la barra de tareas de Windows (Modo FullScreen inmersivo)
                 stage.setFullScreen(true);
-                stage.setFullScreenExitHint("");
+                stage.setFullScreenExitHint(""); // Quita el mensaje de "Presione ESC para salir"
             } else {
+                // MODO GESTIÓN: Se maximiza como un programa normal
                 stage.setMaximized(true);
             }
 
@@ -93,6 +97,9 @@ public class ControladorLogin {
         }
     }
 
+    /**
+     * Método auxiliar para mostrar ventanas emergentes de error o advertencia.
+     */
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alerta = new Alert(tipo);
         alerta.setTitle(titulo);
