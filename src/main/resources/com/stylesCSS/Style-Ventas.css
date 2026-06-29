@@ -142,3 +142,36 @@
 .tabla .table-row-cell:selected {
     -fx-background-color: #e0f2fe;
 }
+
+
+/* ============================================================
+   BOTONES EDITAR / ELIMINAR EN TABLA
+   ============================================================ */
+
+.boton-editar {
+    -fx-background-color: #dbeafe;
+    -fx-text-fill: #1d4ed8;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 5px 12px;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.boton-editar:hover {
+    -fx-background-color: #bfdbfe;
+}
+
+.boton-eliminar {
+    -fx-background-color: #fee2e2;
+    -fx-text-fill: #dc2626;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 5px 12px;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.boton-eliminar:hover {
+    -fx-background-color: #fecaca;
+}

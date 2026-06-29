@@ -5,120 +5,147 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="800.0" prefWidth="1013.0" spacing="20.0"
-      styleClass="fondo-principal" stylesheets="@../stylesCSS/Style-Consultas.css"
-      xmlns="http://javafx.com/javafx/26"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.controlador.ControladorConsultas">
-    <padding>
-        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
-    </padding>
-    <children>
+<ScrollPane fitToWidth="true"
+            styleClass="fondo-principal"
+            stylesheets="@../stylesCSS/Style-Consultas.css"
+            xmlns="http://javafx.com/javafx/26"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.controlador.ControladorConsultas">
 
-        <Label text="Consultas" styleClass="titulo-principal" />
+    <content>
+        <VBox maxWidth="Infinity" spacing="20.0"
+              styleClass="fondo-principal">
+            <padding>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+            </padding>
+            <children>
 
-        <GridPane hgap="20.0" vgap="20.0" VBox.vgrow="ALWAYS">
-            <columnConstraints>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints vgrow="ALWAYS" />
-                <RowConstraints vgrow="ALWAYS" />
-            </rowConstraints>
+                <Label text="Consultas" styleClass="titulo-principal" />
 
-            <VBox spacing="14.0" styleClass="tarjeta-dashboard"
-                  GridPane.columnIndex="0" GridPane.rowIndex="0">
-                <children>
-                    <Label text="Consulta de Ventas" styleClass="subtitulo-tarjeta">
-                        <VBox.margin><Insets bottom="4.0" /></VBox.margin>
-                    </Label>
+                <!-- ===================== TARJETAS DE FILTROS ===================== -->
+                <GridPane hgap="20.0" vgap="20.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
+                        <ColumnConstraints hgrow="ALWAYS" percentWidth="50.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                    </rowConstraints>
 
-                    <Label text="Fecha Inicio" styleClass="etiqueta-descriptiva" />
-                    <DatePicker fx:id="dateInicioVentas" promptText="dd/mm/aaaa" maxWidth="Infinity" styleClass="control-entrada" />
+                    <!-- VENTAS -->
+                    <VBox spacing="14.0" styleClass="tarjeta-dashboard"
+                          GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <children>
+                            <Label text="Consulta de Ventas" styleClass="subtitulo-tarjeta">
+                                <VBox.margin><Insets bottom="4.0" /></VBox.margin>
+                            </Label>
+                            <Label text="Fecha Inicio" styleClass="etiqueta-descriptiva" />
+                            <DatePicker fx:id="dateInicioVentas" promptText="dd/mm/aaaa" maxWidth="Infinity" styleClass="control-entrada" />
+                            <Label text="Fecha Fin" styleClass="etiqueta-descriptiva" />
+                            <DatePicker fx:id="dateFinVentas" promptText="dd/mm/aaaa" maxWidth="Infinity" styleClass="control-entrada" />
+                            <Button fx:id="btnConsultarVentas" mnemonicParsing="false"
+                                    text="Consultar" maxWidth="Infinity" styleClass="boton-accion">
+                                <VBox.margin><Insets top="4.0" /></VBox.margin>
+                            </Button>
+                        </children>
+                    </VBox>
 
-                    <Label text="Fecha Fin" styleClass="etiqueta-descriptiva" />
-                    <DatePicker fx:id="dateFinVentas" promptText="dd/mm/aaaa" maxWidth="Infinity" styleClass="control-entrada" />
+                    <!-- PRODUCTOS -->
+                    <VBox spacing="14.0" styleClass="tarjeta-dashboard"
+                          GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <children>
+                            <Label text="Consulta de Productos" styleClass="subtitulo-tarjeta">
+                                <VBox.margin><Insets bottom="4.0" /></VBox.margin>
+                            </Label>
 
-                    <Button fx:id="btnConsultarVentas" mnemonicParsing="false"
-                            text="Consultar" maxWidth="Infinity" styleClass="boton-accion">
-                        <VBox.margin><Insets top="4.0" /></VBox.margin>
-                    </Button>
-                </children>
-            </VBox>
+                            <Label text="Categoría" styleClass="etiqueta-descriptiva" />
+                            <ComboBox fx:id="cbTipoProducto" maxWidth="Infinity"
+                                      promptText="Todas las categorías" styleClass="control-entrada" />
 
-            <VBox spacing="14.0" styleClass="tarjeta-dashboard"
-                  GridPane.columnIndex="1" GridPane.rowIndex="0">
-                <children>
-                    <Label text="Consulta de Productos" styleClass="subtitulo-tarjeta">
-                        <VBox.margin><Insets bottom="4.0" /></VBox.margin>
-                    </Label>
+                            <Label text="Stock mínimo" styleClass="etiqueta-descriptiva" />
+                            <Spinner fx:id="spinnerStockMinimo" maxWidth="Infinity" min="0" max="9999" initialValue="0" styleClass="control-entrada" />
 
-                    <Label text="Categoría" styleClass="etiqueta-descriptiva" />
-                    <ComboBox fx:id="cbCategoriaProducto" maxWidth="Infinity"
-                              promptText="Todas las categorías" styleClass="control-entrada" />
+                            <Button fx:id="btnConsultarProductos" mnemonicParsing="false"
+                                    text="Consultar" maxWidth="Infinity" styleClass="boton-accion">
+                                <VBox.margin><Insets top="4.0" /></VBox.margin>
+                            </Button>
+                        </children>
+                    </VBox>
 
-                    <Label text="Stock mínimo" styleClass="etiqueta-descriptiva" />
-                    <Spinner fx:id="spinnerStockMinimo" maxWidth="Infinity" min="0" max="9999" initialValue="0" styleClass="control-entrada" />
+                    <!-- EMPLEADOS -->
+                    <VBox spacing="14.0" styleClass="tarjeta-dashboard"
+                          GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <children>
+                            <Label text="Consulta de Empleados" styleClass="subtitulo-tarjeta">
+                                <VBox.margin><Insets bottom="4.0" /></VBox.margin>
+                            </Label>
+                            <Label text="Departamento" styleClass="etiqueta-descriptiva" />
+                            <ComboBox fx:id="cbDepartamento" maxWidth="Infinity"
+                                      promptText="Todos los departamentos" styleClass="control-entrada" />
+                            <Label text="Estado" styleClass="etiqueta-descriptiva" />
+                            <ComboBox fx:id="cbEstadoEmpleado" maxWidth="Infinity"
+                                      promptText="Todos" styleClass="control-entrada" />
+                            <Button fx:id="btnConsultarEmpleados" mnemonicParsing="false"
+                                    text="Consultar" maxWidth="Infinity" styleClass="boton-accion">
+                                <VBox.margin><Insets top="4.0" /></VBox.margin>
+                            </Button>
+                        </children>
+                    </VBox>
 
-                    <Button fx:id="btnConsultarProductos" mnemonicParsing="false"
-                            text="Consultar" maxWidth="Infinity" styleClass="boton-accion">
-                        <VBox.margin><Insets top="4.0" /></VBox.margin>
-                    </Button>
-                </children>
-            </VBox>
+                    <!-- GENERAL -->
+                    <VBox spacing="14.0" styleClass="tarjeta-dashboard"
+                          GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <children>
+                            <Label text="Consulta General" styleClass="subtitulo-tarjeta">
+                                <VBox.margin><Insets bottom="4.0" /></VBox.margin>
+                            </Label>
 
-            <VBox spacing="14.0" styleClass="tarjeta-dashboard"
-                  GridPane.columnIndex="0" GridPane.rowIndex="1">
-                <children>
-                    <Label text="Consulta de Empleados" styleClass="subtitulo-tarjeta">
-                        <VBox.margin><Insets bottom="4.0" /></VBox.margin>
-                    </Label>
+                            <Label text="Tipo de consulta" styleClass="etiqueta-descriptiva" />
+                            <ComboBox fx:id="cbTipoConsulta" maxWidth="Infinity"
+                                      promptText="Ventas por cliente" styleClass="control-entrada" />
 
-                    <Label text="Departamento" styleClass="etiqueta-descriptiva" />
-                    <ComboBox fx:id="cbDepartamento" maxWidth="Infinity"
-                              promptText="Todos los departamentos" styleClass="control-entrada" />
+                            <Label text="Parámetro" styleClass="etiqueta-descriptiva" />
+                            <TextField fx:id="txtParametroConsulta" promptText="Ingrese parámetro de búsqueda" styleClass="control-entrada campo-texto" />
 
-                    <Label text="Estado" styleClass="etiqueta-descriptiva" />
-                    <ComboBox fx:id="cbEstadoEmpleado" maxWidth="Infinity"
-                              promptText="Todos" styleClass="control-entrada" />
+                            <Button fx:id="btnConsultarGeneral" mnemonicParsing="false"
+                                    text="Consultar" maxWidth="Infinity" styleClass="boton-accion">
+                                <VBox.margin><Insets top="4.0" /></VBox.margin>
+                            </Button>
+                        </children>
+                    </VBox>
 
-                    <Button fx:id="btnConsultarEmpleados" mnemonicParsing="false"
-                            text="Consultar" maxWidth="Infinity" styleClass="boton-accion">
-                        <VBox.margin><Insets top="4.0" /></VBox.margin>
-                    </Button>
-                </children>
-            </VBox>
+                </GridPane>
 
-            <VBox spacing="14.0" styleClass="tarjeta-dashboard"
-                  GridPane.columnIndex="1" GridPane.rowIndex="1">
-                <children>
-                    <Label text="Consulta General" styleClass="subtitulo-tarjeta">
-                        <VBox.margin><Insets bottom="4.0" /></VBox.margin>
-                    </Label>
+                <!-- ===================== PANEL DE RESULTADOS ===================== -->
+                <VBox fx:id="panelResultados" spacing="12.0" styleClass="tarjeta-dashboard">
+                    <children>
+                        <Label fx:id="lblTituloResultado" text="Resultados"
+                               styleClass="subtitulo-tarjeta" />
+                        <Separator />
+                        <Label fx:id="lblMensajeVacio"
+                               text="No se encontraron registros para los filtros seleccionados."
+                               styleClass="etiqueta-descriptiva"
+                               visible="false" managed="false"/>
+                        <TableView fx:id="tablaResultados"
+                                   prefHeight="320.0"
+                                   maxWidth="Infinity"
+                                   styleClass="tabla-resultados"
+                                   visible="false" managed="false" />
+                    </children>
+                </VBox>
 
-                    <Label text="Tipo de consulta" styleClass="etiqueta-descriptiva" />
-                    <ComboBox fx:id="cbTipoConsulta" maxWidth="Infinity"
-                              promptText="Ventas por cliente" styleClass="control-entrada" />
-
-                    <Label text="Parámetro" styleClass="etiqueta-descriptiva" />
-                    <TextField fx:id="txtParametroConsulta" promptText="Ingrese parámetro de búsqueda" styleClass="control-entrada campo-texto" />
-
-                    <Button fx:id="btnConsultarGeneral" mnemonicParsing="false"
-                            text="Consultar" maxWidth="Infinity" styleClass="boton-accion">
-                        <VBox.margin><Insets top="4.0" /></VBox.margin>
-                    </Button>
-                </children>
-            </VBox>
-
-        </GridPane>
-    </children>
-</VBox>
+            </children>
+        </VBox>
+    </content>
+</ScrollPane>

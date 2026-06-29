@@ -69,6 +69,8 @@ public class UsuarioPersonalDAO {
                 u.setIdUsuario(rs.getInt("id_usuario"));
                 u.setNombre(rs.getString("nombre"));
                 u.setEmail(rs.getString("email"));
+                u.setTelefono(rs.getString("telefono"));
+                u.setNumeroDocumento(rs.getString("numero_documento"));
                 u.setIdRol(rs.getInt("id_rol"));
 
                 lista.add(u);

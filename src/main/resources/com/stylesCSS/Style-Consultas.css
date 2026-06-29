@@ -77,3 +77,50 @@
     /* Sombra suave para que "flote" sobre el fondo principal */
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 10, 0, 0, 4);
 }
+/* =========================================
+   TABLA DE RESULTADOS
+   ========================================= */
+
+.table-view.tabla-resultados {
+    -fx-background-color: white;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 13px;
+}
+
+.table-view.tabla-resultados .column-header-background {
+    -fx-background-color: #f8fafc;
+}
+
+.table-view.tabla-resultados .column-header {
+    -fx-background-color: #f8fafc;
+    -fx-border-color: transparent #e2e8f0 #e2e8f0 transparent;
+    -fx-padding: 10px 12px;
+}
+
+.table-view.tabla-resultados .column-header .label {
+    -fx-text-fill: #475569;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.table-view.tabla-resultados .table-row-cell:odd {
+    -fx-background-color: #f8fafc;
+}
+
+.table-view.tabla-resultados .table-row-cell:even {
+    -fx-background-color: white;
+}
+
+.table-view.tabla-resultados .table-row-cell:selected {
+    -fx-background-color: #dbeafe;
+}
+
+.table-view.tabla-resultados .table-cell {
+    -fx-padding: 9px 12px;
+    -fx-text-fill: #1e293b;
+    -fx-border-color: transparent;
+}

@@ -1,14 +1,14 @@
 package com;
 
 import com.modelo.Producto;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestProducto {
 
     @Test
     public void testCreacionProducto() {
-        Producto pan = new Producto(1, "7751234567890", "Pan de Molde Bimbo", 8.50);
+        Producto pan = new Producto(1, "7751234567890", "Pan de Molde Bimbo", 8.50,1);
 
         assertEquals(1, pan.getId_producto(), "El ID_producto debe ser 1");
         assertEquals("7751234567890", pan.getCodigo_barras(), "El código de barras debe coincidir");
@@ -18,7 +18,7 @@ public class TestProducto {
 
     @Test
     public void testModificacionDatosProducto() {
-        Producto leche = new Producto(2, "7750236173896", "Leche Gloria", 4.20);
+        Producto leche = new Producto(2, "7750236173896", "Leche Gloria", 4.20,1);
 
         leche.setPrecio(4.50);
 

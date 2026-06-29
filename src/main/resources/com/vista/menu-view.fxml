@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.*?>
 
-<?import javafx.scene.control.Button?>
-<BorderPane fx:id="panelPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../stylesCSS/Style-Menu.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorPrincipal">
+<BorderPane fx:id="panelPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #f1f5f9;" stylesheets="@../stylesCSS/Style-Menu.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorPrincipal">
    <left>
       <VBox prefHeight="800.0" prefWidth="267.0" styleClass="menu-lateral" BorderPane.alignment="TOP_CENTER">
          <children>
@@ -100,11 +92,59 @@
                </graphic>
             </ToggleButton>
 
+            <ToggleButton fx:id="btnOfertas" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirOfertas" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Ofertas" toggleGroup="$menuGrupo">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="13.0" top="12.0" />
+               </VBox.margin>
+               <graphic>
+                  <FontIcon iconColor="#ffffff" iconLiteral="fas-tags" iconSize="24" />
+               </graphic>
+            </ToggleButton>
+
+            <ToggleButton fx:id="btnInventario" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirInventario" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Inventario" toggleGroup="$menuGrupo">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="13.0" top="12.0" />
+               </VBox.margin>
+               <graphic>
+                  <FontIcon iconColor="#ffffff" iconLiteral="fas-boxes" iconSize="24" />
+               </graphic>
+            </ToggleButton>
+
+            <ToggleButton fx:id="btnCaja" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirCaja" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Caja / Arqueo" toggleGroup="$menuGrupo">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="13.0" top="12.0" />
+               </VBox.margin>
+               <graphic>
+                  <FontIcon iconColor="#ffffff" iconLiteral="fas-cash-register" iconSize="24" />
+               </graphic>
+            </ToggleButton>
+
+            <ToggleButton fx:id="btnConfiguracion" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirConfiguracion" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Configuración" toggleGroup="$menuGrupo">
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets left="13.0" top="12.0" />
+               </VBox.margin>
+               <graphic>
+                  <FontIcon iconColor="#ffffff" iconLiteral="fas-cog" iconSize="24" />
+               </graphic>
+            </ToggleButton>
+
             <Region VBox.vgrow="ALWAYS" />
 
             <Separator prefWidth="200.0" styleClass="separador-menu" />
 
-            <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="contenedor-perfil">
+            <HBox alignment="CENTER_LEFT" prefHeight="73.0" prefWidth="267.0" spacing="15.0" styleClass="contenedor-perfil">
                <padding>
                   <Insets bottom="30.0" left="25.0" right="20.0" top="20.0" />
                </padding>

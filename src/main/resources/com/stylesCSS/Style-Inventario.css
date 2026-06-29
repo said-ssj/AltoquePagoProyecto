@@ -1,0 +1,49 @@
+/* Hereda fondo, tipografía e inputs exactos del estándar */
+.titulo-vista {
+    -fx-text-fill: #1e293b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+.subtitulo-vista {
+    -fx-text-fill: #1e293b;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+.panel-formulario {
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 12px;
+    -fx-padding: 24px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 10, 0, 0, 4);
+}
+
+/* Clon de boton verde de reportes */
+.btn-guardar-movimiento {
+    -fx-background-color: #16a34a; /* Verde Reportes */
+    -fx-text-fill: white;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-padding: 10px 20px;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+.btn-guardar-movimiento:hover {
+    -fx-background-color: #008234;
+}
+
+.btn-secundario {
+    -fx-background-color: transparent;
+    -fx-text-fill: #1e293b;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 8px;
+    -fx-cursor: hand;
+    -fx-padding: 10px 20px;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+.btn-secundario:hover { -fx-background-color: #f1f5f9; }
