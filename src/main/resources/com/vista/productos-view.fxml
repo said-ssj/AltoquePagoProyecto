@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="800.0" prefWidth="1060.0" spacing="20.0"
-      styleClass="fondo-principal" stylesheets="@../stylesCSS/Style-Productos.css"
-      xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.controlador.ControladorProductos">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1060.0" spacing="20.0" styleClass="fondo-principal" stylesheets="@../stylesCSS/Style-Productos.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorProductos">
     <padding>
         <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
     </padding>
@@ -25,35 +12,31 @@
 
         <HBox alignment="CENTER_LEFT" prefWidth="1000.0">
             <children>
-                <Label text="Productos" styleClass="titulo-principal" />
+                <Label styleClass="titulo-principal" text="Productos" />
                 <Pane HBox.hgrow="ALWAYS" />
-                <Button fx:id="btnNuevoProducto" onAction="#abrirNuevoProducto"
-                        mnemonicParsing="false" text="+ Nuevo Producto" styleClass="boton-nuevo" />
+                <Button fx:id="btnNuevoProducto" mnemonicParsing="false" onAction="#abrirNuevoProducto" styleClass="boton-nuevo" text="+ Nuevo Producto" />
             </children>
         </HBox>
 
         <HBox alignment="CENTER_LEFT" prefWidth="1000.0" spacing="12.0" styleClass="barra-busqueda">
             <padding><Insets bottom="14.0" left="16.0" right="16.0" top="14.0" /></padding>
             <children>
-                <Label text="🔍" styleClass="icono-busqueda" />
-                <TextField fx:id="txtBuscarProducto" promptText="Buscar productos..."
-                           HBox.hgrow="ALWAYS" styleClass="campo-busqueda" />
+                <Label styleClass="icono-busqueda" text="🔍" />
+                <TextField fx:id="txtBuscarProducto" promptText="Buscar productos..." styleClass="campo-busqueda" HBox.hgrow="ALWAYS" />
                 <Separator orientation="VERTICAL" prefHeight="28.0" styleClass="separador-busqueda" />
-                <ComboBox fx:id="cbFiltrosProductos" promptText="Filtros"
-                          styleClass="boton-filtros" prefWidth="120" />
+                <ComboBox fx:id="cbFiltrosProductos" prefWidth="120" promptText="Filtros" styleClass="boton-filtros" />
             </children>
         </HBox>
 
-        <TableView fx:id="tablaProductos" styleClass="tabla"
-                   stylesheets="" VBox.vgrow="ALWAYS">
+        <TableView fx:id="tablaProductos" styleClass="tabla" stylesheets="" VBox.vgrow="ALWAYS">
             <columns>
-                <TableColumn fx:id="colId"        prefWidth="60.0"  text="ID" />
-                <TableColumn fx:id="colNombre"    prefWidth="160.0" text="Nombre" />
+                <TableColumn fx:id="colId" prefWidth="60.0" text="ID" />
+                <TableColumn fx:id="colNombre" prefWidth="160.0" text="Nombre" />
                 <TableColumn fx:id="colCategoria" prefWidth="110.0" text="Categoría" />
-                <TableColumn fx:id="colPrecio"    prefWidth="100.0" text="Precio" />
-                <TableColumn fx:id="colStock"     prefWidth="80.0"  text="Stock" />
-                <TableColumn fx:id="colEstado"    prefWidth="110.0" text="Estado" />
-                <TableColumn fx:id="colAcciones"  prefWidth="200.0" text="Acciones" />
+                <TableColumn fx:id="colPrecio" prefWidth="100.0" text="Precio" />
+                <TableColumn fx:id="colStock" prefWidth="80.0" text="Stock" />
+                <TableColumn fx:id="colEstado" prefWidth="110.0" text="Estado" />
+                <TableColumn fx:id="colAcciones" prefWidth="200.0" text="Acciones" />
             </columns>
         </TableView>
     </children>
