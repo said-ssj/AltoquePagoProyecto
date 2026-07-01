@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import org.kordamp.ikonli.javafx.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-principal" stylesheets="@../stylesCSS/Style-Inicio.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorInicio">
+<ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-principal" stylesheets="@../stylesCSS/Style-Inicio.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorInicio">
    <content>
+
       <VBox spacing="20.0" styleClass="fondo-principal">
          <padding>
             <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
          </padding>
          <children>
-            <Label styleClass="titulo-principal" text="Panel de Control" />
+            <Label text="Panel de Control" styleClass="titulo-principal" />
 
-            <HBox prefWidth="953.0" spacing="20.0">
+            <HBox spacing="20.0" prefWidth="953.0">
                <children>
-                  <Button fx:id="btnIrPuntoVenta" maxWidth="Infinity" onAction="#abrirPuntoVenta" styleClass="btn-accion-grande-azul" text="Ir al Punto de Venta" HBox.hgrow="ALWAYS">
+                  <Button fx:id="btnIrPuntoVenta" onAction="#abrirPuntoVenta" maxWidth="Infinity" HBox.hgrow="ALWAYS" styleClass="btn-accion-grande-azul" text="Ir al Punto de Venta">
                      <graphic>
                         <FontIcon iconColor="#ffffff" iconLiteral="fas-shopping-cart" iconSize="24" />
                      </graphic>
                   </Button>
 
-                  <Button fx:id="btnEscanearProductos" maxWidth="Infinity" onAction="#abrirVistaProductos" styleClass="btn-accion-grande-verde" text="Escanear Productos" HBox.hgrow="ALWAYS">
+                  <Button fx:id="btnEscanearProductos" onAction="#abrirVistaProductos" maxWidth="Infinity" HBox.hgrow="ALWAYS" styleClass="btn-accion-grande-verde" text="Escanear Productos">
                      <graphic>
                         <FontIcon iconColor="#ffffff" iconLiteral="fas-barcode" iconSize="24" />
                      </graphic>
@@ -31,9 +38,7 @@
                </children>
             </HBox>
 
-            <!-- Targetas / Dashboards  Ventas del mes - Total de productos - Crecimiento-->
-
-            <HBox prefHeight="80.0" prefWidth="954.0" spacing="20.0">
+            <HBox prefHeight="190.0" prefWidth="953.0" spacing="20.0">
                <children>
                   <VBox maxHeight="-Infinity" prefHeight="150.0" prefWidth="304.0" spacing="15.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
                      <children>
@@ -41,35 +46,25 @@
                            <StackPane styleClass="icono-caja-ventas">
                               <FontIcon iconColor="#16a34a" iconLiteral="fas-dollar-sign" iconSize="24" />
                            </StackPane>
-                           <VBox prefHeight="58.0" prefWidth="211.0" spacing="5.0">
-                              <Label styleClass="etiqueta-descriptiva" text="Ventas del Mes" />
-                              <Label fx:id="lblVentasDelMes" styleClass="valor-dashboard" text="S/ 0.00">
-                                 <font>
-                                    <Font name="Segoe UI Light" size="12.0" />
-                                 </font>
-                              </Label>
-                              <padding>
-                                 <Insets left="15.0" />
-                              </padding>
-                           </VBox>
                         </HBox>
+                        <VBox spacing="5.0">
+                           <Label styleClass="etiqueta-descriptiva" text="Ventas del Mes" />
+                           <Label fx:id="lblVentasDelMes" styleClass="valor-dashboard" text="S/ 0.00" />
+                        </VBox>
                      </children>
                   </VBox>
 
                   <VBox maxHeight="-Infinity" prefHeight="150.0" prefWidth="304.0" spacing="15.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
                      <children>
-                        <HBox prefHeight="43.0" prefWidth="257.0">
+                        <HBox>
                            <StackPane styleClass="icono-caja-productos">
                               <FontIcon iconColor="#2563eb" iconLiteral="fas-box" iconSize="24" />
                            </StackPane>
-                           <VBox prefHeight="46.0" prefWidth="140.0" spacing="5.0">
-                              <Label styleClass="etiqueta-descriptiva" text="Total de Productos" />
-                              <Label fx:id="lblTotalDeProductos" styleClass="valor-dashboard" text="0" />
-                              <padding>
-                                 <Insets left="15.0" />
-                              </padding>
-                           </VBox>
                         </HBox>
+                        <VBox spacing="5.0">
+                           <Label styleClass="etiqueta-descriptiva" text="Total de Productos" />
+                           <Label fx:id="lblTotalDeProductos" styleClass="valor-dashboard" text="0" />
+                        </VBox>
                      </children>
                   </VBox>
 
@@ -79,47 +74,36 @@
                            <StackPane styleClass="icono-caja-crecimiento">
                               <FontIcon iconColor="#ea580c" iconLiteral="fas-chart-line" iconSize="24" />
                            </StackPane>
-                           <VBox spacing="5.0">
-                              <Label styleClass="etiqueta-descriptiva" text="Crecimiento" />
-                              <Label fx:id="lblCrecimiento" styleClass="valor-dashboard" text="+0%" />
-                              <padding>
-                                 <Insets left="15.0" />
-                              </padding>
-                           </VBox>
                         </HBox>
+                        <VBox spacing="5.0">
+                           <Label styleClass="etiqueta-descriptiva" text="Crecimiento" />
+                           <Label fx:id="lblCrecimiento" styleClass="valor-dashboard" text="+0%" />
+                        </VBox>
                      </children>
                   </VBox>
                </children>
             </HBox>
-
-            <!-- Targetas / Dashboards  Ventas Recientes - Productos mas vendidos -->
 
             <HBox maxHeight="-Infinity" prefHeight="555.0" prefWidth="953.0" spacing="20.0" VBox.vgrow="ALWAYS">
                <children>
 
                   <VBox prefWidth="466.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label prefHeight="45.0" prefWidth="207.0" styleClass="subtitulo-tarjeta" text="Ventas Recientes">
-                           <padding>
-                              <Insets bottom="15.0" />
-                           </padding>
+                        <Label prefHeight="48.0" prefWidth="185.0" text="Ventas Recientes" styleClass="subtitulo-tarjeta">
+                           <padding><Insets bottom="15.0" /></padding>
                         </Label>
 
                         <HBox prefHeight="461.0" prefWidth="426.0" styleClass="item-lista">
                            <padding><Insets bottom="10.0" top="10.0" /></padding>
                            <children>
                               <VBox spacing="5.0">
-                                 <children>
-                                    <Label styleClass="texto-primario" text="#0004" />
-                                    <Label styleClass="texto-secundario" text="Juan Hernandez" />
-                                 </children>
+                                 <Label fx:id="lblVR1Id"     text="#----" styleClass="texto-primario" />
+                                 <Label fx:id="lblVR1Nombre" text="---"   styleClass="texto-secundario" />
                               </VBox>
                               <Pane prefHeight="420.0" prefWidth="218.0" HBox.hgrow="ALWAYS" />
-                              <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="73.0">
-                                 <children>
-                                    <Label styleClass="monto-destacado" text="\$1,234" />
-                                    <Label styleClass="texto-secundario" text="27/05/2026" />
-                                 </children>
+                              <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="90.0">
+                                 <Label fx:id="lblVR1Monto" text="S/ 0.00"    styleClass="monto-destacado" />
+                                 <Label fx:id="lblVR1Fecha" text="--/--/----" styleClass="texto-secundario" />
                               </VBox>
                            </children>
                         </HBox>
@@ -129,17 +113,13 @@
                            <padding><Insets bottom="10.0" top="10.0" /></padding>
                            <children>
                               <VBox spacing="5.0">
-                                 <children>
-                                    <Label styleClass="texto-primario" text="#0003" />
-                                    <Label styleClass="texto-secundario" text="Hernandez" />
-                                 </children>
+                                 <Label fx:id="lblVR2Id"     text="#----" styleClass="texto-primario" />
+                                 <Label fx:id="lblVR2Nombre" text="---"   styleClass="texto-secundario" />
                               </VBox>
                               <Pane prefHeight="420.0" prefWidth="218.0" HBox.hgrow="ALWAYS" />
-                              <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="73.0">
-                                 <children>
-                                    <Label styleClass="monto-destacado" text="\$1,234" />
-                                    <Label styleClass="texto-secundario" text="27/05/2026" />
-                                 </children>
+                              <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="90.0">
+                                 <Label fx:id="lblVR2Monto" text="S/ 0.00"    styleClass="monto-destacado" />
+                                 <Label fx:id="lblVR2Fecha" text="--/--/----" styleClass="texto-secundario" />
                               </VBox>
                            </children>
                         </HBox>
@@ -149,17 +129,13 @@
                            <padding><Insets bottom="10.0" top="10.0" /></padding>
                            <children>
                               <VBox spacing="5.0">
-                                 <children>
-                                    <Label styleClass="texto-primario" text="#0002" />
-                                    <Label styleClass="texto-secundario" text="Hernandez" />
-                                 </children>
+                                 <Label fx:id="lblVR3Id"     text="#----" styleClass="texto-primario" />
+                                 <Label fx:id="lblVR3Nombre" text="---"   styleClass="texto-secundario" />
                               </VBox>
                               <Pane prefHeight="420.0" prefWidth="218.0" HBox.hgrow="ALWAYS" />
-                              <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="73.0">
-                                 <children>
-                                    <Label styleClass="monto-destacado" text="\$1,234" />
-                                    <Label styleClass="texto-secundario" text="27/05/2026" />
-                                 </children>
+                              <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="90.0">
+                                 <Label fx:id="lblVR3Monto" text="S/ 0.00"    styleClass="monto-destacado" />
+                                 <Label fx:id="lblVR3Fecha" text="--/--/----" styleClass="texto-secundario" />
                               </VBox>
                            </children>
                         </HBox>
@@ -169,17 +145,13 @@
                            <padding><Insets bottom="10.0" top="10.0" /></padding>
                            <children>
                               <VBox spacing="5.0">
-                                 <children>
-                                    <Label styleClass="texto-primario" text="#0001" />
-                                    <Label styleClass="texto-secundario" text="Hernandez" />
-                                 </children>
+                                 <Label fx:id="lblVR4Id"     text="#----" styleClass="texto-primario" />
+                                 <Label fx:id="lblVR4Nombre" text="---"   styleClass="texto-secundario" />
                               </VBox>
                               <Pane prefHeight="420.0" prefWidth="218.0" HBox.hgrow="ALWAYS" />
-                              <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="73.0">
-                                 <children>
-                                    <Label styleClass="monto-destacado" text="\$1,234" />
-                                    <Label styleClass="texto-secundario" text="27/05/2026" />
-                                 </children>
+                              <VBox alignment="TOP_RIGHT" prefHeight="420.0" prefWidth="90.0">
+                                 <Label fx:id="lblVR4Monto" text="S/ 0.00"    styleClass="monto-destacado" />
+                                 <Label fx:id="lblVR4Fecha" text="--/--/----" styleClass="texto-secundario" />
                               </VBox>
                            </children>
                         </HBox>
@@ -189,10 +161,8 @@
 
                   <VBox prefWidth="466.0" styleClass="tarjeta-dashboard" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label styleClass="subtitulo-tarjeta" text="Productos Más Vendidos">
-                           <padding>
-                              <Insets bottom="15.0" />
-                           </padding>
+                        <Label text="Productos Más Vendidos" styleClass="subtitulo-tarjeta">
+                           <padding><Insets bottom="15.0" /></padding>
                         </Label>
 
                         <VBox prefHeight="0.0" prefWidth="426.0" spacing="8.0" VBox.vgrow="ALWAYS">
@@ -202,15 +172,13 @@
                                     <HBox prefHeight="453.0" prefWidth="426.0" spacing="5.0">
                                        <children>
                                           <HBox prefHeight="121.0" prefWidth="122.0">
-                                             <children>
-                                                <Label fx:id="lblTop1" styleClass="texto-primario" text="Laptop Dell XPS 15" />
-                                             </children>
+                                             <Label fx:id="lblTop1" text="---" styleClass="texto-primario" />
                                           </HBox>
                                           <Pane prefHeight="22.0" prefWidth="237.0" HBox.hgrow="ALWAYS" />
-                                          <Label styleClass="texto-secundario" text="145" />
+                                          <Label fx:id="lblCant1" text="0" styleClass="texto-secundario" />
                                        </children>
                                     </HBox>
-                                    <ProgressBar fx:id="barTop1" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Inicio.css" />
+                                    <ProgressBar fx:id="barTop1" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.0" stylesheets="@../stylesCSS/Style-Inicio.css" />
                                     <Separator maxWidth="1.7976931348623157E308" prefWidth="200.0" styleClass="separador-ligero" />
                                  </children>
                               </VBox>
@@ -224,15 +192,13 @@
                                     <HBox prefHeight="453.0" prefWidth="426.0" spacing="5.0">
                                        <children>
                                           <HBox prefHeight="121.0" prefWidth="122.0">
-                                             <children>
-                                                <Label fx:id="lblTop2" styleClass="texto-primario" text="Laptop Dell XPS 15" />
-                                             </children>
+                                             <Label fx:id="lblTop2" text="---" styleClass="texto-primario" />
                                           </HBox>
                                           <Pane prefHeight="110.0" prefWidth="271.0" HBox.hgrow="ALWAYS" />
-                                          <Label styleClass="texto-secundario" text="145" />
+                                          <Label fx:id="lblCant2" text="0" styleClass="texto-secundario" />
                                        </children>
                                     </HBox>
-                                    <ProgressBar fx:id="barTop2" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Inicio.css" />
+                                    <ProgressBar fx:id="barTop2" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.0" stylesheets="@../stylesCSS/Style-Inicio.css" />
                                     <Separator maxWidth="1.7976931348623157E308" prefWidth="200.0" styleClass="separador-ligero" />
                                  </children>
                               </VBox>
@@ -246,15 +212,13 @@
                                     <HBox prefHeight="453.0" prefWidth="426.0" spacing="5.0">
                                        <children>
                                           <HBox prefHeight="121.0" prefWidth="122.0">
-                                             <children>
-                                                <Label fx:id="lblTop3" styleClass="texto-primario" text="Laptop Dell XPS 15" />
-                                             </children>
+                                             <Label fx:id="lblTop3" text="---" styleClass="texto-primario" />
                                           </HBox>
                                           <Pane prefHeight="110.0" prefWidth="271.0" HBox.hgrow="ALWAYS" />
-                                          <Label styleClass="texto-secundario" text="145" />
+                                          <Label fx:id="lblCant3" text="0" styleClass="texto-secundario" />
                                        </children>
                                     </HBox>
-                                    <ProgressBar fx:id="barTop3" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Inicio.css" />
+                                    <ProgressBar fx:id="barTop3" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="12.0" prefWidth="200.0" progress="0.0" stylesheets="@../stylesCSS/Style-Inicio.css" />
                                     <Separator maxWidth="1.7976931348623157E308" prefWidth="200.0" styleClass="separador-ligero" />
                                  </children>
                               </VBox>
@@ -268,15 +232,13 @@
                                     <HBox prefHeight="453.0" prefWidth="426.0" spacing="5.0">
                                        <children>
                                           <HBox prefHeight="121.0" prefWidth="122.0">
-                                             <children>
-                                                <Label fx:id="lblTop4" styleClass="texto-primario" text="Laptop Dell XPS 15" />
-                                             </children>
+                                             <Label fx:id="lblTop4" text="---" styleClass="texto-primario" />
                                           </HBox>
                                           <Pane prefHeight="110.0" prefWidth="271.0" HBox.hgrow="ALWAYS" />
-                                          <Label styleClass="texto-secundario" text="145" />
+                                          <Label fx:id="lblCant4" text="0" styleClass="texto-secundario" />
                                        </children>
                                     </HBox>
-                                    <ProgressBar fx:id="barTop4" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="10.0" prefWidth="200.0" progress="0.6" stylesheets="@../stylesCSS/Style-Inicio.css" />
+                                    <ProgressBar fx:id="barTop4" maxWidth="1.7976931348623157E308" minHeight="14.0" minWidth="10.0" prefWidth="200.0" progress="0.0" stylesheets="@../stylesCSS/Style-Inicio.css" />
                                     <Separator maxWidth="1.7976931348623157E308" prefWidth="200.0" styleClass="separador-ligero" />
                                  </children>
                               </VBox>
@@ -285,6 +247,7 @@
 
                      </children>
                   </VBox>
+
                </children>
             </HBox>
          </children>
