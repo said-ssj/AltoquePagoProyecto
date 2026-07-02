@@ -1,31 +1,106 @@
-/* =========================================
-   PANTALLA DE MÉTODOS DE PAGO
-   ========================================= */
+/* ==========================================================================
+   ESTILOS GENERALES DE LA PANTALLA DE MÉTODOS DE PAGO
+   ========================================================================== */
+
+.fondo-pantalla-metodo {
+    -fx-background-color: #fafafa;
+}
+
+.tarjeta-formulario-kiosko {
+    /* Mantiene la consistencia con el formulario de datos */
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 16px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 15, 0, 0, 4);
+}
+
+.cabecera-seccion {
+    -fx-spacing: 5px;
+    -fx-alignment: center;
+}
+
+.titulo-principal-metodo {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+    -fx-font-family: 'Segoe UI';
+}
+
+.subtitulo-metodo {
+    -fx-font-size: 16px;
+    -fx-text-fill: #64748b;
+    -fx-font-family: 'Segoe UI';
+}
+
+.separador-metodos {
+    -fx-background-color: #e2e8f0;
+}
+
+/* ==========================================================================
+   CAJAS INTERACTIVAS DE SELECCIÓN (BOTONES DE LOS MÉTODOS)
+   ========================================================================== */
+
 .caja-metodo-pago {
-    -fx-background-color: #ffffff;
-    -fx-border-color: transparent;
+    -fx-background-color: #f8fafc;
+    -fx-background-radius: 14px;
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s ease-in-out;
 }
 
-.contenedor-qr {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #cbd5e1;
-    -fx-border-width: 2px;
-    -fx-border-radius: 12px;
-    -fx-background-radius: 12px;
-    -fx-min-width: 150px;
-    -fx-min-height: 150px;
-    -fx-max-width: 150px;
-    -fx-max-height: 150px;
-    -fx-padding: 20px;
+.caja-metodo-pago:hover {
+    -fx-background-color: #f1f5f9;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 10, 0, 0, 4);
 }
 
+.titulo-metodo-pago {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1d4ed8; /* Azul descriptivo */
+}
+
+.texto-instruccion-metodo {
+    -fx-font-size: 14px;
+    -fx-text-fill: #475569;
+}
+
+/* ==========================================================================
+   CONTENEDORES VISUALES Y CONTROL ESTRICTO A 230PX
+   ========================================================================== */
+
+.contenedor-visual-pago {
+    -fx-min-width: 230px;
+    -fx-min-height: 230px;
+    -fx-pref-width: 230px;
+    -fx-pref-height: 230px;
+    -fx-max-width: 230px;
+    -fx-max-height: 230px;
+    -fx-alignment: center;
+}
+
+/* El POS hereda las mismas dimensiones para mantener la simetría perfecta */
 .contenedor-pos {
-    -fx-background-color: #f1f5f9; /* Gris sutil para destacar el ícono del POS */
-    -fx-border-color: transparent;
-    -fx-background-radius: 50em; /* Círculo perfecto */
-    -fx-min-width: 140px;
-    -fx-min-height: 140px;
-    -fx-max-width: 140px;
-    -fx-max-height: 140px;
-    -fx-padding: 20px;
+    -fx-min-width: 230px;
+    -fx-min-height: 230px;
+    -fx-pref-width: 230px;
+    -fx-pref-height: 230px;
+    -fx-alignment: center;
+}
+
+/* ==========================================================================
+   ESTADOS DINÁMICOS (AL HACER CLIC DESDE JAVA)
+   ========================================================================== */
+
+/* Cuando una caja se selecciona y se mueve sola al centro */
+.metodo-activo-centrado {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #2563eb; /* Azul brillante de confirmación */
+    -fx-border-width: 3px;
+    -fx-border-radius: 14px;
+    -fx-effect: dropshadow(three-pass-box, rgba(37, 99, 235, 0.15), 15, 0, 0, 6);
+}
+
+/* Estilo de alerta rojo para indicar la inserción en el terminal físico POS */
+.texto-alerta-pos {
+    -fx-text-fill: #b91c1c !important;
+    -fx-font-weight: bold;
+    -fx-font-size: 15px;
 }

@@ -37,11 +37,9 @@ public class ControladorLogin {
 
     @FXML
     public void iniciarKiosko(ActionEvent event) {
-        // Exigimos que un empleado inicie sesión para activar el terminal de Kiosko
-        if (validarCredenciales()) {
-            System.out.println("Iniciando modo Kiosko de Autoservicio...");
-            cambiarEscena(event, "/com/vista/AutoservicioCheckoutDividida-view.fxml", true);
-        }
+        System.out.println("Iniciando modo Kiosko de Autoservicio...");
+        cambiarEscena(event, "/com/vista/AutoservicioCheckoutDividida-view.fxml", true);
+
     }
 
     /**
@@ -77,16 +75,19 @@ public class ControladorLogin {
             Parent root = loader.load();
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
 
+            if (modoKiosko) {
+                Object controladorKiosko = loader.getController();
+                root.setUserData(controladorKiosko);
+            }
+
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setResizable(true);
 
             if (modoKiosko) {
-                // MODO KIOSKO: Oculta la barra de tareas de Windows (Modo FullScreen inmersivo)
                 stage.setFullScreen(true);
-                stage.setFullScreenExitHint(""); // Quita el mensaje de "Presione ESC para salir"
+                stage.setFullScreenExitHint("");
             } else {
-                // MODO GESTIÓN: Se maximiza como un programa normal
                 stage.setMaximized(true);
             }
 

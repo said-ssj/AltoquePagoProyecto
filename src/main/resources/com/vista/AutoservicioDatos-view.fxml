@@ -39,7 +39,7 @@
                         <Label styleClass="etiqueta-kiosko" text="DNI / RUC" />
                         <HBox spacing="10.0">
                             <TextField fx:id="txtDocumento" promptText="Número de documento" styleClass="input-kiosko" HBox.hgrow="ALWAYS" />
-                            <Button fx:id="btnBuscarDoc" mnemonicParsing="false" prefHeight="55.0" prefWidth="58.0" styleClass="btn-buscar-kiosko">
+                            <Button fx:id="btnBuscarDoc" mnemonicParsing="false" styleClass="btn-buscar-kiosko">
                                 <graphic>
                                     <FontIcon iconColor="#ffffff" iconLiteral="fas-search" iconSize="18" />
                                 </graphic>

@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import org.kordamp.ikonli.javafx.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #fafafa;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="fondo-pago-exitoso" stylesheets="@../stylesCSS/Style-Kiosko.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorAutoservicioPagoExitoso">
 
-    <VBox alignment="CENTER" maxWidth="600.0" prefHeight="351.0" prefWidth="474.0" spacing="20.0" style="-fx-background-color: #ffffff; -fx-border-color: #e2e8f0; -fx-border-radius: 16px; -fx-background-radius: 16px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.06), 15, 0, 0, 8);">
+    <VBox maxWidth="600.0" alignment="CENTER" styleClass="tarjeta-exito-kiosko" spacing="25.0">
         <padding>
-            <Insets bottom="60.0" left="40.0" right="40.0" top="60.0" />
+            <Insets bottom="50.0" left="40.0" right="40.0" top="50.0" />
         </padding>
 
-        <FontIcon iconColor="#16a34a" iconLiteral="fas-check-circle" iconSize="100" />
+        <FontIcon iconColor="#10b981" iconLiteral="fas-check-circle" iconSize="90" />
 
-        <Label style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #0f172a; -fx-font-family: 'Segoe UI';" text="¡Pago Exitoso!" />
-
-        <Label style="-fx-font-size: 18px; -fx-text-fill: #64748b; -fx-font-family: 'Segoe UI';" text="Por favor, retire su comprobante y sus productos." />
+        <VBox alignment="CENTER" spacing="10.0">
+            <Label styleClass="titulo-pago-exitoso" text="¡Pago Realizado con Éxito!" />
+            <Label styleClass="subtitulo-pago-exitoso" text="Su comprobante electrónico se ha impreso correctamente." />
+        </VBox>
     </VBox>
 
 </VBox>

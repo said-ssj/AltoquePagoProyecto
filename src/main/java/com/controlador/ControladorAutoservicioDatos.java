@@ -1,64 +1,65 @@
 package com.controlador;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.BorderPane;
-
-import java.io.IOException;
+import javafx.application.Platform;
 
 public class ControladorAutoservicioDatos {
 
-    @FXML private ToggleButton btnBoleta;
-    @FXML private ToggleButton btnFactura;
+    @FXML private TextField txtDni;
+    @FXML private TextField txtNombres;
+    @FXML private TextField txtDireccion;
+    @FXML private TextField txtCorreo;
 
-    @FXML private TextField txtDocumento;
-    @FXML private TextField txtNombreCliente;
-    @FXML private TextField txtCorreoCliente;
-    @FXML private TextField txtDireccionCliente;
-
-    @FXML private Button btnBuscarDoc;
-    @FXML private Button btnContinuar;
+    private ControladorAutoservicioCheckoutDividida contenedorPadre;
 
     @FXML
     public void initialize() {
-        // Lógica inicial para cambiar los textos de ayuda según se elija Boleta o Factura
-        btnFactura.setOnAction(e -> {
-            txtDocumento.setPromptText("Número de RUC (11 dígitos)");
-            txtNombreCliente.setPromptText("Razón Social");
-        });
-
-        btnBoleta.setOnAction(e -> {
-            txtDocumento.setPromptText("Número de DNI (8 dígitos)");
-            txtNombreCliente.setPromptText("Nombre completo");
-        });
+        // Se mantiene vacío para evitar NullPointerException tempranos
     }
 
-    @FXML
-    public void continuarAPago(ActionEvent event) {
-        // Validar que los campos obligatorios no estén vacíos
-        if(txtDocumento.getText().trim().isEmpty() || txtNombreCliente.getText().trim().isEmpty()) {
-            System.out.println("Alerta: Debe completar los campos obligatorios.");
-            return;
-        }
-        System.out.println("Datos confirmados. Pasando a selección de Método de Pago...");
+    public void setContenedorPadre(ControladorAutoservicioCheckoutDividida padre) {
+        this.contenedorPadre = padre;
 
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vista/AutoservicioMetodo-view.fxml"));            Parent vistaMetodoPago = loader.load();
+        // Esperamos a que los nodos gráficos estén completamente listos y renderizados
+        Platform.runLater(() -> {
+            if (txtDni == null) {
+                System.err.println("-> Error crítico: El objeto txtDni sigue siendo null. Revisa que el fx:id en tu FXML sea exactamente 'txtDni'.");
+                return;
+            }
 
-            Node botonPresionado = (Node) event.getSource();
-            BorderPane panelKioskoPrincipal = (BorderPane) botonPresionado.getScene().getRoot();
+            // 1. Configurar valores iniciales por defecto para Boleta Simple
+            if (txtDni.getText() == null || txtDni.getText().trim().isEmpty() || txtDni.getText().equals("00000000")) {
+                txtDni.setText("00000000");
+                txtNombres.setText("CLIENTE VARIOS");
+                txtDireccion.setText("");
+                txtCorreo.setText("");
 
-            panelKioskoPrincipal.setCenter(vistaMetodoPago);
+                if (contenedorPadre != null) {
+                    contenedorPadre.modificarBotonDatos(false);
+                    contenedorPadre.setDatosCliente("00000000", "CLIENTE VARIOS");
+                }
+            }
 
-        } catch (IOException e) {
-            System.err.println("Error al cargar la pantalla de Método de Pago.");
-            e.printStackTrace();
-        }
+            // 2. Listener reactivo en tiempo real al escribir en la caja del DNI
+            txtDni.textProperty().addListener((observable, oldValue, newValue) -> {
+                if (contenedorPadre == null) return;
+
+                String dniLimpio = (newValue == null) ? "" : newValue.trim();
+
+                // Si el campo vuelve a quedar vacío, se borra o es el por defecto
+                if (dniLimpio.isEmpty() || dniLimpio.equals("00000000")) {
+                    txtNombres.setText("CLIENTE VARIOS");
+                    txtDireccion.setText("");
+                    txtCorreo.setText("");
+                    contenedorPadre.modificarBotonDatos(false);
+                    contenedorPadre.setDatosCliente("00000000", "CLIENTE VARIOS");
+                } else {
+                    // Si el usuario ingresó un DNI (por ejemplo para buscar en RENIEC)
+                    contenedorPadre.modificarBotonDatos(true);
+                    contenedorPadre.setDatosCliente(dniLimpio, txtNombres.getText());
+                }
+            });
+        });
     }
 }

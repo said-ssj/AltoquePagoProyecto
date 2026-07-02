@@ -64,3 +64,68 @@
 .btn-pagar-kiosko:hover {
     -fx-background-color: #15803d;
 }
+
+/* ==========================================================================
+   PANTALLA DE CONFIRMACIÓN DE PAGO EXITOSO (KIOSKO)
+   ========================================================================== */
+
+.fondo-pago-exitoso {
+    -fx-background-color: #fafafa;
+}
+
+.tarjeta-exito-kiosko {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 16px;
+    -fx-effect: dropshadow(three-pass-box, rgba(16, 185, 129, 0.1), 20, 0, 0, 4);
+}
+
+.titulo-pago-exitoso {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #10b981; /* Verde esmeralda de confirmación */
+    -fx-font-family: 'Segoe UI';
+}
+
+.subtitulo-pago-exitoso {
+    -fx-font-size: 16px;
+    -fx-text-fill: #475569;
+    -fx-font-family: 'Segoe UI';
+    -fx-text-alignment: center;
+}
+
+.texto-reinicio-automatico {
+    -fx-font-size: 13px;
+    -fx-text-fill: #94a3b8; /* Gris tenue de proceso secundario */
+    -fx-font-style: italic;
+}
+
+/* ==========================================================================
+   BOTONES DE LA BARRA DE NAVEGACIÓN INFERIOR
+   ========================================================================== */
+
+.btn-proceder-pago {
+    -fx-background-color: #16a34a; /* Verde éxito */
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12px;
+    -fx-cursor: hand;
+}
+
+.btn-proceder-pago:hover {
+    -fx-background-color: #15803d; /* Verde más oscuro */
+}
+
+/* Opcional: */
+.btn-navegacion-azul {
+    -fx-background-color: #1d4ed8;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12px;
+}
+.button:disabled {
+    -fx-opacity: 0.5;
+    -fx-background-color: #cccccc;
+    -fx-text-fill: #666666;
+}
