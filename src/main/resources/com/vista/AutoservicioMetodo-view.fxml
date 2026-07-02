@@ -2,56 +2,66 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import org.kordamp.ikonli.javafx.*?>
 
-<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #fafafa;" stylesheets="@../stylesCSS/Style-KioskoMetodo.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorAutoservicioMetodo">
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="fondo-pantalla-metodo" stylesheets="@../stylesCSS/Style-KioskoMetodo.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorAutoservicioMetodo">
 
-    <VBox maxWidth="750.0" spacing="30.0" styleClass="tarjeta-formulario-kiosko">
+    <VBox alignment="CENTER" maxWidth="800.0" styleClass="tarjeta-formulario-kiosko">
         <padding>
             <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
         </padding>
 
-        <VBox alignment="CENTER" spacing="5.0">
-            <Label style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #0f172a; -fx-font-family: 'Segoe UI';" text="Realizar Pago" />
-            <Label style="-fx-font-size: 16px; -fx-text-fill: #64748b; -fx-font-family: 'Segoe UI';" text="Siga las instrucciones según su método de pago preferido." />
+        <VBox fx:id="cabeceraTexto" alignment="CENTER" styleClass="cabecera-seccion">
+            <Label styleClass="titulo-principal-metodo" text="Realizar Pago" />
+            <Label prefHeight="25.0" prefWidth="413.0" styleClass="subtitulo-metodo" text="Siga las instrucciones según su método de pago preferido.">
+            <VBox.margin>
+               <Insets bottom="15.0" />
+            </VBox.margin></Label>
         </VBox>
 
-        <HBox spacing="20.0">
+        <HBox fx:id="contenedorMetodos" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="339.0" prefWidth="720.0" spacing="30.0">
 
-            <VBox alignment="CENTER" spacing="15.0" styleClass="caja-metodo-pago" HBox.hgrow="ALWAYS">
+            <VBox fx:id="btnOpcionQr" alignment="CENTER" onMouseClicked="#seleccionarQr" styleClass="caja-metodo-pago" HBox.hgrow="ALWAYS">
                 <padding>
-                    <Insets bottom="25.0" left="20.0" right="20.0" top="25.0" />
+                    <Insets bottom="30.0" left="25.0" right="25.0" top="30.0" />
                 </padding>
 
-                <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1d4ed8;" text="Yape / Plin" />
+                <Label styleClass="titulo-metodo-pago" text="Yape / Plin" />
 
-                <StackPane styleClass="contenedor-qr">
-                    <FontIcon iconColor="#0f172a" iconLiteral="fas-qrcode" iconSize="100" />
+                <StackPane styleClass="contenedor-visual-pago">
+                    <FontIcon fx:id="iconoQrBoton" iconColor="#0F172A" iconLiteral="fas-qrcode" iconSize="90" />
+
+                    <ImageView fx:id="imgCodigoQR" pickOnBounds="true" preserveRatio="true" styleClass="qr-real-kiosko" />
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
                 </StackPane>
 
-                <Label style="-fx-font-size: 14px; -fx-text-fill: #475569; -fx-text-alignment: center;" text="Escanee el código QR desde su celular para completar el pago." textAlignment="CENTER" wrapText="true" />
+                <Label fx:id="lblInstruccionQr" styleClass="texto-instruccion-metodo" text="Toque el ícono para generar el código QR de pago." textAlignment="CENTER" wrapText="true" />
+            <HBox.margin>
+               <Insets />
+            </HBox.margin>
             </VBox>
 
-            <Region prefWidth="2.0" style="-fx-background-color: #e2e8f0;" />
-
-            <VBox alignment="CENTER" spacing="15.0" styleClass="caja-metodo-pago" HBox.hgrow="ALWAYS">
+            <VBox fx:id="btnOpcionTarjeta" alignment="CENTER" onMouseClicked="#seleccionarTarjeta" styleClass="caja-metodo-pago" HBox.hgrow="ALWAYS">
                 <padding>
-                    <Insets bottom="25.0" left="20.0" right="20.0" top="25.0" />
+                    <Insets bottom="30.0" left="25.0" right="25.0" top="30.0" />
                 </padding>
 
-                <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1d4ed8;" text="Tarjeta Débito / Crédito" />
+                <Label styleClass="titulo-metodo-pago" text="Tarjeta Débito / Crédito" />
 
-                <StackPane styleClass="contenedor-pos">
-                    <FontIcon iconColor="#0f172a" iconLiteral="fas-credit-card" iconSize="80" />
+                <StackPane styleClass="contenedor-visual-pago">
+                    <FontIcon iconColor="#0F172A" iconLiteral="fas-credit-card" iconSize="80" styleClass="icono-interactivo" />
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
                 </StackPane>
 
-                <Label style="-fx-font-size: 14px; -fx-text-fill: #475569; -fx-text-alignment: center;" text="Acerque o inserte su tarjeta en el terminal POS ubicado a la derecha." textAlignment="CENTER" wrapText="true" />
+                <Label fx:id="lblInstruccionTarjeta" styleClass="texto-instruccion-metodo" text="Seleccione esta opción si usará el terminal electrónico." textAlignment="CENTER" wrapText="true" />
             </VBox>
 
         </HBox>
-
-        <HBox alignment="CENTER" />
-
     </VBox>
 </VBox>

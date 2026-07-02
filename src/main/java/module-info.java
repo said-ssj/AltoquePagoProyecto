@@ -9,6 +9,7 @@ module com.example.altoquepagoproyecto {
     requires com.google.gson;
     requires org.kordamp.ikonli.core;
     requires org.kordamp.ikonli.javafx;
+    requires org.kordamp.ikonli.fontawesome5;
     requires com.github.librepdf.openpdf;
 
     opens com.controlador to javafx.fxml;

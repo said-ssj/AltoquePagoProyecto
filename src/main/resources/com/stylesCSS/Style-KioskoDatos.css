@@ -78,3 +78,26 @@
 .btn-continuar-kiosko:hover {
     -fx-background-color: #1e293b;
 }
+
+/* ==========================================================================
+   BOTÓN DE BÚSQUEDA SUNAT REUTILIZABLE
+   ========================================================================== */
+
+.btn-buscar-kiosko {
+    -fx-background-color: #1d4ed8; /* Azul Tailwind primario */
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-min-height: 55px;
+    -fx-min-width: 58px;
+    -fx-pref-height: 55px;
+    -fx-pref-width: 58px;
+}
+
+.btn-buscar-kiosko:hover {
+    -fx-background-color: #1e40af; /* Azul más oscuro al pasar el cursor */
+}
+
+.btn-buscar-kiosko:disabled {
+    -fx-background-color: #94a3b8; /* Gris neutral deshabilitado durante la petición */
+    -fx-cursor: wait;
+}

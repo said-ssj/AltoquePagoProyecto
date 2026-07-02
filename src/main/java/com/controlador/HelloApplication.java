@@ -2,6 +2,7 @@ package com.controlador;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -10,13 +11,13 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        // La ruta ahora empieza con /com/vista/ y tiene el sufijo -view
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("/com/vista/Login-view.fxml"));
+        // CORRECCIÓN: Iniciar siempre desde la vista de Login
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vista/Login-view.fxml"));
+        Parent root = loader.load();
 
-        Scene scene = new Scene(fxmlLoader.load(), 900, 600); // Tamaño del login
-        stage.setTitle("ALToque Pago - Sistema de Autoservicio");
+        Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setMaximized(false);
+        stage.setTitle("ALToque Pago - Iniciar Sesión");
         stage.show();
         stage.centerOnScreen();
     }
@@ -24,5 +25,4 @@ public class HelloApplication extends Application {
     public static void main(String[] args) {
         launch();
     }
-
 }

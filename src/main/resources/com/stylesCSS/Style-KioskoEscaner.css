@@ -46,3 +46,37 @@
     -fx-background: #ffffff;
     -fx-border-color: transparent;
 }
+/* ==========================================================================
+   TARJETAS DINÁMICAS DEL CARRITO DE COMPRAS
+   ========================================================================== */
+
+.item-carrito-tarjeta {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px 15px 10px 15px;
+    -fx-spacing: 15px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.05), 5, 0, 0, 2);
+}
+
+.item-carrito-info {
+    -fx-spacing: 4px;
+}
+
+.item-carrito-nombre {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e293b;
+}
+
+.item-carrito-precio {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1d4ed8;
+}
+
+.item-carrito-cantidad {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #64748b;
+    -fx-min-width: 40px;
+}
