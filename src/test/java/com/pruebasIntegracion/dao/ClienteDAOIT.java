@@ -46,7 +46,6 @@ public class ClienteDAOIT {
         Cliente c = new Cliente();
         c.setNombre("Cliente Prueba Integracion");
 
-        // ¡CORRECCIÓN AQUÍ! Usamos solo "D" porque la base de datos solo acepta 1 carácter
         c.setTipoDocumento("D");
 
         c.setNumeroDocumento(dniDinamico);
