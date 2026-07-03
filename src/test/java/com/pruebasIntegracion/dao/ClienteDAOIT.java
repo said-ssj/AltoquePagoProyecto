@@ -45,8 +45,11 @@ public class ClienteDAOIT {
         // 2. Inicializamos un objeto cliente con datos ficticios válidos
         Cliente c = new Cliente();
         c.setNombre("Cliente Prueba Integracion");
-        c.setTipoDocumento("DNI");
-        c.setNumeroDocumento(dniDinamico); // Usamos el DNI único que acabamos de crear
+
+        // ¡CORRECCIÓN AQUÍ! Usamos solo "D" porque la base de datos solo acepta 1 carácter
+        c.setTipoDocumento("D");
+
+        c.setNumeroDocumento(dniDinamico);
 
         // 3. Capturamos el int que nos devuelve el método original (ID autogenerado)
         int idGenerado = clienteDAO.guardarCliente(c);
@@ -54,7 +57,7 @@ public class ClienteDAOIT {
         // 4. Comprobamos que nos retorne un ID válido (mayor que 0)
         assertTrue(idGenerado > 0, "El DAO nos debería retornar un ID autogenerado mayor a 0 si el INSERT fue correcto.");
 
-        // 5. Realizamos nuestra consulta de verificación cruzada buscando ESE DNI específico
+        // 5. Realizamos nuestra consulta de verificación cruzada
         String sqlVerificar = "SELECT COUNT(*) FROM cliente WHERE numero_documento = ?";
         try (PreparedStatement ps = conexionReal.prepareStatement(sqlVerificar)) {
             ps.setString(1, dniDinamico);

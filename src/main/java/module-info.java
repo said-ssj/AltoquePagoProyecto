@@ -11,6 +11,7 @@ module com.example.altoquepagoproyecto {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.ikonli.fontawesome5;
     requires com.github.librepdf.openpdf;
+    requires jdk.compiler;
 
     opens com.controlador to javafx.fxml;
     opens com.modelo to javafx.base;
