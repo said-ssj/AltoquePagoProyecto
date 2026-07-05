@@ -8,74 +8,92 @@ import com.modelo.Venta;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * DAO para operaciones sobre la tabla venta.
+ *
+ * SEGURIDAD [SEC-06]: Se corrigieron fugas de recursos de base de datos.
+ * Los métodos guardarVenta() y listarVentas() originales no usaban
+ * try-with-resources, dejando Connections, PreparedStatements y ResultSets
+ * sin cerrar ante cualquier excepción. Ahora todos usan try-with-resources.
+ */
 public class VentaDAO {
     private static final Logger logger = LoggerFactory.getLogger(VentaDAO.class);
-    private String cliente;
-
-    public String getCliente() { return cliente; }
-    public void setCliente(String cliente) { this.cliente = cliente; }
 
     public int guardarVenta(int idCliente, double total) {
         int idVentaGenerado = 0;
-        try {
-            Connection cn = ConexionDB.conectar();
-            String sql = "INSERT INTO venta(id_cliente,total) VALUES(?,?)";
-            PreparedStatement ps = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, idCliente);
-            ps.setDouble(2, total);
-            ps.executeUpdate();
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) idVentaGenerado = rs.getInt(1);
-        } catch (Exception e) { e.printStackTrace(); }
+        String sql = "INSERT INTO venta(id_cliente, total) VALUES(?, ?)";
+
+        // SEGURIDAD [SEC-06]: try-with-resources garantiza cierre aunque haya excepción
+        try (Connection cn = ConexionDB.conectar()) {
+            if (cn == null) return 0;
+            try (PreparedStatement ps = cn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                ps.setInt(1, idCliente);
+                ps.setDouble(2, total);
+                ps.executeUpdate();
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) idVentaGenerado = rs.getInt(1);
+                }
+            }
+        } catch (Exception e) {
+            logger.error("Error al guardar la venta para idCliente={}", idCliente, e);
+        }
         return idVentaGenerado;
     }
 
     public List<Venta> listarVentas() {
         List<Venta> lista = new ArrayList<>();
-        try {
-            Connection cn = ConexionDB.conectar();
-            String sql =
-                    "SELECT v.id_venta, v.fecha, v.total, " +
-                            "  c.id_cliente, CONCAT(c.nombre, ' ', IFNULL(c.apellido,'')) AS cliente, " +
-                            "  COUNT(dv.id_producto) AS productos, " +
-                            "  p.estado AS estado, " +
-                            "  IFNULL(p.metodo, 'N/A') AS metodo_pago " +
-                            "FROM venta v " +
-                            "INNER JOIN cliente c ON v.id_cliente = c.id_cliente " +
-                            "LEFT JOIN detalle_venta dv ON v.id_venta = dv.id_venta " +
-                            "LEFT JOIN pago p ON v.id_venta = p.id_venta " +
-                            "GROUP BY v.id_venta, v.fecha, v.total, c.id_cliente, c.nombre, c.apellido, p.estado, p.metodo " +
-                            "ORDER BY v.id_venta DESC";
+        String sql =
+                "SELECT v.id_venta, v.fecha, v.total, " +
+                        "  c.id_cliente, CONCAT(c.nombre, ' ', IFNULL(c.apellido,'')) AS cliente, " +
+                        "  COUNT(dv.id_producto) AS productos, " +
+                        "  p.estado AS estado, " +
+                        "  IFNULL(p.metodo, 'N/A') AS metodo_pago " +
+                        "FROM venta v " +
+                        "INNER JOIN cliente c ON v.id_cliente = c.id_cliente " +
+                        "LEFT JOIN detalle_venta dv ON v.id_venta = dv.id_venta " +
+                        "LEFT JOIN pago p ON v.id_venta = p.id_venta " +
+                        "GROUP BY v.id_venta, v.fecha, v.total, c.id_cliente, c.nombre, c.apellido, p.estado, p.metodo " +
+                        "ORDER BY v.id_venta DESC";
 
-            PreparedStatement ps = cn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                String estado = rs.getString("estado");
-                if (estado == null) estado = "PENDIENTE";
-                lista.add(new Venta(
-                        String.valueOf(rs.getInt("id_venta")),
-                        rs.getString("fecha"),
-                        rs.getString("cliente"),
-                        rs.getInt("id_cliente"),
-                        rs.getInt("productos"),
-                        rs.getDouble("total"),
-                        estado,
-                        rs.getString("metodo_pago")
-                ));
+        // SEGURIDAD [SEC-06]: try-with-resources en todos los niveles
+        try (Connection cn = ConexionDB.conectar()) {
+            if (cn == null) return lista;
+            try (PreparedStatement ps = cn.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String estado = rs.getString("estado");
+                    if (estado == null) estado = "PENDIENTE";
+                    lista.add(new Venta(
+                            String.valueOf(rs.getInt("id_venta")),
+                            rs.getString("fecha"),
+                            rs.getString("cliente"),
+                            rs.getInt("id_cliente"),
+                            rs.getInt("productos"),
+                            rs.getDouble("total"),
+                            estado,
+                            rs.getString("metodo_pago")
+                    ));
+                }
             }
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            logger.error("Error al listar las ventas", e);
+        }
         return lista;
     }
 
-    /** Lista nombres de clientes para el combo del diálogo */
     public List<String[]> listarClientes() {
         List<String[]> lista = new ArrayList<>();
+        String sql = "SELECT id_cliente, CONCAT(nombre,' ',IFNULL(apellido,'')) FROM cliente ORDER BY nombre";
+
         try (Connection cn = ConexionDB.conectar()) {
-            String sql = "SELECT id_cliente, CONCAT(nombre,' ',IFNULL(apellido,'')) FROM cliente ORDER BY nombre";
-            PreparedStatement ps = cn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) lista.add(new String[]{rs.getString(1), rs.getString(2)});
-        } catch (Exception e) { e.printStackTrace(); }
+            if (cn == null) return lista;
+            try (PreparedStatement ps = cn.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) lista.add(new String[]{rs.getString(1), rs.getString(2)});
+            }
+        } catch (Exception e) {
+            logger.error("Error al listar clientes", e);
+        }
         return lista;
     }
 }

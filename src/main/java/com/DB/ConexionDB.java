@@ -24,7 +24,6 @@ public class ConexionDB {
             String clave = prop.getProperty("db.password");
 
             Class.forName("com.mysql.cj.jdbc.Driver");
-
             conexion = DriverManager.getConnection(url, usuario, clave);
 
         } catch (Exception e) {

@@ -1,7 +1,7 @@
 package com;
 
 import com.modelo.Producto;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestProducto {

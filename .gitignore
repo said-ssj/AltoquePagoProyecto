@@ -41,3 +41,10 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Seguridad: archivos con credenciales ###
+src/main/resources/db.properties
+.idea/dataSources.xml
+.idea/dataSources.local.xml
+.idea/dataSources/
+src/main/resources/api.properties
