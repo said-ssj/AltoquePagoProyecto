@@ -125,7 +125,7 @@
                                     <children>
                                         <CheckBox fx:id="chkSonidoEscaner" mnemonicParsing="false" selected="true" text="Activar sonido ('Beep') al escanear productos" />
                                         <CheckBox fx:id="chkModoOscuro" mnemonicParsing="false" text="Habilitar Modo Oscuro en Terminal de Kiosko (Para turnos de noche)" />
-                                        <CheckBox fx:id="chkImpresionAutomatica" mnemonicParsing="false" selected="true" text="Imprimir comprobante automáticamente al confirmar pago" />
+                                        <CheckBox fx:id="chkImpresionAutomatica" selected="true" text="Imprimir comprobante automáticamente al confirmar pago"/>
                                     </children>
                                 </VBox>
                             </children>
