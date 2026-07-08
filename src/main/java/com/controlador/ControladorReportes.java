@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
@@ -62,92 +63,103 @@ public class ControladorReportes implements Initializable {
     }
 
     // ============================================================
-    //  PASO 1: DIÁLOGO PARA ELEGIR EL PERIODO (Mensual / Semanal)
+    //  PASO 1: DIÁLOGO PARA ELEGIR EL PERIODO (Mensual / Semanal / Personalizado)
     // ============================================================
     private void iniciarGeneracion(String tipoReporte) {
-
-        Dialog<ButtonType> dialog = new Dialog<>();
+        Dialog<Object[]> dialog = new Dialog<>();
         dialog.setTitle("Generar Reporte de " + tipoReporte);
-        dialog.setHeaderText("Selecciona el tipo de periodo");
+        dialog.setHeaderText("Selecciona el periodo del reporte");
 
-        ButtonType btnGenerar = new ButtonType("Generar", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(btnGenerar, ButtonType.CANCEL);
+        ButtonType btnContinuar = new ButtonType("Continuar", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(btnContinuar, ButtonType.CANCEL);
 
-        // RadioButtons
         ToggleGroup grupo = new ToggleGroup();
-
-        RadioButton rbMensual = new RadioButton("Mes actual");
-        RadioButton rbSemanal = new RadioButton("Semana actual");
-        RadioButton rbRango = new RadioButton("Rango de fechas");
-
+        RadioButton rbMensual = new RadioButton("Mensual (este mes)");
+        RadioButton rbSemanal = new RadioButton("Semanal (esta semana)");
+        RadioButton rbPersonalizado = new RadioButton("Personalizado (elige un rango de fechas, incluye periodos antiguos)");
         rbMensual.setToggleGroup(grupo);
         rbSemanal.setToggleGroup(grupo);
-        rbRango.setToggleGroup(grupo);
+        rbPersonalizado.setToggleGroup(grupo);
 
-        if ("Ventas".equals(tipoReporte))
-            rbMensual.setSelected(true);
-        else
-            rbSemanal.setSelected(true);
+        // Por defecto: Ventas → mensual, Inventario/Empleados → semanal
+        if ("Ventas".equals(tipoReporte)) rbMensual.setSelected(true);
+        else rbSemanal.setSelected(true);
 
-        // DatePicker
-        DatePicker dpInicio = new DatePicker(LocalDate.now().minusDays(7));
+        DatePicker dpInicio = new DatePicker(LocalDate.now().minusMonths(1));
         DatePicker dpFin = new DatePicker(LocalDate.now());
+        HBox filaFechas = new HBox(10, new Label("Desde:"), dpInicio, new Label("Hasta:"), dpFin);
+        filaFechas.setDisable(true); // solo se habilita si eligen "Personalizado"
 
-        dpInicio.disableProperty().bind(rbRango.selectedProperty().not());
-        dpFin.disableProperty().bind(rbRango.selectedProperty().not());
+        rbPersonalizado.selectedProperty().addListener((obs, viejo, seleccionado) -> filaFechas.setDisable(!seleccionado));
 
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
+        VBox caja = new VBox(12, rbMensual, rbSemanal, rbPersonalizado, filaFechas);
+        caja.setPadding(new Insets(20));
+        dialog.getDialogPane().setContent(caja);
 
-        grid.add(rbMensual,0,0);
-        grid.add(rbSemanal,0,1);
-        grid.add(rbRango,0,2);
-
-        grid.add(new Label("Desde:"),0,3);
-        grid.add(dpInicio,1,3);
-
-        grid.add(new Label("Hasta:"),0,4);
-        grid.add(dpFin,1,4);
-
-        dialog.getDialogPane().setContent(grid);
-
-        Optional<ButtonType> resultado = dialog.showAndWait();
-
-        if(resultado.isPresent() && resultado.get()==btnGenerar){
-
-            if(rbRango.isSelected()){
-
-                generarReportePersonalizado(
-                        tipoReporte,
-                        dpInicio.getValue(),
-                        dpFin.getValue());
-
-            }else{
-
-                generarReporte(
-                        tipoReporte,
-                        rbMensual.isSelected() ? "MENSUAL" : "SEMANAL");
-
+        // Validación: si eligen Personalizado, ambas fechas deben existir y "Desde" no puede ser posterior a "Hasta"
+        Node botonOk = dialog.getDialogPane().lookupButton(btnContinuar);
+        botonOk.addEventFilter(javafx.event.ActionEvent.ACTION, evento -> {
+            if (rbPersonalizado.isSelected()) {
+                LocalDate ini = dpInicio.getValue();
+                LocalDate fin = dpFin.getValue();
+                if (ini == null || fin == null || ini.isAfter(fin)) {
+                    mostrarAlerta(Alert.AlertType.WARNING, "Rango inválido",
+                            "Selecciona una fecha 'Desde' y 'Hasta' válidas (Desde no puede ser posterior a Hasta).");
+                    evento.consume();
+                }
             }
+        });
 
-        }
+        dialog.setResultConverter(btn -> {
+            if (btn != btnContinuar) return null;
+            if (rbPersonalizado.isSelected()) {
+                return new Object[]{"PERSONALIZADO", dpInicio.getValue(), dpFin.getValue()};
+            }
+            String periodo = rbMensual.isSelected() ? "MENSUAL" : "SEMANAL";
+            return new Object[]{periodo, null, null};
+        });
 
+        Optional<Object[]> resultado = dialog.showAndWait();
+        resultado.ifPresent(datos -> generarReporte(
+                tipoReporte,
+                (String) datos[0],
+                (LocalDate) datos[1],
+                (LocalDate) datos[2]
+        ));
     }
 
     // ============================================================
     //  PASO 2: GENERAR EL REPORTE SEGÚN TIPO Y PERIODO ELEGIDO
     // ============================================================
-    private void generarReporte(String tipoReporte, String periodo) {
+    private void generarReporte(String tipoReporte, String periodo, LocalDate inicioPersonalizado, LocalDate finPersonalizado) {
         LocalDate hoy = LocalDate.now();
-        LocalDate inicio = "MENSUAL".equals(periodo)
-                ? hoy.withDayOfMonth(1)
-                : hoy.with(java.time.DayOfWeek.MONDAY);
-        LocalDate fin = hoy;
+        LocalDate inicio;
+        LocalDate fin;
+
+        switch (periodo) {
+            case "PERSONALIZADO" -> {
+                inicio = inicioPersonalizado;
+                fin = finPersonalizado;
+            }
+            case "MENSUAL" -> {
+                inicio = hoy.withDayOfMonth(1);
+                fin = hoy;
+            }
+            default -> { // SEMANAL
+                inicio = hoy.with(java.time.DayOfWeek.MONDAY);
+                fin = hoy;
+            }
+        }
 
         String sql;
         String titulo;
         Color colorTema;
+
+        String etiquetaPeriodo = switch (periodo) {
+            case "MENSUAL" -> "Mensual";
+            case "SEMANAL" -> "Semanal";
+            default -> "Personalizado";
+        };
 
         switch (tipoReporte) {
             case "Ventas" -> {
@@ -160,7 +172,7 @@ public class ControladorReportes implements Initializable {
                                 "LEFT JOIN pago p ON v.id_venta = p.id_venta " +
                                 "WHERE DATE(v.fecha) BETWEEN ? AND ? " +
                                 "ORDER BY v.fecha DESC";
-                titulo = "Reporte de Ventas " + ("MENSUAL".equals(periodo) ? "Mensual" : "Semanal");
+                titulo = "Reporte de Ventas " + etiquetaPeriodo;
                 colorTema = COLOR_VENTAS;
             }
             case "Inventario" -> {
@@ -175,7 +187,7 @@ public class ControladorReportes implements Initializable {
                                 "  AND DATE(mi.fecha) BETWEEN ? AND ? " +
                                 "GROUP BY p.id_producto, p.codigo_barras, p.nombre, p.precio, p.stock " +
                                 "ORDER BY p.stock ASC";
-                titulo = "Reporte de Inventario " + ("MENSUAL".equals(periodo) ? "Mensual" : "Semanal");
+                titulo = "Reporte de Inventario " + etiquetaPeriodo;
                 colorTema = COLOR_INVENTARIO;
             }
             case "Empleados" -> {
@@ -186,7 +198,7 @@ public class ControladorReportes implements Initializable {
                                 "FROM usuario_personal u " +
                                 "LEFT JOIN rol r ON u.id_rol = r.id_rol " +
                                 "ORDER BY u.area, u.nombre";
-                titulo = "Reporte de Empleados " + ("MENSUAL".equals(periodo) ? "Mensual" : "Semanal");
+                titulo = "Reporte de Empleados " + etiquetaPeriodo;
                 colorTema = COLOR_EMPLEADOS;
             }
             default -> { return; }
@@ -198,104 +210,6 @@ public class ControladorReportes implements Initializable {
         exportarPDF(sql, inicio, fin, nombreArchivo, titulo, tipoReporte, periodo, colorTema);
     }
 
-    private void generarReportePersonalizado(String tipoReporte,
-                                             LocalDate inicio,
-                                             LocalDate fin) {
-
-        String sql;
-        String titulo;
-        Color colorTema;
-
-        switch (tipoReporte) {
-
-            case "Ventas" -> {
-
-                sql =
-                        "SELECT v.id_venta AS 'ID', DATE(v.fecha) AS 'Fecha', " +
-                                "CONCAT(c.nombre,' ',IFNULL(c.apellido,'')) AS 'Cliente', " +
-                                "v.total AS 'Total (S/)', " +
-                                "IFNULL(p.estado,'PENDIENTE') AS 'Estado' " +
-                                "FROM venta v " +
-                                "INNER JOIN cliente c ON v.id_cliente=c.id_cliente " +
-                                "LEFT JOIN pago p ON v.id_venta=p.id_venta " +
-                                "WHERE DATE(v.fecha) BETWEEN ? AND ? " +
-                                "ORDER BY v.fecha DESC";
-
-                titulo="Reporte de Ventas";
-                colorTema=COLOR_VENTAS;
-
-            }
-
-            case "Inventario" -> {
-
-                sql =
-                        "SELECT p.id_producto AS 'ID', p.codigo_barras AS 'Código', p.nombre AS 'Producto', " +
-                                "p.precio AS 'Precio (S/)', p.stock AS 'Stock', " +
-                                "CASE WHEN p.stock=0 THEN 'SIN STOCK' " +
-                                "WHEN p.stock<5 THEN 'BAJO STOCK' " +
-                                "ELSE 'OK' END AS 'Estado' " +
-                                "FROM producto p " +
-                                "LEFT JOIN movimiento_inventario mi ON p.id_producto=mi.id_producto " +
-                                "AND DATE(mi.fecha) BETWEEN ? AND ? " +
-                                "GROUP BY p.id_producto,p.codigo_barras,p.nombre,p.precio,p.stock " +
-                                "ORDER BY p.stock ASC";
-
-                titulo="Reporte de Inventario";
-                colorTema=COLOR_INVENTARIO;
-
-            }
-
-            case "Empleados" -> {
-
-                sql =
-                        "SELECT u.id_usuario AS 'ID', u.nombre AS 'Nombre', " +
-                                "u.email AS 'Email', r.nombre_rol AS 'Rol', " +
-                                "u.area AS 'Área', u.tipo_contrato AS 'Contrato', " +
-                                "u.telefono AS 'Teléfono' " +
-                                "FROM usuario_personal u " +
-                                "LEFT JOIN rol r ON u.id_rol=r.id_rol";
-
-                titulo="Reporte de Empleados";
-                colorTema=COLOR_EMPLEADOS;
-
-            }
-
-            default -> {
-
-                return;
-
-            }
-
-        }
-
-        String nombreArchivo =
-                "reporte_"
-                        + tipoReporte.toLowerCase()
-                        + "_"
-                        + FMT_FILE.format(LocalDateTime.now())
-                        + ".pdf";
-
-        exportarPDF(
-                sql,
-                inicio,
-                fin,
-                nombreArchivo,
-                titulo,
-                tipoReporte,
-                "RANGO",
-                colorTema);
-
-    }
-
-    private void generarReporteDesdeHistorial(
-            String tipo,
-            LocalDate inicio,
-            LocalDate fin,
-            String periodo) {
-
-        generarReportePersonalizado(tipo, inicio, fin);
-
-    }
     // ============================================================
     //  GENERAR EL ARCHIVO PDF CON TÍTULO + TABLA
     // ============================================================
@@ -341,13 +255,7 @@ public class ControladorReportes implements Initializable {
 
             construirPDF(archivo, tituloReporte, headers, filas, inicio, fin, colorTema);
 
-            guardarRegistroReporte(
-                    cn,
-                    tipoReporte,
-                    inicio,
-                    fin,
-                    periodo,
-                    archivo.getAbsolutePath());
+            guardarRegistroReporte(cn, tipoReporte);
 
             mostrarAlerta(Alert.AlertType.INFORMATION, "Reporte generado",
                     "Se exportaron " + filas.size() + " registros.\nArchivo: " + archivo.getAbsolutePath());
@@ -437,46 +345,21 @@ public class ControladorReportes implements Initializable {
         documento.close();
     }
 
-    private void guardarRegistroReporte(
-            Connection cn,
-            String tipo,
-            LocalDate inicio,
-            LocalDate fin,
-            String periodo,
-            String rutaPDF) {
-
+    private void guardarRegistroReporte(Connection cn, String tipo) {
         try {
-
-            String sqlUser =
-                    "SELECT id_usuario FROM usuario_personal LIMIT 1";
-
+            String sqlUser = "SELECT id_usuario FROM usuario_personal LIMIT 1";
             PreparedStatement ps0 = cn.prepareStatement(sqlUser);
             ResultSet rs0 = ps0.executeQuery();
-
             int idUsuario = rs0.next() ? rs0.getInt(1) : 1;
 
-            String sql =
-                    "INSERT INTO reporte " +
-                            "(id_usuario,tipo_reporte,fecha_inicio,fecha_fin,periodo,ruta_pdf,fecha) " +
-                            "VALUES (?,?,?,?,?,?,NOW())";
-
-            PreparedStatement ps = cn.prepareStatement(sql);
-
-            ps.setInt(1,idUsuario);
-            ps.setString(2,tipo);
-            ps.setDate(3,Date.valueOf(inicio));
-            ps.setDate(4,Date.valueOf(fin));
-            ps.setString(5,periodo);
-            ps.setString(6, rutaPDF);
-
+            String sqlInsert = "INSERT INTO reporte (id_usuario, tipo_reporte, fecha) VALUES (?, ?, NOW())";
+            PreparedStatement ps = cn.prepareStatement(sqlInsert);
+            ps.setInt(1, idUsuario);
+            ps.setString(2, tipo);
             ps.executeUpdate();
-
-        } catch(Exception e){
-
-            e.printStackTrace();
-
+        } catch (Exception e) {
+            System.err.println("Aviso: no se pudo registrar el reporte en BD: " + e.getMessage());
         }
-
     }
 
     // ============================================================
@@ -496,9 +379,9 @@ public class ControladorReportes implements Initializable {
             if (cn == null) return;
 
             String sql =
-                    "SELECT id_reporte, tipo_reporte, periodo, fecha_inicio, fecha_fin, ruta_pdf, fecha " +
-                            "FROM reporte " +
-                            "ORDER BY fecha DESC " +
+                    "SELECT r.id_reporte, r.tipo_reporte, r.fecha " +
+                            "FROM reporte r " +
+                            "ORDER BY r.fecha DESC " +
                             "LIMIT 50";
 
             PreparedStatement ps = cn.prepareStatement(sql);
@@ -507,10 +390,6 @@ public class ControladorReportes implements Initializable {
             while (rs.next()) {
                 String tipo  = rs.getString("tipo_reporte");
                 Timestamp ts = rs.getTimestamp("fecha");
-                LocalDate fechaInicio = rs.getDate("fecha_inicio").toLocalDate();
-                LocalDate fechaFin = rs.getDate("fecha_fin").toLocalDate();
-                String periodo = rs.getString("periodo");
-                String ruta = rs.getString("ruta_pdf");
                 LocalDate fechaRep = ts.toLocalDateTime().toLocalDate();
 
                 boolean esReciente = false;
@@ -520,13 +399,8 @@ public class ControladorReportes implements Initializable {
                         && !fechaRep.isBefore(lunes)) {
                     esReciente = true;
                 }
-                HBox fila = crearFilaReporte(
-                        tipo,
-                        ts.toLocalDateTime(),
-                        fechaInicio,
-                        fechaFin,
-                        periodo,
-                        ruta);
+
+                HBox fila = crearFilaReporte(tipo, ts.toLocalDateTime());
                 if (esReciente) contenedorRecientes.getChildren().add(fila);
                 else contenedorHistorial.getChildren().add(fila);
             }
@@ -542,13 +416,7 @@ public class ControladorReportes implements Initializable {
         }
     }
 
-    private HBox crearFilaReporte(
-            String tipo,
-            LocalDateTime fecha,
-            LocalDate inicio,
-            LocalDate fin,
-            String periodo,
-            String ruta) {
+    private HBox crearFilaReporte(String tipo, LocalDateTime fecha) {
         HBox fila = new HBox(12);
         fila.setAlignment(Pos.CENTER_LEFT);
         fila.getStyleClass().add("item-lista");
@@ -587,40 +455,7 @@ public class ControladorReportes implements Initializable {
 
         Button btnDescargar = new Button("Descargar");
         btnDescargar.getStyleClass().add("boton-descargar");
-        btnDescargar.setOnAction(e ->
-                generarReporteDesdeHistorial(
-                        normalizarTipo(tipo),
-                        inicio,
-                        fin,
-                        periodo));
-
-
-        btnDescargar.setOnAction(e -> {
-
-            File archivo = new File(ruta);
-
-            if (archivo.exists()) {
-
-                try {
-
-                    Desktop.getDesktop().open(archivo);
-
-                } catch (Exception ex) {
-
-                    ex.printStackTrace();
-
-                }
-
-            } else {
-
-                mostrarAlerta(
-                        Alert.AlertType.ERROR,
-                        "Archivo no encontrado",
-                        "El PDF ya no existe en esa ubicación.");
-
-            }
-
-        });
+        btnDescargar.setOnAction(e -> iniciarGeneracion(normalizarTipo(tipo)));
 
         fila.getChildren().addAll(info, btnDescargar);
         return fila;

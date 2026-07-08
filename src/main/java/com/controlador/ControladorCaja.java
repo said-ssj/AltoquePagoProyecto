@@ -1,6 +1,8 @@
 package com.controlador;
 
+import com.dao.ArqueoCajaDAO;
 import com.dao.PagoDAO;
+import com.modelo.ArqueoCaja;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -11,7 +13,7 @@ import javafx.scene.control.TextInputDialog;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -40,21 +42,38 @@ public class ControladorCaja implements Initializable {
     @FXML private Button btnCerrarCaja;
 
     private final PagoDAO pagoDAO = new PagoDAO();
+    private final ArqueoCajaDAO arqueoCajaDAO = new ArqueoCajaDAO();
 
-    // Estado del turno. Se mantiene estático para que sobreviva mientras la app siga abierta,
-    // aunque el usuario navegue a otro módulo y vuelva a entrar a Caja.
-    private static boolean cajaAbierta = true;
-    private static double montoBaseApertura = 0.0;
-    private static String horaApertura = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm a"));
+    // Estado del turno, cargado/persistido en la tabla arqueo_caja
+    private boolean cajaAbierta = false;
+    private int idArqueoActual = -1;
+    private double montoBaseApertura = 0.0;
+    private LocalDateTime fechaApertura;
 
     // Totales calculados en la última carga (para el cálculo de la diferencia del arqueo)
     private double totalEfectivoSistema = 0.0;
-    private double totalDigitalSistema = 0.0;
+    private double totalYapeSistema = 0.0;
+    private double totalPlinSistema = 0.0;
     private double totalTarjetaSistema = 0.0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         lblFecha.setText("Fecha: " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+
+        // Recupera de la BD si ya hay un turno abierto (por ejemplo si se cerró la app sin cerrar caja)
+        ArqueoCaja abierto = arqueoCajaDAO.obtenerArqueoAbierto();
+        if (abierto != null) {
+            cajaAbierta = true;
+            idArqueoActual = abierto.getIdArqueo();
+            montoBaseApertura = abierto.getMontoInicial();
+            fechaApertura = abierto.getFechaApertura();
+        } else {
+            cajaAbierta = false;
+            idArqueoActual = -1;
+            montoBaseApertura = 0.0;
+            fechaApertura = null;
+        }
+
         cargarDatosTurno();
         actualizarEstadoVisual();
     }
@@ -63,19 +82,20 @@ public class ControladorCaja implements Initializable {
      * Trae los totales reales del día desde la tabla `pago` (unida a `venta`).
      * NOTA: el ENUM de pago.metodo solo admite YAPE, PLIN y TARJETA (no existe un
      * método EFECTIVO en la base de datos), por lo que el efectivo del sistema se
-     * calcula como el monto base declarado al abrir la caja. Si en el futuro se
-     * agrega un método de pago en efectivo a la tabla `pago`, esta suma debería
-     * incluirse aquí también.
+     * calcula como el monto base declarado al abrir la caja (columna monto_inicial
+     * de arqueo_caja).
      */
     private void cargarDatosTurno() {
-        totalDigitalSistema = pagoDAO.obtenerTotalBilleterasDigitalesHoy();
+        totalYapeSistema = pagoDAO.obtenerTotalPorMetodoHoy("YAPE");
+        totalPlinSistema = pagoDAO.obtenerTotalPorMetodoHoy("PLIN");
         totalTarjetaSistema = pagoDAO.obtenerTotalPorMetodoHoy("TARJETA");
         totalEfectivoSistema = montoBaseApertura;
 
-        double totalTurno = totalEfectivoSistema + totalDigitalSistema + totalTarjetaSistema;
+        double totalDigital = totalYapeSistema + totalPlinSistema;
+        double totalTurno = totalEfectivoSistema + totalDigital + totalTarjetaSistema;
 
         lblTotalEfectivo.setText(String.format("S/ %.2f", totalEfectivoSistema));
-        lblTotalDigital.setText(String.format("S/ %.2f", totalDigitalSistema));
+        lblTotalDigital.setText(String.format("S/ %.2f", totalDigital));
         lblTotalTarjeta.setText(String.format("S/ %.2f", totalTarjetaSistema));
         lblTotalTurno.setText(String.format("S/ %.2f", totalTurno));
     }
@@ -120,7 +140,7 @@ public class ControladorCaja implements Initializable {
 
     @FXML
     public void cerrarCaja() {
-        if (!cajaAbierta) {
+        if (!cajaAbierta || idArqueoActual == -1) {
             return;
         }
 
@@ -139,14 +159,16 @@ public class ControladorCaja implements Initializable {
         }
 
         double diferencia = efectivoReal - totalEfectivoSistema;
-        double totalTurno = totalEfectivoSistema + totalDigitalSistema + totalTarjetaSistema;
+        double totalDigital = totalYapeSistema + totalPlinSistema;
+        double totalVentas = totalDigital + totalTarjetaSistema;
+        double totalTurno = totalEfectivoSistema + totalVentas;
 
         String resumen = String.format(
                 "Efectivo (sistema): S/ %.2f%nEfectivo (contado): S/ %.2f%nDiferencia: S/ %.2f (%s)%n" +
-                        "Digital (Yape/Plin): S/ %.2f%nTarjeta: S/ %.2f%nTotal turno: S/ %.2f",
+                        "Yape: S/ %.2f%nPlin: S/ %.2f%nTarjeta: S/ %.2f%nTotal turno: S/ %.2f",
                 totalEfectivoSistema, efectivoReal, Math.abs(diferencia),
                 diferencia == 0 ? "Cuadre perfecto" : (diferencia > 0 ? "Sobrante" : "Faltante"),
-                totalDigitalSistema, totalTarjetaSistema, totalTurno
+                totalYapeSistema, totalPlinSistema, totalTarjetaSistema, totalTurno
         );
 
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
@@ -159,7 +181,19 @@ public class ControladorCaja implements Initializable {
             return;
         }
 
+        boolean guardado = arqueoCajaDAO.cerrarArqueo(
+                idArqueoActual, totalEfectivoSistema, efectivoReal, diferencia,
+                totalYapeSistema, totalPlinSistema, totalTarjetaSistema, totalVentas
+        );
+
+        if (!guardado) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error al guardar",
+                    "No se pudo guardar el arqueo en la base de datos. Verifique la conexión e intente nuevamente.");
+            return;
+        }
+
         cajaAbierta = false;
+        idArqueoActual = -1;
         actualizarEstadoVisual();
 
         mostrarAlerta(Alert.AlertType.INFORMATION, "Caja cerrada", "El arqueo se registró correctamente:\n\n" + resumen);
@@ -167,6 +201,11 @@ public class ControladorCaja implements Initializable {
 
     @FXML
     public void abrirCaja() {
+        if (cajaAbierta) {
+            mostrarAlerta(Alert.AlertType.WARNING, "Caja ya abierta", "Ya existe un turno de caja abierto.");
+            return;
+        }
+
         TextInputDialog dialog = new TextInputDialog("0.00");
         dialog.setTitle("Abrir nueva caja");
         dialog.setHeaderText("Apertura de turno");
@@ -189,9 +228,18 @@ public class ControladorCaja implements Initializable {
             return;
         }
 
+        // id_usuario queda en NULL: el proyecto todavía no guarda una sesión global del empleado logueado.
+        int idGenerado = arqueoCajaDAO.abrirArqueo(montoBase, null);
+        if (idGenerado == -1) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error al abrir caja",
+                    "No se pudo registrar la apertura en la base de datos. Verifique la conexión e intente nuevamente.");
+            return;
+        }
+
         montoBaseApertura = montoBase;
         cajaAbierta = true;
-        horaApertura = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm a"));
+        idArqueoActual = idGenerado;
+        fechaApertura = LocalDateTime.now();
 
         txtEfectivoReal.clear();
         lblDiferencia.setText("S/ 0.00");
@@ -201,9 +249,10 @@ public class ControladorCaja implements Initializable {
         actualizarEstadoVisual();
     }
 
-    /** Sincroniza todos los controles visuales con el estado interno (cajaAbierta / horaApertura). */
+    /** Sincroniza todos los controles visuales con el estado interno. */
     private void actualizarEstadoVisual() {
-        lblHoraApertura.setText("Hora Apertura: " + horaApertura);
+        lblHoraApertura.setText("Hora Apertura: " +
+                (fechaApertura != null ? fechaApertura.format(DateTimeFormatter.ofPattern("hh:mm a")) : "--:--"));
 
         if (cajaAbierta) {
             lblEstadoCaja.setText("CAJA ABIERTA");
