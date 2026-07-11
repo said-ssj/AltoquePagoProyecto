@@ -2,7 +2,7 @@ package com.dao;
 
 import com.DB.ConexionDB;
 import com.modelo.UsuarioPersonal;
-import com.servicio.Seguridad; // Importación necesaria para el Login
+import com.servicio.Seguridad;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -54,11 +54,13 @@ public class UsuarioPersonalDAO {
     }
 
     // ============================================================
-    //  OBTENER TODOS (Para tu tabla de empleados)
+    //  OBTENER TODOS (Para la tabla de empleados)
     // ============================================================
     public List<UsuarioPersonal> obtenerTodos() {
         List<UsuarioPersonal> lista = new ArrayList<>();
-        String sql = "SELECT * FROM usuario_personal";
+        // SEGURIDAD [SEC-03]: No se selecciona la columna contraseña para evitar
+        // exponer hashes innecesariamente en la capa de presentación.
+        String sql = "SELECT id_usuario, nombre, email, telefono, numero_documento, id_rol FROM usuario_personal";
 
         try (Connection cn = ConexionDB.conectar();
              PreparedStatement ps = cn.prepareStatement(sql);
@@ -72,7 +74,6 @@ public class UsuarioPersonalDAO {
                 u.setTelefono(rs.getString("telefono"));
                 u.setNumeroDocumento(rs.getString("numero_documento"));
                 u.setIdRol(rs.getInt("id_rol"));
-
                 lista.add(u);
             }
         } catch (Exception e) {
@@ -82,10 +83,19 @@ public class UsuarioPersonalDAO {
     }
 
     // ============================================================
-    //  AUTENTICAR USUARIO (Para el Login seguro con SHA-256)
+    //  AUTENTICAR USUARIO
+    //
+    //  SEGURIDAD [SEC-04] + [SEC-03]:
+    //  - Se busca al usuario SOLO por email (no por contraseña en SQL).
+    //  - La verificación de contraseña se hace en Java con Seguridad.verificarPassword(),
+    //    que soporta tanto PBKDF2 (nuevo) como SHA-256 (legacy).
+    //  - Si la contraseña era legacy SHA-256 y es correcta, se re-hashea con PBKDF2
+    //    y se actualiza en la base de datos de forma transparente.
+    //  - Al autenticar con éxito, no se expone la contraseña hasheada al controlador.
     // ============================================================
     public UsuarioPersonal autenticarUsuario(String email, String passwordTextoPlano) {
-        String sql = "SELECT * FROM usuario_personal WHERE email = ? AND contraseña = ?";
+        // Buscar usuario solo por email
+        String sql = "SELECT id_usuario, nombre, email, contraseña, id_rol FROM usuario_personal WHERE email = ?";
 
         try (Connection cn = ConexionDB.conectar()) {
             if (cn == null) return null;
@@ -93,20 +103,28 @@ public class UsuarioPersonalDAO {
             try (PreparedStatement ps = cn.prepareStatement(sql)) {
                 ps.setString(1, email);
 
-                // Encriptamos la contraseña digitada para compararla con el Hash guardado en MySQL
-                String passwordEncriptado = Seguridad.encriptarPassword(passwordTextoPlano);
-                ps.setString(2, passwordEncriptado);
-
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
+                        String hashAlmacenado = rs.getString("contraseña");
+
+                        // Verificar en Java (no en SQL)
+                        if (!Seguridad.verificarPassword(passwordTextoPlano, hashAlmacenado)) {
+                            return null; // Contraseña incorrecta
+                        }
+
                         UsuarioPersonal u = new UsuarioPersonal();
                         u.setIdUsuario(rs.getInt("id_usuario"));
                         u.setNombre(rs.getString("nombre"));
                         u.setEmail(rs.getString("email"));
-                        u.setContraseña(rs.getString("contraseña"));
                         u.setIdRol(rs.getInt("id_rol"));
+                        // No se devuelve la contraseña hasheada al controlador
 
-                        return u; // Login exitoso
+                        // Migración silenciosa: si era SHA-256 legacy, re-hashear con PBKDF2
+                        if (hashAlmacenado.matches("[0-9a-f]{64}")) {
+                            migrarPasswordAPBKDF2(cn, u.getIdUsuario(), passwordTextoPlano);
+                        }
+
+                        return u;
                     }
                 }
             }
@@ -114,6 +132,20 @@ public class UsuarioPersonalDAO {
             System.err.println("Error al autenticar al usuario.");
             e.printStackTrace();
         }
-        return null; // Credenciales incorrectas o error de BD
+        return null;
+    }
+
+    /** Re-hashea la contraseña de un usuario con PBKDF2 (migración desde SHA-256). */
+    private void migrarPasswordAPBKDF2(Connection cn, int idUsuario, String passwordTextoPlano) {
+        String nuevoHash = Seguridad.encriptarPassword(passwordTextoPlano);
+        String sql = "UPDATE usuario_personal SET contraseña = ? WHERE id_usuario = ?";
+        try (PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setString(1, nuevoHash);
+            ps.setInt(2, idUsuario);
+            ps.executeUpdate();
+            System.out.println("[Seguridad] Contraseña migrada a PBKDF2 para usuario ID: " + idUsuario);
+        } catch (Exception e) {
+            System.err.println("[Seguridad] Error al migrar contraseña: " + e.getMessage());
+        }
     }
 }

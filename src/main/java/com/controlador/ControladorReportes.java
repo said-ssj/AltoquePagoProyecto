@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
@@ -62,10 +63,10 @@ public class ControladorReportes implements Initializable {
     }
 
     // ============================================================
-    //  PASO 1: DIÁLOGO PARA ELEGIR EL PERIODO (Mensual / Semanal)
+    //  PASO 1: DIÁLOGO PARA ELEGIR EL PERIODO (Mensual / Semanal / Personalizado)
     // ============================================================
     private void iniciarGeneracion(String tipoReporte) {
-        Dialog<String> dialog = new Dialog<>();
+        Dialog<Object[]> dialog = new Dialog<>();
         dialog.setTitle("Generar Reporte de " + tipoReporte);
         dialog.setHeaderText("Selecciona el periodo del reporte");
 
@@ -73,43 +74,92 @@ public class ControladorReportes implements Initializable {
         dialog.getDialogPane().getButtonTypes().addAll(btnContinuar, ButtonType.CANCEL);
 
         ToggleGroup grupo = new ToggleGroup();
-        RadioButton rbMensual  = new RadioButton("Mensual (este mes)");
-        RadioButton rbSemanal  = new RadioButton("Semanal (esta semana)");
+        RadioButton rbMensual = new RadioButton("Mensual (este mes)");
+        RadioButton rbSemanal = new RadioButton("Semanal (esta semana)");
+        RadioButton rbPersonalizado = new RadioButton("Personalizado (elige un rango de fechas, incluye periodos antiguos)");
         rbMensual.setToggleGroup(grupo);
         rbSemanal.setToggleGroup(grupo);
+        rbPersonalizado.setToggleGroup(grupo);
 
         // Por defecto: Ventas → mensual, Inventario/Empleados → semanal
         if ("Ventas".equals(tipoReporte)) rbMensual.setSelected(true);
         else rbSemanal.setSelected(true);
 
-        VBox caja = new VBox(12, rbMensual, rbSemanal);
+        DatePicker dpInicio = new DatePicker(LocalDate.now().minusMonths(1));
+        DatePicker dpFin = new DatePicker(LocalDate.now());
+        HBox filaFechas = new HBox(10, new Label("Desde:"), dpInicio, new Label("Hasta:"), dpFin);
+        filaFechas.setDisable(true); // solo se habilita si eligen "Personalizado"
+
+        rbPersonalizado.selectedProperty().addListener((obs, viejo, seleccionado) -> filaFechas.setDisable(!seleccionado));
+
+        VBox caja = new VBox(12, rbMensual, rbSemanal, rbPersonalizado, filaFechas);
         caja.setPadding(new Insets(20));
         dialog.getDialogPane().setContent(caja);
 
-        dialog.setResultConverter(btn -> {
-            if (btn == btnContinuar) {
-                return rbMensual.isSelected() ? "MENSUAL" : "SEMANAL";
+        // Validación: si eligen Personalizado, ambas fechas deben existir y "Desde" no puede ser posterior a "Hasta"
+        Node botonOk = dialog.getDialogPane().lookupButton(btnContinuar);
+        botonOk.addEventFilter(javafx.event.ActionEvent.ACTION, evento -> {
+            if (rbPersonalizado.isSelected()) {
+                LocalDate ini = dpInicio.getValue();
+                LocalDate fin = dpFin.getValue();
+                if (ini == null || fin == null || ini.isAfter(fin)) {
+                    mostrarAlerta(Alert.AlertType.WARNING, "Rango inválido",
+                            "Selecciona una fecha 'Desde' y 'Hasta' válidas (Desde no puede ser posterior a Hasta).");
+                    evento.consume();
+                }
             }
-            return null;
         });
 
-        Optional<String> resultado = dialog.showAndWait();
-        resultado.ifPresent(periodo -> generarReporte(tipoReporte, periodo));
+        dialog.setResultConverter(btn -> {
+            if (btn != btnContinuar) return null;
+            if (rbPersonalizado.isSelected()) {
+                return new Object[]{"PERSONALIZADO", dpInicio.getValue(), dpFin.getValue()};
+            }
+            String periodo = rbMensual.isSelected() ? "MENSUAL" : "SEMANAL";
+            return new Object[]{periodo, null, null};
+        });
+
+        Optional<Object[]> resultado = dialog.showAndWait();
+        resultado.ifPresent(datos -> generarReporte(
+                tipoReporte,
+                (String) datos[0],
+                (LocalDate) datos[1],
+                (LocalDate) datos[2]
+        ));
     }
 
     // ============================================================
     //  PASO 2: GENERAR EL REPORTE SEGÚN TIPO Y PERIODO ELEGIDO
     // ============================================================
-    private void generarReporte(String tipoReporte, String periodo) {
+    private void generarReporte(String tipoReporte, String periodo, LocalDate inicioPersonalizado, LocalDate finPersonalizado) {
         LocalDate hoy = LocalDate.now();
-        LocalDate inicio = "MENSUAL".equals(periodo)
-                ? hoy.withDayOfMonth(1)
-                : hoy.with(java.time.DayOfWeek.MONDAY);
-        LocalDate fin = hoy;
+        LocalDate inicio;
+        LocalDate fin;
+
+        switch (periodo) {
+            case "PERSONALIZADO" -> {
+                inicio = inicioPersonalizado;
+                fin = finPersonalizado;
+            }
+            case "MENSUAL" -> {
+                inicio = hoy.withDayOfMonth(1);
+                fin = hoy;
+            }
+            default -> { // SEMANAL
+                inicio = hoy.with(java.time.DayOfWeek.MONDAY);
+                fin = hoy;
+            }
+        }
 
         String sql;
         String titulo;
         Color colorTema;
+
+        String etiquetaPeriodo = switch (periodo) {
+            case "MENSUAL" -> "Mensual";
+            case "SEMANAL" -> "Semanal";
+            default -> "Personalizado";
+        };
 
         switch (tipoReporte) {
             case "Ventas" -> {
@@ -122,7 +172,7 @@ public class ControladorReportes implements Initializable {
                                 "LEFT JOIN pago p ON v.id_venta = p.id_venta " +
                                 "WHERE DATE(v.fecha) BETWEEN ? AND ? " +
                                 "ORDER BY v.fecha DESC";
-                titulo = "Reporte de Ventas " + ("MENSUAL".equals(periodo) ? "Mensual" : "Semanal");
+                titulo = "Reporte de Ventas " + etiquetaPeriodo;
                 colorTema = COLOR_VENTAS;
             }
             case "Inventario" -> {
@@ -137,7 +187,7 @@ public class ControladorReportes implements Initializable {
                                 "  AND DATE(mi.fecha) BETWEEN ? AND ? " +
                                 "GROUP BY p.id_producto, p.codigo_barras, p.nombre, p.precio, p.stock " +
                                 "ORDER BY p.stock ASC";
-                titulo = "Reporte de Inventario " + ("MENSUAL".equals(periodo) ? "Mensual" : "Semanal");
+                titulo = "Reporte de Inventario " + etiquetaPeriodo;
                 colorTema = COLOR_INVENTARIO;
             }
             case "Empleados" -> {
@@ -148,7 +198,7 @@ public class ControladorReportes implements Initializable {
                                 "FROM usuario_personal u " +
                                 "LEFT JOIN rol r ON u.id_rol = r.id_rol " +
                                 "ORDER BY u.area, u.nombre";
-                titulo = "Reporte de Empleados " + ("MENSUAL".equals(periodo) ? "Mensual" : "Semanal");
+                titulo = "Reporte de Empleados " + etiquetaPeriodo;
                 colorTema = COLOR_EMPLEADOS;
             }
             default -> { return; }

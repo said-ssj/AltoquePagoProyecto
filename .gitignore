@@ -4,6 +4,9 @@ target/
 !**/src/test/**/target/
 .kotlin
 
+### Archivos de Configuración Local SENSISBLES ###
+src/main/resources/db.properties
+
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
@@ -38,3 +41,10 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Seguridad: archivos con credenciales ###
+src/main/resources/db.properties
+.idea/dataSources.xml
+.idea/dataSources.local.xml
+.idea/dataSources/
+src/main/resources/api.properties

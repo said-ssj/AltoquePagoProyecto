@@ -15,7 +15,7 @@
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="800.0" prefWidth="1060.0" spacing="20.0"
       styleClass="fondo-principal" stylesheets="@../stylesCSS/Style-Ventas.css"
-      xmlns="http://javafx.com/javafx/21"
+      xmlns="http://javafx.com/javafx/17.0.14"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.controlador.ControladorVentas">
     <padding>

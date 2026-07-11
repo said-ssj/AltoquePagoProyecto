@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="700.0" prefWidth="1000.0" styleClass="border.fondo-principal" stylesheets="@../stylesCSS/Style-Caja.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorCaja">
+<BorderPane prefHeight="700.0" prefWidth="1000.0" styleClass="border.fondo-principal" stylesheets="@../stylesCSS/Style-Caja.css" xmlns="http://javafx.com/javafx/17.0.14" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorCaja">
 
     <center>
         <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
@@ -26,9 +26,9 @@
 
                 <HBox spacing="30.0">
                     <children>
-                        <Label text="Cajero Actual: Juan Perez" />
-                        <Label text="Fecha: 18/06/2026" />
-                        <Label text="Hora Apertura: 08:00 AM" />
+                        <Label fx:id="lblCajero" text="Cajero Actual: Juan Perez" />
+                        <Label fx:id="lblFecha" text="Fecha: 18/06/2026" />
+                        <Label fx:id="lblHoraApertura" text="Hora Apertura: 08:00 AM" />
                     </children>
                 </HBox>
 

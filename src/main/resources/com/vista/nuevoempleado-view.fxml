@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane fitToWidth="true" styleClass="fondo-principal" stylesheets="@../stylesCSS/Style-NuevoEmpleado.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorNuevoEmpleado">
+<ScrollPane fitToWidth="true" styleClass="fondo-principal" stylesheets="@../stylesCSS/Style-NuevoEmpleado.css" xmlns="http://javafx.com/javafx/17.0.14" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorNuevoEmpleado">
     <VBox spacing="20.0" styleClass="fondo-principal">
         <padding>
             <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />

@@ -50,6 +50,21 @@ public class OfertaDAO {
         return lista;
     }
 
+    // ── Buscar activa por producto (para el punto de venta / kiosko) ───
+    public Oferta buscarOferta(int idProducto) {
+        String sql = "SELECT o.id_oferta, o.id_producto, p.nombre AS nombre_producto, " +
+                "  o.descripcion, o.descuento, o.fecha_inicio, o.fecha_fin, o.estado " +
+                "FROM oferta o INNER JOIN producto p ON o.id_producto = p.id_producto " +
+                "WHERE o.id_producto=? AND o.estado=1";
+        try (Connection cn = ConexionDB.conectar();
+             PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setInt(1, idProducto);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return mapear(rs);
+        } catch (Exception e) { e.printStackTrace(); }
+        return null;
+    }
+
     // ── Insertar ─────────────────────────────────────────────────
     public boolean insertar(Oferta o) {
         String sql = "INSERT INTO oferta (id_producto, descripcion, descuento, fecha_inicio, fecha_fin, estado) VALUES (?,?,?,?,?,?)";
@@ -91,7 +106,7 @@ public class OfertaDAO {
         } catch (Exception e) { e.printStackTrace(); return false; }
     }
 
-    // ── Método de Mapeo Interno ───────────────────────────────────
+    // ── Método de Mapeo Interno Real ───────────────────────────────────
     private Oferta mapear(ResultSet rs) throws SQLException {
         LocalDate inicio = rs.getDate("fecha_inicio") != null ? rs.getDate("fecha_inicio").toLocalDate() : null;
         LocalDate fin    = rs.getDate("fecha_fin")    != null ? rs.getDate("fecha_fin").toLocalDate()    : null;

@@ -2,6 +2,8 @@ package com.controlador;
 
 import com.dao.UsuarioPersonalDAO;
 import com.modelo.UsuarioPersonal;
+import com.servicio.Seguridad;
+import com.servicio.SesionActual;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,58 +17,130 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
+/**
+ * Controlador del formulario de Login.
+ *
+ * SEGURIDAD [SEC-05]: Implementa protección contra fuerza bruta:
+ *   - Máximo 5 intentos fallidos por email.
+ *   - Bloqueo temporal de 5 minutos tras superar el límite.
+ *   - Los contadores se guardan en memoria (se reinician al cerrar la app).
+ *
+ * SEGURIDAD [SEC-03]: Guarda el usuario autenticado en SesionActual para
+ *   que los demás controladores puedan verificar el rol.
+ */
 public class ControladorLogin {
 
-    @FXML private TextField txtUsuario;
-    @FXML private PasswordField txtPassword;
-    @FXML private Button btnEntrarGestion;
-    @FXML private Button btnKiosko;
+    // Límites de seguridad
+    private static final int  MAX_INTENTOS      = 5;
+    private static final long BLOQUEO_SEGUNDOS  = 300; // 5 minutos
 
-    // Instanciamos el DAO para consultar la base de datos
+    // Mapa en memoria: email → número de intentos fallidos
+    private static final Map<String, Integer>  intentosFallidos = new HashMap<>();
+    // Mapa en memoria: email → timestamp del primer bloqueo
+    private static final Map<String, Instant>  tiempoBloqueo    = new HashMap<>();
+
+    @FXML private TextField     txtUsuario;
+    @FXML private PasswordField txtPassword;
+    @FXML private Button        btnEntrarGestion;
+    @FXML private Button        btnKiosko;
+
     private final UsuarioPersonalDAO usuarioDAO = new UsuarioPersonalDAO();
 
     @FXML
     public void ingresarGestion(ActionEvent event) {
-        // Solo cambia de escena si las credenciales son válidas
-        if (validarCredenciales()) {
-            System.out.println("Iniciando sesión en Gestión...");
+        UsuarioPersonal usuario = autenticar();
+        if (usuario != null) {
+            SesionActual.getInstancia().iniciarSesion(usuario);
             cambiarEscena(event, "/com/vista/menu-view.fxml", false);
         }
     }
 
     @FXML
     public void iniciarKiosko(ActionEvent event) {
-        System.out.println("Iniciando modo Kiosko de Autoservicio...");
-        cambiarEscena(event, "/com/vista/AutoservicioCheckoutDividida-view.fxml", true);
-
+        UsuarioPersonal usuario = autenticar();
+        if (usuario != null) {
+            SesionActual.getInstancia().iniciarSesion(usuario);
+            cambiarEscena(event, "/com/vista/AutoservicioCheckoutDividida-view.fxml", true);
+        }
     }
 
     /**
-     * Extrae los datos de los campos de texto, verifica que no estén vacíos
-     * y consulta la base de datos para autenticar al usuario.
+     * Verifica credenciales con protección contra fuerza bruta.
+     * Retorna el usuario autenticado o null si falla.
+     *
+     * SEGURIDAD [SEC-05]: Antes de consultar la BD, comprueba si la cuenta
+     * está bloqueada. Incrementa el contador por cada intento fallido.
      */
-    private boolean validarCredenciales() {
-        String email = txtUsuario.getText().trim();
+    private UsuarioPersonal autenticar() {
+        String email    = txtUsuario.getText().trim();
         String password = txtPassword.getText();
 
         // Validar campos vacíos
         if (email.isEmpty() || password.isEmpty()) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Campos Vacíos", "Por favor, ingresa tu email y contraseña para continuar.");
-            return false;
+            mostrarAlerta(Alert.AlertType.WARNING, "Campos Vacíos",
+                    "Por favor, ingresa tu email y contraseña para continuar.");
+            return null;
         }
 
-        // Validar contra la base de datos (Este método ya encripta la contraseña internamente)
-        UsuarioPersonal usuarioLogueado = usuarioDAO.autenticarUsuario(email, password);
+        // SEGURIDAD [SEC-05]: Verificar bloqueo temporal
+        if (estaBloqueado(email)) {
+            long segundosRestantes = segundosRestantesBloqueo(email);
+            mostrarAlerta(Alert.AlertType.ERROR, "Cuenta Bloqueada Temporalmente",
+                    "Demasiados intentos fallidos. Espera " + segundosRestantes +
+                            " segundo(s) antes de intentar de nuevo.");
+            return null;
+        }
 
-        if (usuarioLogueado != null) {
-            // Login exitoso
-            return true;
+        // Consultar base de datos
+        UsuarioPersonal usuario = usuarioDAO.autenticarUsuario(email, password);
+
+        if (usuario != null) {
+            // Éxito: limpiar contadores
+            intentosFallidos.remove(email);
+            tiempoBloqueo.remove(email);
+            return usuario;
         } else {
-            // Login fallido
-            mostrarAlerta(Alert.AlertType.ERROR, "Acceso Denegado", "El email o la contraseña son incorrectos. Intenta nuevamente.");
+            // Fallo: incrementar contador
+            int intentos = intentosFallidos.getOrDefault(email, 0) + 1;
+            intentosFallidos.put(email, intentos);
+
+            if (intentos >= MAX_INTENTOS) {
+                tiempoBloqueo.put(email, Instant.now());
+                mostrarAlerta(Alert.AlertType.ERROR, "Cuenta Bloqueada Temporalmente",
+                        "Has superado el límite de " + MAX_INTENTOS + " intentos. " +
+                                "Espera " + (BLOQUEO_SEGUNDOS / 60) + " minuto(s) antes de intentar de nuevo.");
+            } else {
+                int restantes = MAX_INTENTOS - intentos;
+                mostrarAlerta(Alert.AlertType.ERROR, "Acceso Denegado",
+                        "El email o la contraseña son incorrectos. " +
+                                "Te quedan " + restantes + " intento(s) antes del bloqueo temporal.");
+            }
+            return null;
+        }
+    }
+
+    private boolean estaBloqueado(String email) {
+        Instant bloqueadoDesde = tiempoBloqueo.get(email);
+        if (bloqueadoDesde == null) return false;
+        long segundosPasados = Instant.now().getEpochSecond() - bloqueadoDesde.getEpochSecond();
+        if (segundosPasados >= BLOQUEO_SEGUNDOS) {
+            // Expiró el bloqueo: reiniciar contadores
+            intentosFallidos.remove(email);
+            tiempoBloqueo.remove(email);
             return false;
         }
+        return true;
+    }
+
+    private long segundosRestantesBloqueo(String email) {
+        Instant bloqueadoDesde = tiempoBloqueo.get(email);
+        if (bloqueadoDesde == null) return 0;
+        long pasados = Instant.now().getEpochSecond() - bloqueadoDesde.getEpochSecond();
+        return Math.max(0, BLOQUEO_SEGUNDOS - pasados);
     }
 
     private void cambiarEscena(ActionEvent event, String fxml, boolean modoKiosko) {
@@ -74,11 +148,6 @@ public class ControladorLogin {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Parent root = loader.load();
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-
-            if (modoKiosko) {
-                Object controladorKiosko = loader.getController();
-                root.setUserData(controladorKiosko);
-            }
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -98,9 +167,6 @@ public class ControladorLogin {
         }
     }
 
-    /**
-     * Método auxiliar para mostrar ventanas emergentes de error o advertencia.
-     */
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alerta = new Alert(tipo);
         alerta.setTitle(titulo);

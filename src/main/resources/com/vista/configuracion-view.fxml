@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@../stylesCSS/Style-Configuracion.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorConfiguracion">
+<BorderPane prefHeight="700.0" prefWidth="1000.0" stylesheets="@../stylesCSS/Style-Configuracion.css" xmlns="http://javafx.com/javafx/17.0.14" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorConfiguracion">
 
     <top>
         <VBox spacing="10.0" BorderPane.alignment="CENTER">
@@ -125,7 +125,7 @@
                                     <children>
                                         <CheckBox fx:id="chkSonidoEscaner" mnemonicParsing="false" selected="true" text="Activar sonido ('Beep') al escanear productos" />
                                         <CheckBox fx:id="chkModoOscuro" mnemonicParsing="false" text="Habilitar Modo Oscuro en Terminal de Kiosko (Para turnos de noche)" />
-                                        <CheckBox fx:id="chkImpresionAutomatica" mnemonicParsing="false" selected="true" text="Imprimir comprobante automáticamente al confirmar pago" />
+                                        <CheckBox fx:id="chkImpresionAutomatica" selected="true" text="Imprimir comprobante automáticamente al confirmar pago"/>
                                     </children>
                                 </VBox>
                             </children>
@@ -141,6 +141,7 @@
         <HBox alignment="CENTER_RIGHT" spacing="15.0" style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-width: 1 0 0 0;" BorderPane.alignment="CENTER">
             <children>
                 <Button mnemonicParsing="false" onAction="#restablecerValores" prefHeight="40.0" prefWidth="150.0" styleClass="btn-restablecer" text="Descartar Cambios" />
+                <Button mnemonicParsing="false" onAction="#descargarComprobante" prefHeight="40.0" prefWidth="220.0" styleClass="btn-restablecer" text="Descargar Comprobante PDF" />
                 <Button mnemonicParsing="false" onAction="#guardarConfiguracion" prefHeight="40.0" prefWidth="200.0" styleClass="btn-guardar-config" text="Guardar Configuración" />
             </children>
             <padding>
