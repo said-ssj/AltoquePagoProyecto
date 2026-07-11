@@ -75,6 +75,21 @@
     -fx-effect: dropshadow(three-pass-box, rgba(37, 99, 235, 0.4), 10, 0, 0, 0); /* Brillo sutil */
 }
 
+/* =========================================
+   BOTÓN DE PERFIL BLOQUEADO (rol sin acceso)
+   Se ve exactamente igual (no se atenúa ni se
+   deshabilita visualmente), pero pierde el cursor
+   de mano y el efecto hover: queda como una imagen.
+   ========================================= */
+.btn-avatar-perfil.bloqueado {
+    -fx-cursor: default;
+}
+
+.btn-avatar-perfil.bloqueado:hover {
+    -fx-background-color: #2563eb; /* mismo color que en reposo: sin reacción al pasar el mouse */
+    -fx-effect: none;
+}
+
 /* Nombre principal */
 .perfil-nombre {
     -fx-text-fill: #ffffff;
