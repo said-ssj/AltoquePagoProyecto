@@ -1,9 +1,11 @@
 package com.controlador;
 
 import com.DB.ConexionDB;
+import com.servicio.SesionActual;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 
@@ -15,6 +17,9 @@ import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 public class ControladorInicio implements Initializable {
+
+    @FXML private Button btnIrPuntoVenta;
+    @FXML private Button btnEscanearProductos;
 
     @FXML private Label lblVentasDelMes;
     @FXML private Label lblTotalDeProductos;
@@ -44,11 +49,34 @@ public class ControladorInicio implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        aplicarVisibilidadPorRol();
         cargarVentasDelMes();
         cargarTotalProductos();
         cargarCrecimiento();
         cargarVentasRecientes();
         cargarProductosMasVendidos();
+    }
+
+    /**
+     * SEGURIDAD [SEC-11]: Los accesos rápidos de Inicio también respetan
+     * el rol de la sesión actual:
+     *   - Administrador: ve "Ir al Punto de Venta" y "Escanear Productos".
+     *   - Vendedor: ve solo "Ir al Punto de Venta".
+     *   - Almacén: ve solo "Escanear Productos".
+     * Ambos botones tienen HBox.hgrow="ALWAYS" en el FXML, así que al
+     * ocultar uno (setManaged(false)) el otro se expande automáticamente
+     * y ocupa el espacio disponible.
+     */
+    private void aplicarVisibilidadPorRol() {
+        SesionActual sesion = SesionActual.getInstancia();
+        boolean vePuntoVenta = sesion.puedeVender();
+        boolean veEscaner    = sesion.puedeGestionarInventario();
+
+        btnIrPuntoVenta.setVisible(vePuntoVenta);
+        btnIrPuntoVenta.setManaged(vePuntoVenta);
+
+        btnEscanearProductos.setVisible(veEscaner);
+        btnEscanearProductos.setManaged(veEscaner);
     }
 
     //  VENTAS DEL MES  (columna: fecha, no fecha_venta)

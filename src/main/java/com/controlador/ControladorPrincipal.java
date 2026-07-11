@@ -4,6 +4,7 @@ import com.servicio.SesionActual;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -21,11 +22,26 @@ import java.util.ResourceBundle;
  *
  * SEGURIDAD [SEC-10]: El nombre y rol del usuario se toman de SesionActual
  * (no están hardcodeados en el FXML).
+ *
+ * SEGURIDAD [SEC-11]: Además de bloquear la navegación, el menú lateral
+ * solo muestra los botones de los módulos a los que el rol logueado
+ * tiene acceso. Los botones no permitidos se ocultan por completo
+ * (setVisible(false) + setManaged(false)), no solo se deshabilitan.
  */
 public class ControladorPrincipal implements Initializable {
 
     @FXML private BorderPane  panelPrincipal;
     @FXML private ToggleButton btnInicio;
+    @FXML private ToggleButton btnVentas;
+    @FXML private ToggleButton btnProductos;
+    @FXML private ToggleButton btnEmpleados;
+    @FXML private ToggleButton btnConsultas;
+    @FXML private ToggleButton btnReportes;
+    @FXML private ToggleButton btnOfertas;
+    @FXML private ToggleButton btnInventario;
+    @FXML private ToggleButton btnCaja;
+    @FXML private ToggleButton btnConfiguracion;
+    @FXML private javafx.scene.control.Button btnPerfiles;
     @FXML private Label        lblNombreUsuario;
     @FXML private Label        lblRolUsuario;
 
@@ -40,7 +56,40 @@ public class ControladorPrincipal implements Initializable {
             lblRolUsuario.setText(nombreRol(sesion.getRolActual()));
         }
 
+        aplicarVisibilidadPorRol(sesion);
         abrirInicio();
+    }
+
+    /**
+     * SEGURIDAD [SEC-11]: Oculta del menú lateral los botones de los
+     * módulos que el rol actual no puede usar, reutilizando exactamente
+     * las mismas reglas de permisos que ya validan la navegación
+     * (SesionActual). Así el usuario solo ve las vistas que le
+     * corresponden, sin necesidad de hacer clic para descubrirlo.
+     */
+    private void aplicarVisibilidadPorRol(SesionActual sesion) {
+        // Inicio, Productos, Consultas y Perfiles: disponibles para todos los roles.
+        ocultarSiNoPermitido(btnVentas,        sesion.puedeVender());
+        ocultarSiNoPermitido(btnEmpleados,     sesion.puedeGestionarEmpleados());
+        ocultarSiNoPermitido(btnReportes,      sesion.puedeVerReportes());
+        ocultarSiNoPermitido(btnOfertas,       sesion.esAdministrador());
+        ocultarSiNoPermitido(btnInventario,    sesion.puedeGestionarInventario());
+        ocultarSiNoPermitido(btnCaja,          sesion.puedeVender());
+        ocultarSiNoPermitido(btnConfiguracion, sesion.esAdministrador());
+
+        // SEGURIDAD [SEC-12]: Perfiles no se oculta (siempre visible), pero si el
+        // rol no puede administrar perfiles, queda bloqueado: sin cursor de mano,
+        // sin efecto hover y sin poder entrar. Visualmente es solo una imagen.
+        boolean accesoPerfiles = sesion.esAdministrador();
+        btnPerfiles.getStyleClass().remove("bloqueado");
+        if (!accesoPerfiles) {
+            btnPerfiles.getStyleClass().add("bloqueado");
+        }
+    }
+
+    private void ocultarSiNoPermitido(Node nodo, boolean permitido) {
+        nodo.setVisible(permitido);
+        nodo.setManaged(permitido); // managed=false -> no ocupa espacio en el layout
     }
 
     private String nombreRol(int idRol) {
@@ -96,6 +145,12 @@ public class ControladorPrincipal implements Initializable {
     }
 
     @FXML public void abrirPerfiles() {
+        // SEGURIDAD [SEC-12]: El botón siempre se ve, pero solo Administrador
+        // puede entrar. No se muestra alerta a propósito: el botón se comporta
+        // como una imagen inerte para los demás roles, sin dar retroalimentación.
+        if (!SesionActual.getInstancia().esAdministrador()) {
+            return;
+        }
         cargarVista("perfiles-view.fxml");
     }
 
@@ -116,7 +171,8 @@ public class ControladorPrincipal implements Initializable {
     }
 
     @FXML public void abrirCaja() {
-        if (!SesionActual.getInstancia().esAdministrador()) {
+        // Ahora Administrador y Vendedor pueden acceder a Caja / Arqueo
+        if (!SesionActual.getInstancia().puedeVender()) {
             mostrarAccesoDenegado("Caja / Arqueo");
             return;
         }

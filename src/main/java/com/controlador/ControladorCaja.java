@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import com.dao.ArqueoCajaDAO;
+import com.modelo.ArqueoCaja;
 
 public class ControladorCaja implements Initializable {
 

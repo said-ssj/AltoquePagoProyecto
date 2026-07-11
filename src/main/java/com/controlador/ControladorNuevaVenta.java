@@ -221,11 +221,13 @@ public class ControladorNuevaVenta {
 
         if (productoSeleccionado != null) {
             txtBuscarProducto.setText(productoSeleccionado.getNombre());
-            txtPrecio.setText(String.valueOf(productoSeleccionado.getPrecio()));
+
+            double precioConOferta = obtenerPrecioConOferta(productoSeleccionado);
+            txtPrecio.setText(String.format(java.util.Locale.US, "%.2f", precioConOferta));
             txtCantidad.setText("1");
             lblStock.setText(String.valueOf(productoSeleccionado.getStock()));
 
-            double subtotal = productoSeleccionado.getPrecio() * 1;
+            double subtotal = precioConOferta * 1;
             txtSubtotal.setText(String.format(java.util.Locale.US, "%.2f", subtotal));
 
             System.out.println("Producto encontrado: " + productoSeleccionado.getNombre());
@@ -272,14 +274,34 @@ public class ControladorNuevaVenta {
         this.productoSeleccionado = prod;
 
         txtBuscarProducto.setText(prod.getNombre());
-        txtPrecio.setText(String.valueOf(prod.getPrecio()));
+
+        double precioConOferta = obtenerPrecioConOferta(prod);
+        txtPrecio.setText(String.format(java.util.Locale.US, "%.2f", precioConOferta));
         txtCantidad.setText("1");
 
-        double subtotal = prod.getPrecio() * 1;
+        double subtotal = precioConOferta * 1;
         txtSubtotal.setText(String.format(java.util.Locale.US, "%.2f", subtotal));
         lblStock.setText(String.valueOf(prod.getStock()));
 
         popupBusqueda.hide();
+    }
+
+    /**
+     * SEGURIDAD/NEGOCIO [OFERTAS]: Si el producto tiene una oferta activa
+     * (tabla `oferta`, estado=1) en la fecha actual, se resta su descuento
+     * (monto en soles) del precio base. Nunca devuelve un precio negativo.
+     * Se usa en todos los puntos donde se fija el precio al elegir un
+     * producto, para que el descuento se refleje automáticamente en el
+     * subtotal y en el total de la venta.
+     */
+    private double obtenerPrecioConOferta(Producto producto) {
+        double precioBase = producto.getPrecio();
+        Oferta oferta = new OfertaDAO().buscarOferta(producto.getId_producto());
+        if (oferta != null) {
+            double precioConDescuento = precioBase - oferta.getDescuento();
+            return Math.max(precioConDescuento, 0);
+        }
+        return precioBase;
     }
 
     private void calcularSubtotal() {
