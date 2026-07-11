@@ -1,6 +1,7 @@
 package com.controlador;
 
 import com.modelo.Producto;
+import com.modelo.Venta;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +17,10 @@ public class ControladorAutoservicioCheckoutDividida {
     @FXML private Label lblTotalKiosko;
     @FXML private Button btnProcederPago;
     @FXML private Button btnVolver;
-    @FXML private Button btnCancelarCompra; // Lo mantenemos mapeado para que no de error el FXML
+    @FXML private Button btnCancelarCompra;
+
+    // 1. Enlazamos el Label del FXML
+    @FXML private Label lblContadorProductos;
 
     private int pasoActual = 1;
     private double totalAcumulado = 0.0;
@@ -30,7 +34,12 @@ public class ControladorAutoservicioCheckoutDividida {
         btnProcederPago.setDisable(true);
         lblTotalKiosko.setText("S/ 0.00");
 
-        // ELIMINACIÓN DE SEGURIDAD: Desaparecer por completo el botón de cancelar del diseño
+        // Reiniciar el texto del contador visual
+        if (lblContadorProductos != null) {
+            lblContadorProductos.setText("0 productos");
+        }
+
+        // ELIMINACIÓN DE SEGURIDAD: Desaparecer botón cancelar
         if (btnCancelarCompra != null) {
             btnCancelarCompra.setVisible(false);
             btnCancelarCompra.setManaged(false);
@@ -39,10 +48,29 @@ public class ControladorAutoservicioCheckoutDividida {
         cargarPaso(1);
     }
 
+    // 2. Ahora solo maneja la suma del dinero
     public void agregarProductoAlTotal(double precio) {
         this.totalAcumulado += precio;
-        this.cantidadProductos++;
         lblTotalKiosko.setText(String.format("S/ %.2f", this.totalAcumulado));
+
+        if (this.cantidadProductos > 0) {
+            btnProcederPago.setDisable(false);
+        }
+    }
+
+    // 3. Maneja el conteo de unidades y actualiza la pantalla
+    public void actualizarUnidadesContador(int cantidad) {
+        this.cantidadProductos += cantidad;
+
+        if (lblContadorProductos != null) {
+            if (this.cantidadProductos == 1) {
+                lblContadorProductos.setText("1 producto");
+            } else {
+                lblContadorProductos.setText(this.cantidadProductos + " productos");
+            }
+        }
+
+        // Habilitar el botón de pago si ya hay productos
         if (this.cantidadProductos > 0) {
             btnProcederPago.setDisable(false);
         }
@@ -83,12 +111,15 @@ public class ControladorAutoservicioCheckoutDividida {
                 btnProcederPago.setManaged(false);
                 btnVolver.setVisible(false);
 
-                // Reiniciar para la siguiente venta
+                // Reiniciar todo para el siguiente cliente
                 totalAcumulado = 0.0;
                 cantidadProductos = 0;
                 dniCliente = "";
                 nombreCliente = "CLIENTE VARIOS";
                 lblTotalKiosko.setText("S/ 0.00");
+                if (lblContadorProductos != null) {
+                    lblContadorProductos.setText("0 productos");
+                }
                 break;
         }
 
@@ -132,6 +163,39 @@ public class ControladorAutoservicioCheckoutDividida {
         } else if (pasoActual == 2) {
             cargarPaso(3);
         } else if (pasoActual == 3) {
+
+            // 1. Recuperar el ID real del carrito activo desde la Base de Datos
+            com.dao.CarritoDAO cDao = new com.dao.CarritoDAO();
+            int idCarritoActivo = cDao.obtenerOCrearCarritoActivo(1); // Cliente Kiosko ID: 1
+
+            // 2. Instanciamos la Venta usando el ID del carrito como correlativo oficial
+            Venta ventaGenerada = new Venta();
+            ventaGenerada.setId(idCarritoActivo);
+            ventaGenerada.setTotal(this.totalAcumulado);
+            ventaGenerada.setProductos(this.cantidadProductos);
+            ventaGenerada.setCliente(this.nombreCliente);
+            ventaGenerada.setMetodoPago("Tarjeta / Billetera Digital");
+
+            // Evaluamos el tipo de documento real según el documento ingresado
+            String tipoDocumento = (this.dniCliente != null && this.dniCliente.length() == 11) ? "FACTURA" : "BOLETA";
+            ventaGenerada.setEstado(tipoDocumento);
+
+            // Formateamos la fecha actual
+            java.time.LocalDateTime ahora = java.time.LocalDateTime.now();
+            java.time.format.DateTimeFormatter formato = java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            ventaGenerada.setFecha(ahora.format(formato));
+
+            // 3. Recuperar la lista real de artículos comprados de la base de datos
+            java.util.List<com.modelo.DetalleVenta> listaItems = cDao.obtenerDetallesDelCarrito(idCarritoActivo);
+            ventaGenerada.setDetalles(listaItems);
+
+            // 4. Emitir el ticket físico e impreso con el número correlativo real
+            com.servicio.ComprobanteImpresionServicio.emitirEImprimirTicketKiosko(ventaGenerada);
+
+            // 5. Cerramos el carrito actual (pasa a PAGADO) para limpiar el Kiosko para el siguiente cliente
+            cDao.marcarCarritoComoPagado(idCarritoActivo);
+
+            // 6. Pasar a la pantalla final de éxito
             cargarPaso(4);
         }
     }
@@ -145,11 +209,9 @@ public class ControladorAutoservicioCheckoutDividida {
 
     @FXML
     public void cancelarCompra(ActionEvent event) {
-        // Dejamos el método vacío por si el FXML aún lo referencia, evitando crasheos
         System.out.println("-> Botón Cancelar deshabilitado por seguridad.");
     }
 
-    // Agrega este método dentro de ControladorAutoservicioCheckoutDividida.java
     public void setDatosCliente(String dni, String nombre) {
         this.dniCliente = dni;
         this.nombreCliente = nombre;

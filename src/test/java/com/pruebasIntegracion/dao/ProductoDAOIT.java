@@ -49,7 +49,7 @@ public class ProductoDAOIT {
 
         // 2. Inicializamos un producto de prueba
         Producto p = new Producto();
-        p.setCodigo_barras(codigoDinamico); // ¡Magia aplicada aquí!
+        p.setCodigo_barras(codigoDinamico);
         p.setNombre("Gaseosa Inka Kola 3L (Prueba)");
         p.setPrecio(12.50);
         p.setStock(24);

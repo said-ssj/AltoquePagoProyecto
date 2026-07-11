@@ -12,7 +12,7 @@
             <Insets bottom="50.0" left="40.0" right="40.0" top="50.0" />
         </padding>
 
-        <FontIcon iconColor="#10b981" iconLiteral="fas-check-circle" iconSize="90" />
+        <FontIcon iconColor="#16a34a" iconLiteral="fas-check-circle" iconSize="90" />
 
         <VBox alignment="CENTER" spacing="10.0">
             <Label styleClass="titulo-pago-exitoso" text="¡Pago Realizado con Éxito!" />

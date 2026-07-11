@@ -6,30 +6,40 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Pos;
+import javafx.application.Platform;
+
+// Imports de tus servicios, DAOs y modelos
 import com.servicio.ProductoServicio;
 import com.modelo.Producto;
+import com.modelo.Oferta;
+import com.dao.OfertaDAO;
+import com.dao.CarritoDAO;
+
 import java.util.HashMap;
 import java.util.Map;
-import javafx.application.Platform;
+import java.util.List;
 
 public class ControladorAutoservicioEscaner {
 
-    @FXML
-    private TextField txtLectorBarras;
-
-    @FXML
-    private VBox panelCarrito;
-
-    @FXML
-    private VBox panelProductos;
-
-    @FXML
-    private TextField txtCodigoBarra;
+    @FXML private TextField txtLectorBarras;
+    @FXML private VBox panelCarrito;
+    @FXML private VBox panelProductos;
+    @FXML private TextField txtCodigoBarra;
 
     private ControladorAutoservicioCheckoutDividida contenedorPadre;
 
+    // ==========================================
+    // VARIABLES DE CLASE (Declaradas una sola vez)
+    // ==========================================
     private final ProductoServicio productoServicio = new ProductoServicio();
-    private final Map<String, CardCarrito> mapaCarrito = new HashMap<>();
+    private final OfertaDAO ofertaDAO = new OfertaDAO();
+    private final CarritoDAO carritoDAO = new CarritoDAO();
+
+    // Rastreo del carrito en la base de datos
+    private int idCarritoActivo = -1;
+
+    // Mapa usando tu clase visual separada ControladorCarrito
+    private final Map<String, ControladorCarrito> mapaCarrito = new HashMap<>();
 
     @FXML
     public void initialize() {
@@ -43,6 +53,9 @@ public class ControladorAutoservicioEscaner {
                 });
             }
             txtLectorBarras.requestFocus();
+
+            // Carga los botones de las ofertas al inicio
+            cargarPromocionesDisponibles();
         });
 
         txtLectorBarras.setOnAction(event -> {
@@ -55,7 +68,6 @@ public class ControladorAutoservicioEscaner {
     }
 
     private void procesarEscaneo() {
-        // Buscamos el texto de forma segura intentando de ambos campos por si acaso
         String codigo = "";
         if (txtLectorBarras != null && !txtLectorBarras.getText().trim().isEmpty()) {
             codigo = txtLectorBarras.getText().trim();
@@ -67,45 +79,47 @@ public class ControladorAutoservicioEscaner {
 
         System.out.println("-> ¡Intento de lectura detectado!: [" + codigo + "]");
 
-        if (codigo.isEmpty()) {
-            return;
-        }
+        if (codigo.isEmpty()) return;
 
-        // Buscar en la base de datos usando tu servicio existente
         Producto producto = productoServicio.buscarProducto(codigo);
 
         if (producto != null) {
-            System.out.println("-> Producto encontrado: " + producto.getNombre() + " | Stock: " + producto.getStock());
             if (producto.getStock() <= 0) {
                 System.out.println("-> Error: El producto no cuenta con stock.");
                 return;
             }
-
-            // Forzar que la actualización corra en el hilo gráfico de JavaFX
-            Platform.runLater(() -> {
-                añadirAlCarritoVisual(producto);
-            });
-
+            Platform.runLater(() -> añadirAlCarritoVisual(producto));
         } else {
             System.out.println("-> Código '" + codigo + "' no registrado en la base de datos.");
         }
 
-        // Devolver siempre el foco al lector listo para el siguiente artículo
         if (txtLectorBarras != null) txtLectorBarras.requestFocus();
         else if (txtCodigoBarra != null) txtCodigoBarra.requestFocus();
     }
 
     private void añadirAlCarritoVisual(Producto producto) {
         String codigo = producto.getCodigo_barras();
-        double precioProducto = producto.getPrecio(); // O getPrecioVenta() según tu modelo
+        double precioProducto = producto.getPrecio();
+
+        // 1. CREA O RECUPERA EL CARRITO EN MySQL (Asignado al cliente ID 1)
+        if (idCarritoActivo == -1) {
+            idCarritoActivo = carritoDAO.obtenerOCrearCarritoActivo(1);
+        }
+
+        if (contenedorPadre != null) {
+            contenedorPadre.actualizarUnidadesContador(1);
+        }
 
         if (mapaCarrito.containsKey(codigo)) {
-            CardCarrito cardExistente = mapaCarrito.get(codigo);
+            ControladorCarrito cardExistente = mapaCarrito.get(codigo);
             if (cardExistente.getCantidad() < producto.getStock()) {
-                cardExistente.incrementarCantidad();
-                System.out.println("-> Cantidad incrementada para: " + producto.getNombre());
 
-                // ACOPLAMIENTO: Notificamos al padre para que sume este incremento al total
+                // Actualiza visualmente el "x2, x3"
+                cardExistente.incrementarCantidad();
+
+                // 2. ACTUALIZA EN MySQL (suma 1 cantidad al detalle)
+                carritoDAO.agregarProductoAlBD(idCarritoActivo, producto.getId_producto(), precioProducto);
+
                 if (contenedorPadre != null) {
                     contenedorPadre.agregarProductoAlTotal(precioProducto);
                 }
@@ -113,63 +127,82 @@ public class ControladorAutoservicioEscaner {
                 System.out.println("-> Límite de stock alcanzado para este ítem.");
             }
         } else {
-            CardCarrito nuevaCard = new CardCarrito(producto);
+            // Crea la tarjeta visual por primera vez
+            ControladorCarrito nuevaCard = new ControladorCarrito(producto);
             mapaCarrito.put(codigo, nuevaCard);
             panelCarrito.getChildren().add(nuevaCard.getNodoVisual());
-            System.out.println("-> Agregado nueva tarjeta al carrito para: " + producto.getNombre());
 
-            // ACOPLAMIENTO: Notificamos al padre para sumar la primera unidad del nuevo ítem
+            // 3. INSERTA EN MySQL (primer producto de este tipo)
+            carritoDAO.agregarProductoAlBD(idCarritoActivo, producto.getId_producto(), precioProducto);
+
             if (contenedorPadre != null) {
                 contenedorPadre.agregarProductoAlTotal(precioProducto);
             }
         }
     }
 
-    private static class CardCarrito {
-        private final Producto producto;
-        private int cantidad;
-        private final HBox contenedorVisual;
-        private final Label lblCantidad;
+    public void cargarPromocionesDisponibles() {
+        if (panelProductos == null) return;
 
-        public CardCarrito(Producto producto) {
-            this.producto = producto;
-            this.cantidad = 1;
+        panelProductos.getChildren().clear();
 
-            this.contenedorVisual = new HBox();
-            this.contenedorVisual.setAlignment(Pos.CENTER_LEFT);
-            this.contenedorVisual.getStyleClass().add("item-carrito-tarjeta");
+        List<Oferta> listaOfertas = ofertaDAO.listarTodas();
 
-            VBox infoProducto = new VBox();
-            infoProducto.getStyleClass().add("item-carrito-info");
-            HBox.setHgrow(infoProducto, javafx.scene.layout.Priority.ALWAYS);
+        for (Oferta oferta : listaOfertas) {
+            if (oferta.isEstado()) {
 
-            Label lblNombre = new Label(producto.getNombre());
-            lblNombre.getStyleClass().add("item-carrito-nombre");
-            lblNombre.setWrapText(true);
+                HBox botonPromocion = new HBox();
+                botonPromocion.setAlignment(Pos.CENTER_LEFT);
+                botonPromocion.setSpacing(12.0);
+                botonPromocion.setPadding(new javafx.geometry.Insets(12, 16, 12, 16));
 
-            Label lblPrecio = new Label("S/ " + String.format("%.2f", producto.getPrecio()));
-            lblPrecio.getStyleClass().add("item-carrito-precio");
+                botonPromocion.setStyle(
+                        "-fx-background-color: #ffffff; " +
+                                "-fx-border-color: #e2e8f0; " +
+                                "-fx-border-width: 1px; " +
+                                "-fx-border-radius: 10px; " +
+                                "-fx-background-radius: 10px; " +
+                                "-fx-cursor: hand;"
+                );
 
-            infoProducto.getChildren().addAll(lblNombre, lblPrecio);
+                botonPromocion.setOnMouseEntered(e -> botonPromocion.setStyle(
+                        "-fx-background-color: #f8fafc; -fx-border-color: #3b82f6; -fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-cursor: hand;"
+                ));
+                botonPromocion.setOnMouseExited(e -> botonPromocion.setStyle(
+                        "-fx-background-color: #ffffff; -fx-border-color: #e2e8f0; -fx-border-width: 1px; -fx-border-radius: 10px; -fx-background-radius: 10px; -fx-cursor: hand;"
+                ));
 
-            this.lblCantidad = new Label("x" + cantidad);
-            this.lblCantidad.getStyleClass().add("item-carrito-cantidad");
-            this.lblCantidad.setAlignment(Pos.CENTER_RIGHT);
+                VBox infoTexto = new VBox();
+                infoTexto.setSpacing(4.0);
+                HBox.setHgrow(infoTexto, javafx.scene.layout.Priority.ALWAYS);
 
-            this.contenedorVisual.getChildren().addAll(infoProducto, this.lblCantidad);
-        }
+                Label lblProducto = new Label(oferta.getNombreProducto());
+                lblProducto.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #1e293b;");
+                lblProducto.setWrapText(true);
 
-        public void incrementarCantidad() {
-            this.cantidad++;
-            this.lblCantidad.setText("x" + this.cantidad);
-        }
+                Label lblDesc = new Label(oferta.getDescripcion());
+                lblDesc.setStyle("-fx-font-size: 12px; -fx-text-fill: #ef4444; -fx-font-weight: 500;");
 
-        public int getCantidad() {
-            return cantidad;
-        }
+                infoTexto.getChildren().addAll(lblProducto, lblDesc);
 
-        public HBox getNodoVisual() {
-            return contenedorVisual;
+                Label lblPrecioDscto = new Label("- S/ " + String.format("%.2f", oferta.getDescuento()));
+                lblPrecioDscto.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #16a34a;");
+
+                botonPromocion.getChildren().addAll(infoTexto, lblPrecioDscto);
+
+                botonPromocion.setOnMouseClicked(e -> {
+                    Producto prodCompleto = productoServicio.buscarProductoPorId(oferta.getId_producto());
+                    if (prodCompleto != null) {
+                        if (prodCompleto.getStock() > 0) {
+                            añadirAlCarritoVisual(prodCompleto);
+                        } else {
+                            System.out.println("-> Sin stock en almacén para: " + prodCompleto.getNombre());
+                        }
+                    }
+                });
+
+                panelProductos.getChildren().add(botonPromocion);
+            }
         }
     }
 }

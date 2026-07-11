@@ -1,5 +1,7 @@
 package com.modelo;
 
+import java.util.List;
+
 public class Venta {
     private String id;
     private String fecha;
@@ -9,6 +11,10 @@ public class Venta {
     private double total;
     private String estado;
     private String metodoPago;
+
+    private List<DetalleVenta> detalles;
+
+    public Venta() {} // Constructor vacío obligatorio
 
     public Venta(String id, String fecha, String cliente, int idCliente,
                  int productos, double total, String estado, String metodoPago) {
@@ -31,11 +37,17 @@ public class Venta {
     public double getTotal()       { return total; }
     public String getEstado()      { return estado; }
     public String getMetodoPago()  { return metodoPago; }
+    public List<DetalleVenta> getDetalles() { return detalles; } // <-- NUEVO
 
-    // Setters necesarios
+    // Setters
+    public void setId(int id)                  { this.id = String.valueOf(id); }
+    public void setId(String id)               { this.id = id; }
+    public void setFecha(String fecha)         { this.fecha = fecha; }
+    public void setTotal(double total)         { this.total = total; }
     public void setCliente(String cliente)     { this.cliente    = cliente; }
     public void setIdCliente(int idCliente)    { this.idCliente  = idCliente; }
     public void setEstado(String estado)       { this.estado     = estado; }
     public void setMetodoPago(String metodo)   { this.metodoPago = metodo; }
     public void setProductos(int productos)    { this.productos  = productos; }
+    public void setDetalles(List<DetalleVenta> detalles) { this.detalles = detalles; } // <-- NUEVO
 }

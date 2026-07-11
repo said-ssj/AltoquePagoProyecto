@@ -100,7 +100,6 @@ public class ControladorCaja implements Initializable {
         }
 
         System.out.println("Cerrando caja... Guardando historial de arqueo.");
-        // Aquí harías el INSERT a una tabla 'turno' o 'arqueo_caja' en tu DB.
 
         cajaAbierta = false;
         lblEstadoCaja.setText("CAJA CERRADA");

@@ -24,9 +24,9 @@ public class ConfiguracionDAO {
             prop.load(input);
 
             // Leer propiedades y asignarlas al modelo
-            config.setRazonSocial(prop.getProperty("empresa.razonSocial", "Ferretería / Minimarket Huamán S.A.C."));
+            config.setRazonSocial(prop.getProperty("empresa.razonSocial", "ALToquePago S.A.C."));
             config.setRuc(prop.getProperty("empresa.ruc", "20000000000"));
-            config.setDireccion(prop.getProperty("empresa.direccion", "La Tinguiña, Ica, Perú"));
+            config.setDireccion(prop.getProperty("empresa.direccion", "Ica, Ica, Perú"));
             config.setTelefono(prop.getProperty("empresa.telefono", "000-000000"));
 
             config.setImpresora(prop.getProperty("impresion.impresora", "Ninguna"));
@@ -42,9 +42,9 @@ public class ConfiguracionDAO {
             logger.warn("El archivo configuracion.properties no existe aún. Se crearán valores por defecto.");
 
             // SOLUCIÓN 1: Llenar el objeto con valores por defecto antes de guardar
-            config.setRazonSocial("Ferretería / Minimarket Huamán S.A.C.");
+            config.setRazonSocial("ALToquePago S.A.C.");
             config.setRuc("20000000000");
-            config.setDireccion("La Tinguiña, Ica, Perú");
+            config.setDireccion("Ica, Ica, Perú");
             config.setTelefono("000-000000");
             config.setImpresora("Ninguna");
             config.setTamañoPapel("80mm");

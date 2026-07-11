@@ -25,7 +25,7 @@ public class ControladorInventario implements Initializable {
     @FXML private TableColumn<?, Integer> colKarCantidad;
     @FXML private TableColumn<?, String> colKarDescripcion;
 
-    // --- Elementos del Formulario Lateral (Nuevo Movimiento) ---
+    // --- Elementos del Formulario Lateral ---
     @FXML private TextField txtProductoSeleccionado;
     @FXML private ComboBox<String> cbTipoMovimiento;
     @FXML private TextField txtCantidad;

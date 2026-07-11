@@ -45,6 +45,31 @@ public class ProductoDAO {
     }
 
     // ============================================================
+    //  BUSCAR POR ID
+    // ============================================================
+    public Producto buscarPorId(int idProducto) {
+        String sql = "SELECT * FROM producto WHERE id_producto = ?";
+        try (Connection cn = com.DB.ConexionDB.conectar();
+             PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setInt(1, idProducto);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Producto p = new Producto();
+                    p.setId_producto(rs.getInt("id_producto"));
+                    p.setNombre(rs.getString("nombre"));
+                    p.setPrecio(rs.getDouble("precio"));
+                    p.setStock(rs.getInt("stock"));
+                    p.setCodigo_barras(rs.getString("codigo_barras"));
+                    return p;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // ============================================================
     //  BUSCAR POR NOMBRE (LIKE) - CORREGIDO (Sin columna 'estado')
     // ============================================================
     public List<Producto> buscarPorNombre(String nombreParcial) {

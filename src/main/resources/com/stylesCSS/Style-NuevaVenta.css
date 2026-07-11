@@ -188,7 +188,7 @@
     -fx-text-fill: #ef4444; /* Se pone rojo al pasar el mouse */
 }
 
-/* --- NUEVO: Estilo para botón cuando detecta datos --- */
+/* Estilo para botón cuando detecta datos --- */
 .btn-cliente-activo {
     -fx-background-color: #2563eb !important; /* Color azul */
     -fx-text-fill: white !important;
@@ -264,7 +264,7 @@
     -fx-padding: 0;
 }
 
-/* 1. MAGIA: Ocultar el encabezado feo por defecto de JavaFX */
+/* 1. Ocultar el encabezado feo por defecto de JavaFX */
 .tabla-lista .column-header-background {
     -fx-max-height: 0;
     -fx-pref-height: 0;

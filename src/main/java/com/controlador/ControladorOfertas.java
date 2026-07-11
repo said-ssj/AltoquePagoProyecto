@@ -96,7 +96,6 @@ public class ControladorOfertas implements Initializable {
 
     @FXML
     public void guardarOferta() {
-        // Aquí capturas los datos del formulario
         String descripcion = txtDescripcion.getText();
         String descuentoStr = txtDescuento.getText();
         LocalDate fechaInicio = dpInicio.getValue();
@@ -139,21 +138,12 @@ public class ControladorOfertas implements Initializable {
     public void buscarOferta() {
         String texto = txtBuscar.getText();
         System.out.println("Buscando oferta por: " + texto);
-        // Aquí conectas tu DAO para filtrar la tabla
     }
 
     private void cargarDatosTabla() {
-        // Llama a tu OfertaDAO y llena el ObservableList de la tabla
-        // ObservableList<Oferta> lista = FXCollections.observableArrayList(ofertaDAO.listarTodas());
-        // tablaOfertas.setItems(lista);
     }
 
     private void mostrarDetalleOferta(Object ofertaSeleccionada) {
-        // Cuando haces clic en la tabla, los datos se pasan al formulario derecho para editarlos
-        // Oferta oferta = (Oferta) ofertaSeleccionada;
-        // txtDescripcion.setText(oferta.getDescripcion());
-        // txtDescuento.setText(String.valueOf(oferta.getDescuento()));
-        // ...
     }
 
     private void mostrarResultadosVisuales(List<Producto> resultados) {
