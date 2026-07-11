@@ -9,7 +9,9 @@ import java.util.List;
 
 public class OfertaDAO {
 
-    // ── Listar todas (para la tabla) ──────────────────────────────
+    // ============================================================
+    // MODO AUTOSERVICIO: Listar todas (para la tabla y kiosko)
+    // ============================================================
     public List<Oferta> listarTodas() {
         List<Oferta> lista = new ArrayList<>();
         String sql =
@@ -48,7 +50,7 @@ public class OfertaDAO {
         return lista;
     }
 
-    // ── Buscar activa por producto (para el punto de venta) ───────
+    // ── Buscar activa por producto (para el punto de venta / kiosko) ───
     public Oferta buscarOferta(int idProducto) {
         String sql = "SELECT o.id_oferta, o.id_producto, p.nombre AS nombre_producto, " +
                 "  o.descripcion, o.descuento, o.fecha_inicio, o.fecha_fin, o.estado " +
@@ -104,6 +106,7 @@ public class OfertaDAO {
         } catch (Exception e) { e.printStackTrace(); return false; }
     }
 
+    // ── Método de Mapeo Interno Real ───────────────────────────────────
     private Oferta mapear(ResultSet rs) throws SQLException {
         LocalDate inicio = rs.getDate("fecha_inicio") != null ? rs.getDate("fecha_inicio").toLocalDate() : null;
         LocalDate fin    = rs.getDate("fecha_fin")    != null ? rs.getDate("fecha_fin").toLocalDate()    : null;

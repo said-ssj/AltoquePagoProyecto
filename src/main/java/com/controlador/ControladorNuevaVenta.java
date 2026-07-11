@@ -18,12 +18,14 @@ import javafx.scene.layout.VBox;
 import com.dao.ConfiguracionDAO;
 import com.modelo.Configuracion;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.awt.Desktop;
 
 public class ControladorNuevaVenta {
 
@@ -31,7 +33,6 @@ public class ControladorNuevaVenta {
     @FXML private Button btnCerrarDatosCliente;
     @FXML private VBox panelDatosCliente;
 
-    // Nuevos elementos inyectados del FXML
     @FXML private TextField txtFechaVenta;
     @FXML private ToggleButton btnModoBusqueda;
     @FXML private TextField txtBuscarProducto;
@@ -58,32 +59,25 @@ public class ControladorNuevaVenta {
     @FXML private TextField txtCorreoCliente;
     @FXML private TextField txtTelefonoCliente;
     @FXML private TextArea txtObservacion;
-
-    // --- NUEVO: Campo de dirección y variable invisible de ubigeo ---
     @FXML private TextField txtDireccion;
+
     private String ubigeoActual = "";
-    // ----------------------------------------------------------------
-
     private ContextMenu popupBusqueda;
-
     private ObservableList<ItemVenta> listaItems = FXCollections.observableArrayList();
     private double totalVenta = 0.0;
     private List<String> productosVenta = new ArrayList<>();
     private List<DetalleVenta> detallesVenta = new ArrayList<>();
-    private Producto productoSeleccionado; // Movido aquí arriba para mantener orden
+    private Producto productoSeleccionado;
 
     @FXML
     public void initialize() {
 
-        // Bloquear edición manual de precios y subtotales
         txtPrecio.setEditable(false);
         txtSubtotal.setEditable(false);
 
-        // Ocultar panel de cliente al inicio (Asegurarnos de que arranque cerrado)
         panelDatosCliente.setVisible(false);
         panelDatosCliente.setManaged(false);
 
-        // Lógica del botón Desplegable del Cliente
         btnMostrarDatosCliente.setOnAction(e -> {
             panelDatosCliente.setVisible(true);
             panelDatosCliente.setManaged(true);
@@ -98,27 +92,22 @@ public class ControladorNuevaVenta {
             btnMostrarDatosCliente.setManaged(true);
         });
 
-        // Poner la fecha actual automáticamente
         txtFechaVenta.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
-        // Lógica interactiva del Buscador vs Código de Barras
-        configurarModoCodigoBarras(); // Arranca por defecto en modo código de barras
+        configurarModoCodigoBarras();
 
         btnModoBusqueda.setOnAction(e -> {
             if (btnModoBusqueda.isSelected()) {
-                // Cambió a Modo Búsqueda por Texto
                 configurarModoBusqueda();
             } else {
-                // Regresó a Modo Código de Barras
                 configurarModoCodigoBarras();
             }
         });
 
-        // Restricción para que solo acepte números cuando está en modo escáner
         txtBuscarProducto.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!btnModoBusqueda.isSelected()) { // Si no está presionado (Modo Escáner)
-                if (!newValue.matches("\\d*")) { // Si detecta una letra o símbolo
-                    txtBuscarProducto.setText(newValue.replaceAll("[^\\d]", "")); // Lo borra automáticamente
+            if (!btnModoBusqueda.isSelected()) {
+                if (!newValue.matches("\\d*")) {
+                    txtBuscarProducto.setText(newValue.replaceAll("[^\\d]", ""));
                 }
             }
         });
@@ -127,61 +116,41 @@ public class ControladorNuevaVenta {
         txtPrecio.textProperty().addListener((obs, oldVal, newVal) -> calcularSubtotal());
         btnAgregarProducto.setOnAction(e -> agregarProducto());
         txtBuscarProducto.setOnAction(e -> buscarProducto());
+
         colProducto.setCellValueFactory(new PropertyValueFactory<>("producto"));
         colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
         colPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
         colSubtotal.setCellValueFactory(new PropertyValueFactory<>("subtotal"));
         tablaDetalleVenta.setItems(listaItems);
-        tablaDetalleVenta.getSelectionModel().getSelectedItem();
+
         btnEliminarProducto.setOnAction(e -> eliminarProducto());
-        cbMetodoPago.getItems().addAll("YAPE",
-                "PLIN",
-                "TARJETA"
-        );
+
+        cbMetodoPago.getItems().addAll("YAPE", "PLIN", "TARJETA");
         cbMetodoPago.getSelectionModel().selectFirst();
 
-        cbEstado.getItems().addAll(
-                "PAGADO",
-                "PENDIENTE",
-                "RECHAZADO"
-        );
+        cbEstado.getItems().addAll("PAGADO", "PENDIENTE", "RECHAZADO");
         cbEstado.getSelectionModel().selectFirst();
 
-        cbTipoDocumento.getItems().addAll(
-                "BOLETA",
-                "FACTURA"
-        );
+        cbTipoDocumento.getItems().addAll("BOLETA", "FACTURA");
         cbTipoDocumento.getSelectionModel().selectFirst();
 
-        cbMoneda.getItems().addAll(
-                "SOLES",
-                "DÓLARES"
-        );
+        cbMoneda.getItems().addAll("SOLES", "DÓLARES");
         cbMoneda.getSelectionModel().selectFirst();
 
-        cbDescuentos.getItems().addAll(
-                "SIN DESCUENTO",
-                "5%",
-                "10%",
-                "15%"
-        );
+        cbDescuentos.getItems().addAll("SIN DESCUENTO", "5%", "10%", "15%");
         cbDescuentos.getSelectionModel().selectFirst();
 
-        // Inicializar el menú desplegable
         popupBusqueda = new ContextMenu();
-        popupBusqueda.setPrefWidth(300); // Puedes ajustar el ancho al de tu TextField
+        popupBusqueda.setPrefWidth(300);
 
-        // Nuevo Listener integrado
         txtBuscarProducto.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!btnModoBusqueda.isSelected()) {
-                // MODO ESCÁNER: Solo acepta números y oculta el menú
                 if (!newValue.matches("\\d*")) {
                     txtBuscarProducto.setText(newValue.replaceAll("[^\\d]", ""));
                 }
                 if (popupBusqueda.isShowing()) popupBusqueda.hide();
 
             } else {
-                // MODO BÚSQUEDA MANUAL: Muestra el menú de resultados
                 if (newValue.trim().length() >= 2) {
                     ProductoDAO dao = new ProductoDAO();
                     List<Producto> resultados = dao.buscarPorNombre(newValue.trim());
@@ -201,35 +170,27 @@ public class ControladorNuevaVenta {
         });
 
         txtRucDni.setOnAction(e -> buscarDatosCliente());
-
-        // Lógica del botón "Guardar Cambios" (Panel Cliente)
         btnGuardarCliente.setOnAction(e -> guardarDatosClienteTemporal());
 
-        // Listener dinámico: Vigila si se escribe texto para poner el botón AZUL
         javafx.beans.value.ChangeListener<String> detectorDeDatos = (obs, oldV, newV) -> {
             boolean hayDatos = !txtRucDni.getText().trim().isEmpty() ||
                     !txtRazonSocial.getText().trim().isEmpty() ||
                     (txtDireccion != null && !txtDireccion.getText().trim().isEmpty());
 
             if (hayDatos) {
-                // Si hay datos y el botón no tiene la clase azul, se la ponemos
                 if (!btnGuardarCliente.getStyleClass().contains("btn-cliente-activo")) {
                     btnGuardarCliente.getStyleClass().add("btn-cliente-activo");
                 }
             } else {
-                // Si borran todo, le quitamos la clase azul
                 btnGuardarCliente.getStyleClass().remove("btn-cliente-activo");
             }
         };
 
-        // Conectamos el vigilante a los campos principales
         txtRucDni.textProperty().addListener(detectorDeDatos);
         txtRazonSocial.textProperty().addListener(detectorDeDatos);
         if (txtDireccion != null) txtDireccion.textProperty().addListener(detectorDeDatos);
-
     }
 
-    // Funciones de ayuda para cambiar el aspecto visual según el modo
     private void configurarModoCodigoBarras() {
         btnModoBusqueda.setText("🔍 Modo Búsqueda");
         txtBuscarProducto.setPromptText("||||| Escanear código de barras...");
@@ -248,16 +209,13 @@ public class ControladorNuevaVenta {
         ProductoDAO dao = new ProductoDAO();
 
         if (btnModoBusqueda.isSelected()) {
-            // MODO BÚSQUEDA MANUAL
             List<Producto> resultados = dao.buscarPorNombre(texto.trim());
-
             if (resultados != null && !resultados.isEmpty()) {
                 productoSeleccionado = resultados.get(0);
             } else {
                 productoSeleccionado = null;
             }
         } else {
-            // MODO ESCÁNER (Código de barras)
             productoSeleccionado = dao.buscarPorCodigo(texto.trim());
         }
 
@@ -353,7 +311,7 @@ public class ControladorNuevaVenta {
             String precio = txtPrecio.getText();
             double subtotal = Double.parseDouble(txtSubtotal.getText());
             int cantidadSolicitada = Integer.parseInt(txtCantidad.getText());
-            // Calcular cuánto de este producto ya está en el carrito
+
             int cantidadYaEnCarrito = 0;
             for (DetalleVenta d : detallesVenta) {
                 if (d.getIdProducto() == productoSeleccionado.getId_producto()) {
@@ -361,7 +319,6 @@ public class ControladorNuevaVenta {
                 }
             }
 
-            // Validar la cantidad sumada total contra el stock real
             if ((cantidadSolicitada + cantidadYaEnCarrito) > productoSeleccionado.getStock()) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Stock insuficiente");
@@ -372,17 +329,15 @@ public class ControladorNuevaVenta {
                 return;
             }
 
-            // Evitar que vendan cantidades negativas o cero
             if (cantidadSolicitada <= 0) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Cantidad inválida");
                 alert.setHeaderText(null);
                 alert.setContentText("La cantidad a vender debe ser al menos 1.");
                 alert.showAndWait();
-                return; // Detenemos la ejecución aquí
+                return;
             }
 
-            //Evitar que se venden cantidades insuficientes de stock
             if(cantidadSolicitada > productoSeleccionado.getStock()){
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Stock insuficiente");
@@ -397,8 +352,10 @@ public class ControladorNuevaVenta {
 
             productosVenta.add(producto + " | Cantidad: " + cantidad + " | Precio: " + precio);
 
+            // Utilizamos el constructor actualizado de 5 parámetros de DetalleVenta
             detallesVenta.add(new DetalleVenta(
                     productoSeleccionado.getId_producto(),
+                    productoSeleccionado.getNombre(), // Se pasa el nombre para la impresión
                     Integer.parseInt(cantidad),
                     Double.parseDouble(precio),
                     subtotal
@@ -480,23 +437,11 @@ public class ControladorNuevaVenta {
             String correo = txtCorreoCliente.getText() != null ? txtCorreoCliente.getText() : "";
             String telefono = txtTelefonoCliente.getText() != null ? txtTelefonoCliente.getText() : "";
             String observacion = txtObservacion.getText() != null ? txtObservacion.getText() : "";
-
-            // --- NUEVO: Extraemos la dirección del campo txtDireccion ---
             String direccion = txtDireccion.getText() != null ? txtDireccion.getText() : "";
 
-            // --- ACTUALIZADO: Pasamos la direccion y el ubigeoActual al constructor ---
             Cliente cliente = new Cliente(
-                    nombreAsumido,   // nombre
-                    "",              // apellido
-                    nombreAsumido,   // razonSocial
-                    correo,          // correo
-                    dni,             // numeroDocumento
-                    ruc,             // numeroRuc
-                    telefono,        // telefono
-                    direccion,       // direccion
-                    ubigeoActual,    // ubigeo (variable secreta)
-                    tipoDoc,         // tipoDocumento
-                    observacion      // observacion
+                    nombreAsumido, "", nombreAsumido, correo, dni, ruc,
+                    telefono, direccion, ubigeoActual, tipoDoc, observacion
             );
 
             int idCliente = clienteDAO.guardarCliente(cliente);
@@ -505,30 +450,25 @@ public class ControladorNuevaVenta {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error en Base de Datos");
                 alert.setHeaderText(null);
-                alert.setContentText("No se pudo registrar el cliente. La venta ha sido cancelada para evitar errores.");
+                alert.setContentText("No se pudo registrar el cliente. La venta ha sido cancelada.");
                 alert.showAndWait();
                 return;
             }
 
-            // Calcular el total real aplicando el descuento seleccionado
             double total = totalVenta;
             String descuentoSeleccionado = cbDescuentos.getValue();
 
             if (descuentoSeleccionado != null && !descuentoSeleccionado.equals("SIN DESCUENTO")) {
                 try {
-                    // Extraer solo el número (ej: sacar el "10" de "10%")
                     String porcentajeStr = descuentoSeleccionado.replace("%", "").trim();
                     double porcentaje = Double.parseDouble(porcentajeStr);
-
-                    // Restar el descuento al total
                     double montoDescuento = total * (porcentaje / 100.0);
                     total = total - montoDescuento;
-
-                    System.out.println("Descuento aplicado: " + porcentaje + "%. Total final: " + total);
                 } catch (Exception ex) {
                     System.err.println("Error al aplicar el descuento: " + ex.getMessage());
                 }
             }
+
             VentaDAO ventaDAO = new VentaDAO();
             int idVenta = ventaDAO.guardarVenta(idCliente, total);
 
@@ -536,39 +476,71 @@ public class ControladorNuevaVenta {
             ProductoDAO productoDAO = new ProductoDAO();
 
             for (DetalleVenta d : detallesVenta) {
-                detalleDAO.guardarDetalle(
-                        idVenta,
-                        d.getIdProducto(),
-                        d.getCantidad(),
-                        d.getPrecioUnitario(),
-                        d.getSubtotal()
-                );
-
-                productoDAO.actualizarStock(
-                        d.getIdProducto(),
-                        d.getCantidad()
-                );
+                detalleDAO.guardarDetalle(idVenta, d.getIdProducto(), d.getCantidad(), d.getPrecioUnitario(), d.getSubtotal());
+                productoDAO.actualizarStock(d.getIdProducto(), d.getCantidad());
             }
 
             PagoDAO pagoDAO = new PagoDAO();
-            pagoDAO.guardarPago(
-                    idVenta,
-                    cbMetodoPago.getValue(),
-                    total,
-                    cbEstado.getValue()
-            );
+            pagoDAO.guardarPago(idVenta, cbMetodoPago.getValue(), total, cbEstado.getValue());
 
             ComprobanteDAO comprobanteDAO = new ComprobanteDAO();
-            comprobanteDAO.guardarComprobante(
-                    idVenta,
-                    cbTipoDocumento.getValue()
-            );
+            comprobanteDAO.guardarComprobante(idVenta, cbTipoDocumento.getValue());
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Venta registrada");
-            alert.setHeaderText(null);
-            alert.setContentText("La venta fue registrada correctamente en el sistema.");
-            alert.showAndWait();
+            // ==============================================================
+            // ALERTA PERSONALIZADA: ELEGIR TIPO DE IMPRESIÓN Y ABRIR PDF
+            // ==============================================================
+            Alert alertaImpresion = new Alert(Alert.AlertType.CONFIRMATION);
+            alertaImpresion.setTitle("Venta Registrada Exitosamente");
+            alertaImpresion.setHeaderText("La venta N° " + idVenta + " se ha guardado.");
+            alertaImpresion.setContentText("Seleccione el formato para visualizar e imprimir el comprobante:");
+
+            ButtonType btnA4 = new ButtonType("Formato A4");
+            ButtonType btnTicket = new ButtonType("Ticket 80mm");
+            ButtonType btnOmitir = new ButtonType("Cerrar / Omitir", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            alertaImpresion.getButtonTypes().setAll(btnTicket, btnA4, btnOmitir);
+
+            Optional<ButtonType> resultado = alertaImpresion.showAndWait();
+
+            if (resultado.isPresent() && resultado.get() != btnOmitir) {
+
+                Venta ventaPDF = new Venta();
+                ventaPDF.setId(idVenta);
+                ventaPDF.setTotal(total);
+                ventaPDF.setProductos(detallesVenta.size());
+                ventaPDF.setCliente(nombreAsumido);
+                ventaPDF.setMetodoPago(cbMetodoPago.getValue());
+                ventaPDF.setEstado(cbTipoDocumento.getValue());
+
+                java.time.LocalDateTime ahora = java.time.LocalDateTime.now();
+                java.time.format.DateTimeFormatter formato = java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+                ventaPDF.setFecha(ahora.format(formato));
+
+                ventaPDF.setDetalles(detallesVenta);
+
+                // Declaramos la variable leyendo el ComboBox
+                boolean esFacturaSel = cbTipoDocumento.getValue().equals("FACTURA");
+                String archivoNombre = (esFacturaSel ? "Factura_" : "Boleta_") + idVenta + ".pdf";
+
+                // 2. Generamos el archivo según el formato elegido
+                if (resultado.get() == btnTicket) {
+                    com.servicio.ComprobanteImpresionServicio.emitirEImprimirTicketKiosko(ventaPDF);
+                } else if (resultado.get() == btnA4) {
+                    com.servicio.ComprobanteImpresionServicio.emitirFormatoA4(ventaPDF);
+                }
+
+                // 3. Abrir el PDF automáticamente
+                try {
+                    String rutaCarpeta = System.getProperty("user.dir") + File.separator + "Tickets";
+                    File archivoPdf = new File(rutaCarpeta + File.separator + archivoNombre);
+
+                    if (archivoPdf.exists()) {
+                        Desktop.getDesktop().open(archivoPdf);
+                    }
+                } catch (Exception ex) {
+                    System.err.println("Error al intentar abrir el PDF automáticamente.");
+                }
+            }
 
             limpiarFormulario();
 
@@ -583,31 +555,19 @@ public class ControladorNuevaVenta {
     }
 
     private void eliminarProducto() {
-        // Obtener el índice (la fila) que el usuario seleccionó en la tabla
         int index = tablaDetalleVenta.getSelectionModel().getSelectedIndex();
+        if(index < 0){ return; }
 
-        // Si no hay nada seleccionado, no hacemos nada
-        if(index < 0){
-            return;
-        }
-
-        // Obtener el ítem visual para saber cuánto dinero restar
         ItemVenta item = listaItems.get(index);
-
-        // Restar el subtotal del total de la venta
         totalVenta -= item.getSubtotal();
 
-        // Evitar que queden decimales negativos raros por problemas de Java (ej. -0.00)
-        if (totalVenta < 0.01) {
-            totalVenta = 0.0;
-        }
+        if (totalVenta < 0.01) { totalVenta = 0.0; }
 
         lblTotal.setText("S/ " + String.format(java.util.Locale.US, "%.2f", totalVenta));
 
-        // ELIMINAR EL PRODUCTO DE TODAS LAS LISTAS
-        listaItems.remove(index);       // Lo quita de la pantalla
-        detallesVenta.remove(index);    // Lo quita de la base de datos para que no se guarde
-        productosVenta.remove(index);   // Lo quita de tu registro en memoria
+        listaItems.remove(index);
+        detallesVenta.remove(index);
+        productosVenta.remove(index);
 
         System.out.println("Producto eliminado correctamente. Ítems restantes en BD: " + detallesVenta.size());
     }
@@ -629,7 +589,6 @@ public class ControladorNuevaVenta {
         txtObservacion.clear();
         productoSeleccionado = null;
 
-        // --- NUEVO: Limpiamos los campos visuales e invisibles ---
         if(txtDireccion != null) {
             txtDireccion.clear();
         }
@@ -661,7 +620,6 @@ public class ControladorNuevaVenta {
                         txtRazonSocial.setText(datos.get("nombre_completo").getAsString());
                         cbTipoDocumento.setValue("BOLETA");
 
-                        // Reseteamos direccion y ubigeo para DNI (generalmente no traen)
                         if(txtDireccion != null) txtDireccion.setText("");
                         ubigeoActual = "";
 
@@ -669,7 +627,6 @@ public class ControladorNuevaVenta {
                         txtRazonSocial.setText(datos.get("nombre_o_razon_social").getAsString());
                         cbTipoDocumento.setValue("FACTURA");
 
-                        // --- NUEVO: Llenado de Dirección en la interfaz ---
                         if (datos.has("direccion_completa") && !datos.get("direccion_completa").isJsonNull()) {
                             if (txtDireccion != null) {
                                 txtDireccion.setText(datos.get("direccion_completa").getAsString());
@@ -680,7 +637,6 @@ public class ControladorNuevaVenta {
                             }
                         }
 
-                        // --- NUEVO: Llenado invisible de Ubigeo ---
                         if (datos.has("ubigeo_sunat") && !datos.get("ubigeo_sunat").isJsonNull()) {
                             ubigeoActual = datos.get("ubigeo_sunat").getAsString();
                         } else {
@@ -712,7 +668,6 @@ public class ControladorNuevaVenta {
     }
 
     private void guardarDatosClienteTemporal() {
-        // 1. Validamos y autocompletamos si los dejaron vacíos
         if (txtRucDni.getText() == null || txtRucDni.getText().trim().isEmpty()) {
             txtRucDni.setText("00000000");
         }
@@ -721,8 +676,6 @@ public class ControladorNuevaVenta {
             cbTipoDocumento.setValue("BOLETA");
         }
 
-        // 2. Ocultamos el panel de cliente.
-        // (Al hacer esto, los TextFields NO se borran, sus datos quedan flotando en la memoria listos para la Venta)
         panelDatosCliente.setVisible(false);
         panelDatosCliente.setManaged(false);
         btnMostrarDatosCliente.setVisible(true);

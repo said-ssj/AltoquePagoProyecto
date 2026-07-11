@@ -65,7 +65,7 @@
 
                 <VBox spacing="5.0">
                     <Label styleClass="etiqueta-form" text="Dirección" />
-                    <TextField fx:id="txtDireccion" promptText="Ej. Av. Principal 123, La Tinguiña" styleClass="text-field-form" />
+                    <TextField fx:id="txtDireccion" promptText="Ej. Av. Principal 123, Ica" styleClass="text-field-form" />
                 </VBox>
 
                 <GridPane hgap="15.0" vgap="5.0">
@@ -84,7 +84,7 @@
                     <TextField fx:id="txtCorreoCliente" promptText="cliente@ejemplo.com" styleClass="text-field-form" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
                     <Label styleClass="etiqueta-form" text="Teléfono" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                    <TextField fx:id="txtTelefonoCliente" promptText="(555) 123-4567" styleClass="text-field-form" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <TextField fx:id="txtTelefonoCliente" promptText="(+51) 999999999" styleClass="text-field-form" GridPane.columnIndex="0" GridPane.rowIndex="3" />
 
                     <Label styleClass="etiqueta-form" text="Moneda" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                     <ComboBox fx:id="cbMoneda" maxWidth="Infinity" promptText="Soles (S/)" styleClass="combo-box-form" GridPane.columnIndex="1" GridPane.rowIndex="3" />

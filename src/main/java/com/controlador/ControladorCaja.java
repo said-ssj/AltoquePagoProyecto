@@ -1,8 +1,6 @@
 package com.controlador;
 
-import com.dao.ArqueoCajaDAO;
 import com.dao.PagoDAO;
-import com.modelo.ArqueoCaja;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;

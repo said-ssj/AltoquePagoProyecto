@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import com.modelo.Pago;
+import com.servicio.ComprobanteImpresionServicio;
 
 public class ControladorAutoservicioPago {
 
@@ -61,4 +62,7 @@ public class ControladorAutoservicioPago {
             e.printStackTrace();
         }
     }
+
+
+
 }

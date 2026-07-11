@@ -33,8 +33,6 @@ public class CarritoServicio { // <-- Clase normal de servicio, NO de test
 
         for (ItemCarrito item : carrito.getItems()) {
             if (item.getProducto().getId_producto() == producto.getId_producto()) {
-                // Aquí deberías asignar la nueva cantidad a tu ítem, por ejemplo:
-                // item.setCantidad(nuevaCantidad);
                 return;
             }
         }

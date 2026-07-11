@@ -44,25 +44,26 @@ public class ProductoDAOIT {
     @Test
     @DisplayName("guardarProducto debería registrar un artículo de forma real en MySQL y retornar true")
     public void testGuardarProductoExitoso() throws SQLException {
-        // Inicializamos un producto de prueba con valores coherentes para el negocio
-        Producto p = new Producto();
+        // 1. Generamos un código de barras dinámico de 13 dígitos usando el tiempo actual
+        String codigoDinamico = String.valueOf(System.currentTimeMillis());
 
-        // CORRECCIÓN: Usamos el nombre exacto del método definido en nuestro modelo
-        p.setCodigo_barras("7750123456789");
-        p.setNombre("Gaseosa Inka Kola 3L");
+        // 2. Inicializamos un producto de prueba
+        Producto p = new Producto();
+        p.setCodigo_barras(codigoDinamico);
+        p.setNombre("Gaseosa Inka Kola 3L (Prueba)");
         p.setPrecio(12.50);
         p.setStock(24);
 
-        // Ejecutamos la inserción mediante el DAO
+        // 3. Ejecutamos la inserción mediante el DAO
         boolean resultado = productoDAO.guardarProducto(p);
 
-        // Validamos que el método devuelva verdadero confirmando la operación
+        // 4. Validamos que el método devuelva verdadero confirmando la operación
         assertTrue(resultado, "El DAO nos debería retornar true si la sintaxis del INSERT es correcta.");
 
-        // Realizamos una consulta de verificación directa en la base de datos
+        // 5. Realizamos una consulta de verificación directa en la base de datos usando el código dinámico
         String sqlVerificar = "SELECT COUNT(*), precio FROM producto WHERE codigo_barras = ?";
         try (PreparedStatement ps = conexionReal.prepareStatement(sqlVerificar)) {
-            ps.setString(1, "7750123456789");
+            ps.setString(1, codigoDinamico);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     int cantidad = rs.getInt(1);

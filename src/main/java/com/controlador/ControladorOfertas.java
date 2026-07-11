@@ -294,4 +294,41 @@ public class ControladorOfertas implements Initializable {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setHeaderText(null); a.setContentText(msg); a.showAndWait();
     }
+
+    private void mostrarResultadosVisuales(List<Producto> resultados) {
+        popupBusqueda.getItems().clear();
+
+        for (Producto prod : resultados) {
+            HBox hbox = new HBox();
+            hbox.setSpacing(10);
+
+            // Nombre del producto
+            Label lblNombre = new Label(prod.getNombre());
+            lblNombre.setStyle("-fx-text-fill: #1e293b; -fx-font-size: 14px;");
+
+            // Espaciador para tirar el stock a la derecha
+            Region spacer = new Region();
+            HBox.setHgrow(spacer, Priority.ALWAYS);
+
+            // Indicador de Stock
+            Label lblStockItem = new Label("Stock: " + prod.getStock());
+            lblStockItem.setStyle("-fx-text-fill: #64748b; -fx-font-size: 13px;");
+
+            hbox.getChildren().addAll(lblNombre, spacer, lblStockItem);
+
+            CustomMenuItem item = new CustomMenuItem(hbox);
+            item.setHideOnClick(true);
+
+            // Cuando el usuario haga clic en esta opción:
+            item.setOnAction(event -> seleccionarProductoParaOferta(prod));
+
+            popupBusqueda.getItems().add(item);
+        }
+    }
+
+    private void seleccionarProductoParaOferta(Producto prod) {
+        this.productoSeleccionado = prod; // Guardamos el objeto completo (con su ID)
+        txtBuscarProductoOfertas.setText(prod.getNombre()); // Ponemos el nombre en el TextField
+        popupBusqueda.hide(); // Escondemos la lista
+    }
 }
