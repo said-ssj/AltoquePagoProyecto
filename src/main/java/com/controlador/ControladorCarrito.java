@@ -12,12 +12,25 @@ import javafx.scene.layout.VBox;
  */
 public class ControladorCarrito {
     private final Producto producto;
+    private final double precioUnitario;
     private int cantidad;
     private final HBox contenedorVisual;
     private final Label lblCantidad;
 
+    /** Mantiene compatibilidad con código existente: usa el precio de lista sin descuento. */
     public ControladorCarrito(Producto producto) {
+        this(producto, producto.getPrecio());
+    }
+
+    /**
+     * @param precioUnitario precio real a cobrar por unidad (ya con el descuento de
+     *                       la oferta activa aplicado, si corresponde). Es el precio
+     *                       que se muestra en la tarjeta, para que coincida con el
+     *                       total real del kiosko.
+     */
+    public ControladorCarrito(Producto producto, double precioUnitario) {
         this.producto = producto;
+        this.precioUnitario = precioUnitario;
         this.cantidad = 1;
 
         // Crear el contenedor horizontal de la tarjeta
@@ -35,8 +48,8 @@ public class ControladorCarrito {
         lblNombre.getStyleClass().add("item-carrito-nombre");
         lblNombre.setWrapText(true);
 
-        // Precio unitario formateado
-        Label lblPrecio = new Label("S/ " + String.format("%.2f", producto.getPrecio()));
+        // Precio unitario formateado (ya con descuento de oferta si aplica)
+        Label lblPrecio = new Label("S/ " + String.format("%.2f", precioUnitario));
         lblPrecio.getStyleClass().add("item-carrito-precio");
 
         infoProducto.getChildren().addAll(lblNombre, lblPrecio);
@@ -48,6 +61,10 @@ public class ControladorCarrito {
 
         // Ensamblar la tarjeta completa
         this.contenedorVisual.getChildren().addAll(infoProducto, this.lblCantidad);
+    }
+
+    public double getPrecioUnitario() {
+        return precioUnitario;
     }
 
     public void incrementarCantidad() {

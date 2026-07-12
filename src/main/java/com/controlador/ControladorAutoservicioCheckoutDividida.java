@@ -1,5 +1,7 @@
 package com.controlador;
 
+import com.dao.ClienteDAO;
+import com.modelo.Cliente;
 import com.modelo.Producto;
 import com.modelo.Venta;
 import javafx.event.ActionEvent;
@@ -28,6 +30,8 @@ public class ControladorAutoservicioCheckoutDividida {
 
     private String dniCliente = "00000000";
     private String nombreCliente = "CLIENTE VARIOS";
+    private String correoCliente = "";
+    private String direccionCliente = "";
 
     @FXML
     public void initialize() {
@@ -116,6 +120,8 @@ public class ControladorAutoservicioCheckoutDividida {
                 cantidadProductos = 0;
                 dniCliente = "";
                 nombreCliente = "CLIENTE VARIOS";
+                correoCliente = "";
+                direccionCliente = "";
                 lblTotalKiosko.setText("S/ 0.00");
                 if (lblContadorProductos != null) {
                     lblContadorProductos.setText("0 productos");
@@ -168,6 +174,22 @@ public class ControladorAutoservicioCheckoutDividida {
             com.dao.CarritoDAO cDao = new com.dao.CarritoDAO();
             int idCarritoActivo = cDao.obtenerOCrearCarritoActivo(1); // Cliente Kiosko ID: 1
 
+            // NEGOCIO [CLIENTES]: si el cliente se identificó con un documento real
+            // (no el walk-in "00000000"), se guarda o actualiza en la tabla `cliente`
+            // (nombre, correo, dirección). Así, la próxima vez que ingrese el mismo
+            // DNI/RUC —aquí o en Ventas normales— sus datos aparecen automáticamente.
+            if (dniCliente != null && !dniCliente.trim().isEmpty() && !dniCliente.equals("00000000")) {
+                boolean esRuc = dniCliente.length() == 11;
+                Cliente cliente = new Cliente(
+                        nombreCliente, "", nombreCliente, correoCliente,
+                        esRuc ? null : dniCliente,
+                        esRuc ? dniCliente : null,
+                        "", direccionCliente, "",
+                        esRuc ? "6" : "1", ""
+                );
+                new ClienteDAO().guardarOActualizarCliente(cliente);
+            }
+
             // 2. Instanciamos la Venta usando el ID del carrito como correlativo oficial
             Venta ventaGenerada = new Venta();
             ventaGenerada.setId(idCarritoActivo);
@@ -215,5 +237,17 @@ public class ControladorAutoservicioCheckoutDividida {
     public void setDatosCliente(String dni, String nombre) {
         this.dniCliente = dni;
         this.nombreCliente = nombre;
+    }
+
+    /**
+     * NEGOCIO [CLIENTES]: variante que además guarda el correo y la dirección
+     * capturados en el paso 2 (AutoservicioDatos), para poder registrarlos en
+     * la BD al finalizar la compra.
+     */
+    public void setDatosCliente(String dni, String nombre, String correo, String direccion) {
+        this.dniCliente = dni;
+        this.nombreCliente = nombre;
+        this.correoCliente = correo != null ? correo : "";
+        this.direccionCliente = direccion != null ? direccion : "";
     }
 }

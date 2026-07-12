@@ -99,7 +99,11 @@ public class ControladorAutoservicioEscaner {
 
     private void añadirAlCarritoVisual(Producto producto) {
         String codigo = producto.getCodigo_barras();
-        double precioProducto = producto.getPrecio();
+
+        // NEGOCIO [OFERTAS]: si el producto tiene una oferta activa, se cobra el
+        // precio con descuento tanto si llegó por escaneo directo del código de
+        // barras como si llegó al hacer clic en una tarjeta de "Promociones".
+        double precioProducto = obtenerPrecioConOferta(producto);
 
         // 1. CREA O RECUPERA EL CARRITO EN MySQL (Asignado al cliente ID 1)
         if (idCarritoActivo == -1) {
@@ -117,7 +121,7 @@ public class ControladorAutoservicioEscaner {
                 // Actualiza visualmente el "x2, x3"
                 cardExistente.incrementarCantidad();
 
-                // 2. ACTUALIZA EN MySQL (suma 1 cantidad al detalle)
+                // 2. ACTUALIZA EN MySQL (suma 1 cantidad al detalle, precio ya con descuento)
                 carritoDAO.agregarProductoAlBD(idCarritoActivo, producto.getId_producto(), precioProducto);
 
                 if (contenedorPadre != null) {
@@ -127,18 +131,35 @@ public class ControladorAutoservicioEscaner {
                 System.out.println("-> Límite de stock alcanzado para este ítem.");
             }
         } else {
-            // Crea la tarjeta visual por primera vez
-            ControladorCarrito nuevaCard = new ControladorCarrito(producto);
+            // Crea la tarjeta visual por primera vez, mostrando el precio real a cobrar
+            ControladorCarrito nuevaCard = new ControladorCarrito(producto, precioProducto);
             mapaCarrito.put(codigo, nuevaCard);
             panelCarrito.getChildren().add(nuevaCard.getNodoVisual());
 
-            // 3. INSERTA EN MySQL (primer producto de este tipo)
+            // 3. INSERTA EN MySQL (primer producto de este tipo, precio ya con descuento)
             carritoDAO.agregarProductoAlBD(idCarritoActivo, producto.getId_producto(), precioProducto);
 
             if (contenedorPadre != null) {
                 contenedorPadre.agregarProductoAlTotal(precioProducto);
             }
         }
+    }
+
+    /**
+     * SEGURIDAD/NEGOCIO [OFERTAS]: Si el producto tiene una oferta activa
+     * (tabla `oferta`, estado=1) se resta su descuento (monto en soles) del
+     * precio base. Nunca devuelve un precio negativo. Misma regla que se usa
+     * en Ventas normales (ControladorNuevaVenta), para que el descuento sea
+     * consistente en toda la aplicación.
+     */
+    private double obtenerPrecioConOferta(Producto producto) {
+        double precioBase = producto.getPrecio();
+        Oferta oferta = ofertaDAO.buscarOferta(producto.getId_producto());
+        if (oferta != null) {
+            double precioConDescuento = precioBase - oferta.getDescuento();
+            return Math.max(precioConDescuento, 0);
+        }
+        return precioBase;
     }
 
     public void cargarPromocionesDisponibles() {

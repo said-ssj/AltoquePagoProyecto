@@ -61,11 +61,7 @@ public class ControladorLogin {
 
     @FXML
     public void iniciarKiosko(ActionEvent event) {
-        UsuarioPersonal usuario = autenticar();
-        if (usuario != null) {
-            SesionActual.getInstancia().iniciarSesion(usuario);
             cambiarEscena(event, "/com/vista/AutoservicioCheckoutDividida-view.fxml", true);
-        }
     }
 
     /**
