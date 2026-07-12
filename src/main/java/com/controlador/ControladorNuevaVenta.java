@@ -466,7 +466,7 @@ public class ControladorNuevaVenta {
                     telefono, direccion, ubigeoActual, tipoDoc, observacion
             );
 
-            int idCliente = clienteDAO.guardarCliente(cliente);
+            int idCliente = clienteDAO.guardarOActualizarCliente(cliente);
 
             if (idCliente == -1) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -633,6 +633,33 @@ public class ControladorNuevaVenta {
             return;
         }
 
+        // NEGOCIO [CLIENTES]: primero se busca en la BASE DE DATOS LOCAL (clientes
+        // que ya compraron antes). Si existe, se usan sus datos guardados
+        // (nombre/razón social, correo, dirección, teléfono) en vez de ir a la
+        // API — así el correo (que la API nunca trae) también queda disponible,
+        // y no dependemos de internet para un cliente que ya conocemos.
+        Cliente clienteGuardado = new ClienteDAO().buscarPorDocumento(documento);
+        if (clienteGuardado != null) {
+            boolean esRuc = documento.length() == 11;
+            String nombreMostrar = esRuc
+                    ? clienteGuardado.getRazonSocial()
+                    : clienteGuardado.getNombre();
+
+            txtRazonSocial.setText(nombreMostrar != null ? nombreMostrar : "");
+            cbTipoDocumento.setValue(esRuc ? "FACTURA" : "BOLETA");
+
+            if (txtDireccion != null) {
+                txtDireccion.setText(clienteGuardado.getDireccion() != null ? clienteGuardado.getDireccion() : "");
+            }
+            txtCorreoCliente.setText(clienteGuardado.getCorreo() != null ? clienteGuardado.getCorreo() : "");
+            if (txtTelefonoCliente != null) {
+                txtTelefonoCliente.setText(clienteGuardado.getTelefono() != null ? clienteGuardado.getTelefono() : "");
+            }
+            ubigeoActual = clienteGuardado.getUbigeo() != null ? clienteGuardado.getUbigeo() : "";
+            return; // Ya tenemos los datos reales del cliente: no hace falta la API.
+        }
+
+        // No está guardado localmente: se consulta la API externa (comportamiento original).
         new Thread(() -> {
             JsonObject datos = ApiSunatServicio.consultarDocumento(documento);
 
