@@ -76,7 +76,7 @@ public class ComprobanteImpresionServicio {
             documento.add(new Paragraph("--------------------------------------------------", fontNormal));
 
             documento.add(new Paragraph("Fecha: " + venta.getFecha(), fontNormal));
-            documento.add(new Paragraph("Cajero/a: Sistema", fontNormal));
+            documento.add(new Paragraph(obtenerEtiquetaAtendidoPor(venta), fontNormal));
             documento.add(new Paragraph((esFactura ? "Razón Social: " : "Cliente: ") + (venta.getCliente() != null ? venta.getCliente() : "CLIENTE VARIOS"), fontNormal));
             documento.add(new Paragraph("Forma Pago: " + (venta.getMetodoPago() != null ? venta.getMetodoPago() : "Contado"), fontNormal));
             documento.add(new Paragraph("--------------------------------------------------", fontNormal));
@@ -244,6 +244,9 @@ public class ComprobanteImpresionServicio {
 
             agregarCelda(tableCliente, "Forma Pago:", fontNegrita, false);
             agregarCelda(tableCliente, venta.getMetodoPago() != null ? venta.getMetodoPago() : "Contado", fontNormal, false);
+
+            agregarCelda(tableCliente, "Atendido por:", fontNegrita, false);
+            agregarCelda(tableCliente, obtenerAtendidoPor(venta), fontNormal, true);
 
             PdfPTable cuadroClienteOuter = new PdfPTable(1);
             cuadroClienteOuter.setWidthPercentage(100);
@@ -418,6 +421,37 @@ public class ComprobanteImpresionServicio {
         }
         if (n > 0) res.append(unidades[(int)n]);
         return res.toString();
+    }
+
+    /**
+     * Determina si la venta se originó en el kiosko de autoservicio o fue
+     * atendida por un cajero/vendedor logueado en el sistema (Back-Office).
+     * Se apoya en el campo "canalVenta" si viene informado; si no, cae de
+     * vuelta a inferirlo a partir de si hay o no un nombre de vendedor.
+     */
+    private static boolean esVentaPorAutoservicio(Venta venta) {
+        if (venta.getCanalVenta() != null && !venta.getCanalVenta().isBlank()) {
+            return venta.getCanalVenta().equalsIgnoreCase("AUTOSERVICIO");
+        }
+        return venta.getVendedor() == null || venta.getVendedor().isBlank();
+    }
+
+    /** Nombre del cajero/vendedor a mostrar, o la etiqueta de autoservicio. */
+    private static String obtenerAtendidoPor(Venta venta) {
+        if (esVentaPorAutoservicio(venta)) {
+            return "AUTOSERVICIO (Kiosko)";
+        }
+        return (venta.getVendedor() != null && !venta.getVendedor().isBlank())
+                ? venta.getVendedor()
+                : "Sin sesión";
+    }
+
+    /** Línea completa para el ticket térmico, con la etiqueta según el canal de venta. */
+    private static String obtenerEtiquetaAtendidoPor(Venta venta) {
+        if (esVentaPorAutoservicio(venta)) {
+            return "Canal: AUTOSERVICIO (Kiosko)";
+        }
+        return "Cajero/a: " + obtenerAtendidoPor(venta);
     }
 
     private static String prepararDirectorio() {

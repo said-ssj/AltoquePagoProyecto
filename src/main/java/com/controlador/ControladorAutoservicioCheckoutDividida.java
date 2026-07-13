@@ -198,6 +198,10 @@ public class ControladorAutoservicioCheckoutDividida {
             ventaGenerada.setCliente(this.nombreCliente);
             ventaGenerada.setMetodoPago("Tarjeta / Billetera Digital");
 
+            // Esta venta se generó sola, sin cajero: la marcamos como AUTOSERVICIO
+            // para que el comprobante muestre "AUTOSERVICIO (Kiosko)" en vez de un nombre de usuario.
+            ventaGenerada.setCanalVenta("AUTOSERVICIO");
+
             // Evaluamos el tipo de documento real según el documento ingresado
             String tipoDocumento = (this.dniCliente != null && this.dniCliente.length() == 11) ? "FACTURA" : "BOLETA";
             ventaGenerada.setEstado(tipoDocumento);

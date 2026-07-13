@@ -12,6 +12,14 @@ public class Venta {
     private String estado;
     private String metodoPago;
 
+    // NUEVO: trazabilidad de quién / por qué canal se realizó la venta.
+    // "vendedor"   -> nombre del usuario logueado (Administrador o Vendedor) que atendió la venta.
+    //                 Queda en null/"" cuando la venta se originó en el kiosko de autoservicio.
+    // "canalVenta" -> "BACKOFFICE" (venta hecha por un cajero desde el sistema de gestión)
+    //                 o "AUTOSERVICIO" (venta hecha por el cliente en el kiosko, sin cajero).
+    private String vendedor;
+    private String canalVenta;
+
     private List<DetalleVenta> detalles;
 
     public Venta() {} // Constructor vacío obligatorio
@@ -38,6 +46,8 @@ public class Venta {
     public String getEstado()      { return estado; }
     public String getMetodoPago()  { return metodoPago; }
     public List<DetalleVenta> getDetalles() { return detalles; } // <-- NUEVO
+    public String getVendedor()    { return vendedor; }   // <-- NUEVO
+    public String getCanalVenta()  { return canalVenta; } // <-- NUEVO
 
     // Setters
     public void setId(int id)                  { this.id = String.valueOf(id); }
@@ -50,4 +60,6 @@ public class Venta {
     public void setMetodoPago(String metodo)   { this.metodoPago = metodo; }
     public void setProductos(int productos)    { this.productos  = productos; }
     public void setDetalles(List<DetalleVenta> detalles) { this.detalles = detalles; } // <-- NUEVO
+    public void setVendedor(String vendedor)     { this.vendedor   = vendedor; }   // <-- NUEVO
+    public void setCanalVenta(String canalVenta) { this.canalVenta = canalVenta; } // <-- NUEVO
 }

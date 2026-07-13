@@ -278,7 +278,7 @@
     -fx-background-color: transparent;
     -fx-border-color: transparent transparent #e2e8f0 transparent; /* Solo línea abajo */
     -fx-border-width: 1px;
-    -fx-cell-size: 45px; /* Altura cómoda para leer */
+    -fx-cell-size: 48px; /* Altura de fila agrandada para mejor lectura (debe coincidir con ALTURA_FILA_TABLA en el controlador) */
 }
 
 /* Efecto al pasar el mouse sobre un producto de la lista */
@@ -300,7 +300,7 @@
     -fx-border-color: transparent;
     -fx-padding: 0 10px;
     -fx-font-family: "Segoe UI", sans-serif;
-    -fx-font-size: 14px;
+    -fx-font-size: 15px;
     -fx-text-fill: #334155;
     -fx-alignment: CENTER-LEFT;
 }
