@@ -133,8 +133,9 @@ CREATE TABLE pago (
 CREATE TABLE comprobante (
     id_comprobante INT PRIMARY KEY AUTO_INCREMENT,
     id_venta INT NOT NULL,
-    tipo VARCHAR(20) NOT NULL,
-    fecha DATETIME DEFAULT NOW(),
+    tipo_documento VARCHAR(20) NOT NULL,
+    numero_documento VARCHAR(20) NOT NULL,
+    fecha_emision DATETIME DEFAULT NOW(),
     
     CONSTRAINT FK_Comprobante_Venta FOREIGN KEY (id_venta) REFERENCES venta(id_venta)
 );
@@ -151,7 +152,26 @@ CREATE TABLE movimiento_inventario (
     CONSTRAINT FK_Movimiento_Producto FOREIGN KEY (id_producto) REFERENCES producto(id_producto)
 );
 
--- 13. Tabla Oferta
+-- 13. Tabla Arqueo de Caja
+CREATE TABLE arqueo_caja (
+    id_arqueo INT PRIMARY KEY AUTO_INCREMENT,
+    id_usuario INT NULL,
+    fecha_apertura DATETIME DEFAULT NOW(),
+    fecha_cierre DATETIME NULL,
+    monto_inicial DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    efectivo_sistema DECIMAL(10,2) NULL,
+    efectivo_contado DECIMAL(10,2) NULL,
+    diferencia DECIMAL(10,2) NULL,
+    total_yape DECIMAL(10,2) NULL,
+    total_plin DECIMAL(10,2) NULL,
+    total_tarjeta DECIMAL(10,2) NULL,
+    total_ventas DECIMAL(10,2) NULL,
+    estado VARCHAR(10) NOT NULL DEFAULT 'ABIERTA',
+
+    CONSTRAINT FK_Arqueo_Usuario FOREIGN KEY (id_usuario) REFERENCES usuario_personal(id_usuario)
+);
+
+-- 14. Tabla Oferta
 CREATE TABLE oferta (
     id_oferta INT PRIMARY KEY AUTO_INCREMENT,
     id_producto INT NOT NULL,
