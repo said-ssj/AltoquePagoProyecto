@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OfertaDAO {
+public class OfertaDAO implements IOfertaDAO{
 
     // ============================================================
     // MODO AUTOSERVICIO: Listar todas (para la tabla y kiosko)

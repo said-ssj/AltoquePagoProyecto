@@ -8,7 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MovimientoInventarioDAO {
+public class MovimientoInventarioDAO implements IMovimientoInventarioDAO{
 
     private static final Logger logger = LoggerFactory.getLogger(MovimientoInventarioDAO.class);
 

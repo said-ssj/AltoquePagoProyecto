@@ -1,12 +1,23 @@
+/*
+ * Gestionamos la interfaz visual para el arqueo y control del flujo de efectivo en las cajas registradoras.
+ * Hemos aplicado el Principio de Inversión de Dependencias (DIP) utilizando la abstracción IArqueoCajaDAO
+ * inyectada en el constructor para interactuar con los turnos de apertura y cierre de forma desacoplada,
+ * eliminando por completo cualquier dependencia rígida con el motor de persistencia física en el controlador.
+ */
 package com.controlador;
 
+import com.dao.ArqueoCajaDAO;
+import com.dao.IArqueoCajaDAO;
 import com.dao.PagoDAO;
+import com.dao.IPagoDAO;
+import com.modelo.ArqueoCaja;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import com.dao.*;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 
 import java.net.URL;
@@ -15,8 +26,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import com.dao.ArqueoCajaDAO;
-import com.modelo.ArqueoCaja;
 
 public class ControladorCaja implements Initializable {
 
@@ -41,9 +50,13 @@ public class ControladorCaja implements Initializable {
     @FXML private Button btnAbrirCaja;
     @FXML private Button btnCerrarCaja;
 
-    private final PagoDAO pagoDAO = new PagoDAO();
-    private final ArqueoCajaDAO arqueoCajaDAO = new ArqueoCajaDAO();
+    private final IArqueoCajaDAO arqueoCajaDAO;
+    private final IPagoDAO pagoDAO;
 
+    public ControladorCaja() {
+        this.arqueoCajaDAO = new ArqueoCajaDAO();
+        this.pagoDAO = new PagoDAO();
+    }
     // Estado del turno, cargado/persistido en la tabla arqueo_caja
     private boolean cajaAbierta = false;
     private int idArqueoActual = -1;

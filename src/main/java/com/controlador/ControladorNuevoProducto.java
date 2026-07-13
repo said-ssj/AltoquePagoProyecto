@@ -1,29 +1,31 @@
-package com.controlador;
-import com.dao.ProductoDAO;
+/*
 
+En este controlador gestionamos el formulario para el registro de nuevos productos en el inventario.
+
+Hemos aplicado el Principio de Inversión de Dependencias (SOLID / DIP), abstrayendo la persistencia
+
+mediante la interfaz IProductoDAO e inyectándola a través del constructor. Con esto, logramos separar
+
+por completo los estados visuales del campo de escaneo y las validaciones de la UI de la capa de datos.
+*/
+package com.controlador;
+
+import com.dao.IProductoDAO;
+import com.dao.ProductoDAO;
 import com.modelo.Producto;
 
 import javafx.application.Platform;
-
 import javafx.fxml.FXML;
-
 import javafx.fxml.FXMLLoader;
-
 import javafx.scene.control.Alert;
-
 import javafx.scene.control.Button;
-
 import javafx.scene.control.ComboBox;
-
 import javafx.scene.control.TextArea;
-
 import javafx.scene.control.TextField;
-
 import javafx.scene.control.ToggleButton;
 
-
-
 import java.io.IOException;
+
 public class ControladorNuevoProducto {
     // ── Botones ──────────────────────────────────────────────────
     @FXML private Button     btnVolver;
@@ -39,14 +41,21 @@ public class ControladorNuevoProducto {
     @FXML private TextField  txtStockMinimo;
     @FXML private TextArea   txtDescripcion;
     // ── Combos ───────────────────────────────────────────────────
-    @FXML private ComboBox<String> cbCategoria;
-    @FXML private ComboBox<String> cbUnidadMedida;
-    @FXML private ComboBox<String> cbProveedor;
-    @FXML private ComboBox<String> cbEstado;
-    private final ProductoDAO productoDAO = new ProductoDAO();
+    @FXML private ComboBox cbCategoria;
+    @FXML private ComboBox cbUnidadMedida;
+    @FXML private ComboBox cbProveedor;
+    @FXML private ComboBox cbEstado;
+
+    // Abstracción de datos para cumplir con DIP
+    private final IProductoDAO productoDAO;
+
+    public ControladorNuevoProducto() {
+        this.productoDAO = new ProductoDAO();
+    }
+
     // ============================================================
-    //  INICIALIZACIÓN
-    // ============================================================
+//  INICIALIZACIÓN
+// ============================================================
     @FXML
     public void initialize() {
         // Llenar combos
@@ -58,11 +67,14 @@ public class ControladorNuevoProducto {
         cbProveedor.getItems().addAll("Proveedor A", "Proveedor B", "Proveedor C");
         cbEstado.getItems().addAll("Activo", "Inactivo");
         cbEstado.setValue("Activo");
+
         // Guardar arranca deshabilitado
         btnGuardarProducto.setDisable(true);
         btnGuardarProducto.setOnAction(e -> guardarProducto());
+
         // Modo escáner por defecto
         configurarModoCodigoBarras();
+
         // Toggle de modo
         btnModoBusqueda.setOnAction(e -> {
             if (btnModoBusqueda.isSelected()) {
@@ -72,6 +84,7 @@ public class ControladorNuevoProducto {
             }
             resetearEstadoCampo();
         });
+
         // Listener: busca en BD con cada cambio del campo código
         txtCodigoBarras.textProperty().addListener((obs, oldVal, newVal) -> {
             // Modo escáner: solo dígitos
@@ -89,13 +102,10 @@ public class ControladorNuevoProducto {
         });
     }
 
-
-
     // ============================================================
-    //  BÚSQUEDA EN BASE DE DATOS → VERDE / ROJO
-    // ============================================================
+//  BÚSQUEDA EN BASE DE DATOS → VERDE / ROJO
+// ============================================================
     private void buscarCodigoEnBD(String codigo) {
-        // Usamos el método correcto que definimos en ProductoDAO
         boolean existe = productoDAO.existeCodigo(codigo);
 
         txtCodigoBarras.getStyleClass().removeAll(
@@ -116,25 +126,21 @@ public class ControladorNuevoProducto {
         }
     }
 
-
     // ============================================================
-    //  GUARDAR PRODUCTO EN BASE DE DATOS
-    // ============================================================
+//  GUARDAR PRODUCTO EN BASE DE DATOS
+// ============================================================
     private void guardarProducto() {
-
         // Validar campos obligatorios
         String nombre = txtNombre.getText().trim();
         String codigo = txtCodigoBarras.getText().trim();
 
         if (nombre.isEmpty()) {
-            mostrarAlerta(Alert.AlertType.WARNING,
-                    "Campo requerido", "La descripción del producto no puede estar vacía.");
+            mostrarAlerta(Alert.AlertType.WARNING, "Campo requerido", "La descripción del producto no puede estar vacía.");
             txtNombre.requestFocus();
             return;
         }
         if (codigo.isEmpty()) {
-            mostrarAlerta(Alert.AlertType.WARNING,
-                    "Campo requerido", "El código de barras no puede estar vacío.");
+            mostrarAlerta(Alert.AlertType.WARNING, "Campo requerido", "El código de barras no puede estar vacío.");
             txtCodigoBarras.requestFocus();
             return;
         }
@@ -148,8 +154,7 @@ public class ControladorNuevoProducto {
                 precio = Double.parseDouble(precioTexto);
             }
         } catch (NumberFormatException e) {
-            mostrarAlerta(Alert.AlertType.WARNING,
-                    "Precio inválido", "Ingresa un número válido en el campo Precio. Ejemplo: 29.90");
+            mostrarAlerta(Alert.AlertType.WARNING, "Precio inválido", "Ingresa un número válido en el campo Precio. Ejemplo: 29.90");
             txtPrecioVenta.requestFocus();
             return;
         }
@@ -159,54 +164,42 @@ public class ControladorNuevoProducto {
                 stock = Integer.parseInt(stockTexto);
             }
         } catch (NumberFormatException e) {
-            mostrarAlerta(Alert.AlertType.WARNING,
-                    "Stock inválido", "Ingresa un número entero en el campo Stock Inicial.");
+            mostrarAlerta(Alert.AlertType.WARNING, "Stock inválido", "Ingresa un número entero en el campo Stock Inicial.");
             txtStockInicial.requestFocus();
             return;
         }
 
         // Evitar precio cero o negativo
         if (precio <= 0) {
-            mostrarAlerta(Alert.AlertType.WARNING,
-                    "Precio inválido", "El precio de venta debe ser mayor a 0.");
+            mostrarAlerta(Alert.AlertType.WARNING, "Precio inválido", "El precio de venta debe ser mayor a 0.");
             txtPrecioVenta.requestFocus();
             return;
         }
 
         // Evitar stock negativo
         if (stock < 0) {
-            mostrarAlerta(Alert.AlertType.WARNING,
-                    "Stock inválido", "El stock inicial no puede ser un número negativo.");
+            mostrarAlerta(Alert.AlertType.WARNING, "Stock inválido", "El stock inicial no puede ser un número negativo.");
             txtStockInicial.requestFocus();
             return;
         }
 
         // Construir el objeto Producto
-        // Nota:
-        // Usamos el constructor con parámetros que ya hay en el DAO.
-        // Ponemos "0" en el ID porque MySQL lo autogenerará (Auto Increment).
         Producto nuevo = new Producto(0, codigo, nombre, precio, stock);
 
-        // Llamar al DAO
+        // Llamar al DAO mediante la abstracción
         boolean exito = productoDAO.guardarProducto(nuevo);
 
         if (exito) {
-            mostrarAlerta(Alert.AlertType.INFORMATION,
-                    "Producto guardado",
-                    "El producto \"" + nombre + "\" fue registrado correctamente.");
+            mostrarAlerta(Alert.AlertType.INFORMATION, "Producto guardado", "El producto \"" + nombre + "\" fue registrado correctamente.");
             limpiarFormulario();
         } else {
-            mostrarAlerta(Alert.AlertType.ERROR,
-                    "Error al guardar",
-                    "No se pudo guardar el producto. Verifica la conexión a la base de datos.");
+            mostrarAlerta(Alert.AlertType.ERROR, "Error al guardar", "No se pudo guardar el producto. Verifica la conexión a la base de datos.");
         }
     }
 
-
     // ============================================================
-    //  RESET VISUAL DEL CAMPO (estado azul neutral)
-    // ============================================================
-
+//  RESET VISUAL DEL CAMPO (estado azul neutral)
+// ============================================================
     private void resetearEstadoCampo() {
         txtCodigoBarras.getStyleClass().removeAll(
                 "text-field-busqueda-encontrado",
@@ -219,12 +212,9 @@ public class ControladorNuevoProducto {
         btnGuardarProducto.setDisable(true);
     }
 
-
-
     // ============================================================
-    //  LIMPIAR FORMULARIO DESPUÉS DE GUARDAR
-    // ============================================================
-
+//  LIMPIAR FORMULARIO DESPUÉS DE GUARDAR
+// ============================================================
     private void limpiarFormulario() {
         txtCodigoBarras.clear();
         txtNombre.clear();
@@ -239,31 +229,25 @@ public class ControladorNuevoProducto {
         cbEstado.setValue("Activo");
         resetearEstadoCampo();
         Platform.runLater(() -> txtCodigoBarras.requestFocus());
-
     }
 
-
-
     // ============================================================
-    //  MODOS ESCÁNER / BÚSQUEDA
-    // ============================================================
-
+//  MODOS ESCÁNER / BÚSQUEDA
+// ============================================================
     private void configurarModoCodigoBarras() {
         btnModoBusqueda.setText("🔍 Modo Búsqueda");
         txtCodigoBarras.setPromptText("||||| Escanear código de barras...");
         Platform.runLater(() -> txtCodigoBarras.requestFocus());
-
     }
 
     private void configurarModoBusqueda() {
         btnModoBusqueda.setText("||||| Modo Código de Barras");
         txtCodigoBarras.setPromptText("🔍 Escribe el nombre o código...");
-
     }
 
     // ============================================================
-    //  HELPER: mostrar Alert
-    // ============================================================
+//  HELPER: mostrar Alert
+// ============================================================
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
@@ -272,11 +256,9 @@ public class ControladorNuevoProducto {
         alert.showAndWait();
     }
 
-
-
     // ============================================================
-    //  NAVEGACIÓN — volver a la lista de productos
-    // ============================================================
+//  NAVEGACIÓN — volver a la lista de productos
+// ============================================================
     @FXML
     public void abrirProductos(javafx.event.ActionEvent event) {
         try {

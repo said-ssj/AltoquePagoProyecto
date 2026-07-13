@@ -1,6 +1,15 @@
+/*
+ * En este controlador gestionamos el módulo de creación y administración de ofertas.
+ * Hemos aplicado el Principio de Inversión de Dependencias (SOLID / DIP) extrayendo
+ * los DAO hacia abstracciones (IOfertaDAO e IProductoDAO) e inyectándolas en el constructor.
+ * Además, hemos optimizado el código eliminando métodos visuales duplicados (DRY) para
+ * la búsqueda del autocompletado, dejándolo más limpio y fácil de mantener.
+ */
 package com.controlador;
 
+import com.dao.IOfertaDAO;
 import com.dao.OfertaDAO;
+import com.dao.IProductoDAO; // Asegúrate de tener esta interfaz
 import com.dao.ProductoDAO;
 import com.modelo.Oferta;
 import com.modelo.Producto;
@@ -46,14 +55,21 @@ public class ControladorOfertas implements Initializable {
     @FXML private DatePicker dpFin;
     @FXML private CheckBox   chkEstado;
 
-    private final OfertaDAO  ofertaDAO  = new OfertaDAO();
-    private final ProductoDAO productoDAO = new ProductoDAO();
+    // Abstracciones inyectadas (SOLID)
+    private final IOfertaDAO ofertaDAO;
+    private final IProductoDAO productoDAO;
+
     private final ObservableList<Oferta> listaOfertas = FXCollections.observableArrayList();
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private ContextMenu  popupBusqueda;
     private Producto     productoSeleccionado;
     private Oferta       ofertaEnEdicion;   // null = nueva, != null = editando
+
+    public ControladorOfertas() {
+        this.ofertaDAO = new OfertaDAO();
+        this.productoDAO = new ProductoDAO();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -143,12 +159,14 @@ public class ControladorOfertas implements Initializable {
                 return;
             }
             if (productoSeleccionado != null && nuevo.equals(productoSeleccionado.getNombre())) return;
+
             if (nuevo.trim().length() >= 2) {
                 List<Producto> resultados = productoDAO.buscarPorNombre(nuevo.trim());
                 if (!resultados.isEmpty()) {
                     mostrarResultadosProducto(resultados);
-                    if (!popupBusqueda.isShowing())
+                    if (!popupBusqueda.isShowing()) {
                         popupBusqueda.show(txtBuscarProductoOfertas, Side.BOTTOM, 0, 0);
+                    }
                 } else {
                     popupBusqueda.hide();
                 }
@@ -164,10 +182,15 @@ public class ControladorOfertas implements Initializable {
             HBox fila = new HBox(10);
             Label lblNombre = new Label(p.getNombre());
             lblNombre.setStyle("-fx-text-fill:#1e293b;-fx-font-size:14px;");
-            Region spacer = new Region(); HBox.setHgrow(spacer, Priority.ALWAYS);
+
+            Region spacer = new Region();
+            HBox.setHgrow(spacer, Priority.ALWAYS);
+
             Label lblStock = new Label("Stock: " + p.getStock());
             lblStock.setStyle("-fx-text-fill:#64748b;-fx-font-size:12px;");
+
             fila.getChildren().addAll(lblNombre, spacer, lblStock);
+
             CustomMenuItem item = new CustomMenuItem(fila);
             item.setHideOnClick(true);
             item.setOnAction(e -> seleccionarProducto(p));
@@ -221,9 +244,13 @@ public class ControladorOfertas implements Initializable {
         if (desc.isEmpty() || dtoStr.isEmpty()) {
             alerta("Completa la descripción y el descuento."); return;
         }
+
         double dto;
-        try { dto = Double.parseDouble(dtoStr); }
-        catch (NumberFormatException e) { alerta("El descuento debe ser un número válido."); return; }
+        try {
+            dto = Double.parseDouble(dtoStr);
+        } catch (NumberFormatException e) {
+            alerta("El descuento debe ser un número válido."); return;
+        }
 
         Oferta o = ofertaEnEdicion != null ? ofertaEnEdicion : new Oferta();
         o.setId_producto(productoSeleccionado.getId_producto());
@@ -234,12 +261,7 @@ public class ControladorOfertas implements Initializable {
         o.setFechaFin(dpFin.getValue());
         o.setEstado(chkEstado.isSelected());
 
-        boolean ok;
-        if (ofertaEnEdicion != null) {
-            ok = ofertaDAO.actualizar(o);
-        } else {
-            ok = ofertaDAO.insertar(o);
-        }
+        boolean ok = (ofertaEnEdicion != null) ? ofertaDAO.actualizar(o) : ofertaDAO.insertar(o);
 
         if (ok) {
             info(ofertaEnEdicion != null ? "Oferta actualizada." : "Oferta guardada.");
@@ -290,45 +312,9 @@ public class ControladorOfertas implements Initializable {
     private void alerta(String msg) {
         new Alert(Alert.AlertType.WARNING, msg, ButtonType.OK).showAndWait();
     }
+
     private void info(String msg) {
         Alert a = new Alert(Alert.AlertType.INFORMATION);
         a.setHeaderText(null); a.setContentText(msg); a.showAndWait();
-    }
-
-    private void mostrarResultadosVisuales(List<Producto> resultados) {
-        popupBusqueda.getItems().clear();
-
-        for (Producto prod : resultados) {
-            HBox hbox = new HBox();
-            hbox.setSpacing(10);
-
-            // Nombre del producto
-            Label lblNombre = new Label(prod.getNombre());
-            lblNombre.setStyle("-fx-text-fill: #1e293b; -fx-font-size: 14px;");
-
-            // Espaciador para tirar el stock a la derecha
-            Region spacer = new Region();
-            HBox.setHgrow(spacer, Priority.ALWAYS);
-
-            // Indicador de Stock
-            Label lblStockItem = new Label("Stock: " + prod.getStock());
-            lblStockItem.setStyle("-fx-text-fill: #64748b; -fx-font-size: 13px;");
-
-            hbox.getChildren().addAll(lblNombre, spacer, lblStockItem);
-
-            CustomMenuItem item = new CustomMenuItem(hbox);
-            item.setHideOnClick(true);
-
-            // Cuando el usuario haga clic en esta opción:
-            item.setOnAction(event -> seleccionarProductoParaOferta(prod));
-
-            popupBusqueda.getItems().add(item);
-        }
-    }
-
-    private void seleccionarProductoParaOferta(Producto prod) {
-        this.productoSeleccionado = prod; // Guardamos el objeto completo (con su ID)
-        txtBuscarProductoOfertas.setText(prod.getNombre()); // Ponemos el nombre en el TextField
-        popupBusqueda.hide(); // Escondemos la lista
     }
 }

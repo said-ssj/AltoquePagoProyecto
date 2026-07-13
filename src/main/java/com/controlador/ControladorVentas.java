@@ -1,11 +1,22 @@
+/*
+ * Gestionamos la interfaz gráfica para la visualización y administración del histórico de transacciones comerciales.
+ * Hemos aplicado el Principio de Inversión de Dependencias (DIP) inyectando la abstracción IVentaDAO en el constructor,
+ * eliminando de forma definitiva el uso de instanciaciones rígidas mediante 'new' y desacoplando la vista de la persistencia.
+ */
 package com.controlador;
 
-import com.DB.ConexionDB;
+import com.dao.IVentaDAO;
 import com.dao.VentaDAO;
 import com.modelo.Venta;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import com.DB.ConexionDB;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,7 +24,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,12 +44,16 @@ public class ControladorVentas {
     @FXML private TableColumn<Venta, String>  colEstado;
     @FXML private TableColumn<Venta, String>  colMetodoPago;
     @FXML private TableColumn<Venta, Void>    colAcciones;
-
     @FXML private ComboBox<String> cbFiltrosVentas;
     @FXML private TextField        txtBuscarVenta;
 
     private final ObservableList<Venta> listaVentas = FXCollections.observableArrayList();
-    private final VentaDAO ventaDAO = new VentaDAO();
+    private final IVentaDAO ventaDAO;
+
+    public ControladorVentas() {
+        this.ventaDAO = new VentaDAO();
+    }
+
 
     @FXML
     public void initialize() {
@@ -350,6 +364,7 @@ public class ControladorVentas {
 
     @FXML
     public void abrirNuevaVenta(javafx.event.ActionEvent event) {
+        System.out.println("-> Navegando hacia la pantalla de registro de nueva venta de forma abstracta.");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vista/nuevaventa-view.fxml"));
             javafx.scene.Parent vista = loader.load();

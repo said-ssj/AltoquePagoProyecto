@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsuarioPersonalDAO {
+public class UsuarioPersonalDAO implements IUsuarioPersonalDAO{
 
     // ============================================================
     //  GUARDAR NUEVO EMPLEADO EN MYSQL
@@ -82,6 +82,28 @@ public class UsuarioPersonalDAO {
         return lista;
     }
 
+    @Override
+    public boolean actualizar(UsuarioPersonal usuario) {
+        String sql = "UPDATE usuario_personal SET nombre=?, email=?, id_rol=?, area=?, tipo_contrato=?, telefono=?, salario_base=? WHERE id_usuario=?";
+        try (Connection cn = ConexionDB.conectar();
+             PreparedStatement ps = cn.prepareStatement(sql)) {
+
+            ps.setString(1, usuario.getNombre());
+            ps.setString(2, usuario.getEmail());
+            ps.setInt   (3, usuario.getIdRol());
+            ps.setString(4, usuario.getArea());
+            ps.setString(5, usuario.getTipoContrato());
+            ps.setString(6, usuario.getTelefono());
+            ps.setDouble(7, usuario.getSalarioBase());
+            ps.setInt   (8, usuario.getIdUsuario()); // O el campo que use tu modelo para el ID
+
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     // ============================================================
     //  AUTENTICAR USUARIO
     //
@@ -146,6 +168,21 @@ public class UsuarioPersonalDAO {
             System.out.println("[Seguridad] Contraseña migrada a PBKDF2 para usuario ID: " + idUsuario);
         } catch (Exception e) {
             System.err.println("[Seguridad] Error al migrar contraseña: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public boolean eliminarUsuario(int idUsuario) {
+        String sql = "DELETE FROM usuario_personal WHERE id_usuario = ?";
+        try (Connection cn = ConexionDB.conectar();
+             PreparedStatement ps = cn.prepareStatement(sql)) {
+
+            ps.setInt(1, idUsuario);
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

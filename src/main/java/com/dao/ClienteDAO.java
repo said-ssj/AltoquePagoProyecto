@@ -2,7 +2,7 @@ package com.dao;
 import com.DB.ConexionDB;
 import com.modelo.Cliente;
 import java.sql.*;
-public class ClienteDAO {
+public class ClienteDAO implements IClienteDAO{
 
     public int guardarCliente(Cliente c) {
         int idGenerado = -1;

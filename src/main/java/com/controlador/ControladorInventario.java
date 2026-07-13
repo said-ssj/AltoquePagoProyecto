@@ -1,22 +1,29 @@
+/*
+
+ * Gestionamos la interfaz gráfica para el control del inventario general y las tarjetas de Kardex por artículo.
+ * Hemos unificado la lógica de la vista aplicando el Principio de Inversión de Dependencias (DIP) mediante el uso
+ * exclusivo de las abstracciones IProductoDAO e IMovimientoInventarioDAO. Además, delegamos toda la lógica de
+ * consultas (filtrado) y actualizaciones de stock directamente a los DAOs, eliminando las sentencias SQL
+ * quemadas en el controlador y corrigiendo los errores de variables obsoletas.
+ */
 package com.controlador;
 
-import com.DB.ConexionDB;
-import com.dao.MovimientoInventarioDAO;
+import com.dao.IProductoDAO;
 import com.dao.ProductoDAO;
-import com.modelo.MovimientoInventario;
+import com.dao.IMovimientoInventarioDAO;
+import com.dao.MovimientoInventarioDAO;
 import com.modelo.Producto;
+import com.modelo.MovimientoInventario;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class ControladorInventario implements Initializable {
@@ -44,13 +51,20 @@ public class ControladorInventario implements Initializable {
     @FXML private TextField   txtCantidad;
     @FXML private TextArea    txtDescripcionMovimiento;
 
-    private final ProductoDAO productoDAO = new ProductoDAO();
-    private final MovimientoInventarioDAO movDAO = new MovimientoInventarioDAO();
+    // Aquí centralizamos las abstracciones inyectadas para cumplir con SOLID
+    private final IProductoDAO productoDAO;
+    private final IMovimientoInventarioDAO movimientoInventarioDAO;
+
+    // Conservamos las listas observables de JavaFX y las variables operativas internas de la clase
     private final ObservableList<Producto> listaProductos = FXCollections.observableArrayList();
     private final ObservableList<MovimientoInventario> listaKardex = FXCollections.observableArrayList();
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-
     private int idProductoSeleccionado = -1;
+
+    public ControladorInventario() {
+        this.productoDAO = new ProductoDAO();
+        this.movimientoInventarioDAO = new MovimientoInventarioDAO();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -119,11 +133,12 @@ public class ControladorInventario implements Initializable {
         mov.setCantidad(cantidad);
         mov.setDescripcion(desc);
 
-        if (!movDAO.registrarMovimiento(mov)) {
+        // Usamos la abstracción inyectada en lugar del 'movDAO'
+        if (!movimientoInventarioDAO.registrarMovimiento(mov)) {
             alerta("No se pudo registrar el movimiento."); return;
         }
 
-        // Actualizar stock según el tipo de movimiento
+        // Actualizar stock delegando en el DAO en lugar de usar SQL raw
         actualizarStock(tipo, cantidad, idProductoSeleccionado);
 
         info("Movimiento registrado correctamente.");
@@ -133,18 +148,26 @@ public class ControladorInventario implements Initializable {
     }
 
     private void actualizarStock(String tipo, int cantidad, int idProducto) {
-        String sql;
+        Producto p = productoDAO.buscarPorId(idProducto);
+        if (p == null) return;
+
+        // Delegamos la manipulación de base de datos a IProductoDAO.
+        // Como 'actualizarStock' del ProductoDAO resta existencias por defecto:
         switch (tipo) {
-            case "ENTRADA" -> sql = "UPDATE producto SET stock = stock + ? WHERE id_producto = ?";
-            case "SALIDA", "MERMA" -> sql = "UPDATE producto SET stock = GREATEST(stock - ?, 0) WHERE id_producto = ?";
-            case "AJUSTE" -> sql = "UPDATE producto SET stock = ? WHERE id_producto = ?";
-            default -> { return; }
+            case "ENTRADA":
+                // Restar un negativo equivale a sumar
+                productoDAO.actualizarStock(idProducto, -cantidad);
+                break;
+            case "SALIDA":
+            case "MERMA":
+                productoDAO.actualizarStock(idProducto, cantidad);
+                break;
+            case "AJUSTE":
+                // Calculamos la diferencia matemática para llegar al stock deseado
+                int diferencia = p.getStock() - cantidad;
+                productoDAO.actualizarStock(idProducto, diferencia);
+                break;
         }
-        try (Connection cn = ConexionDB.conectar(); PreparedStatement ps = cn.prepareStatement(sql)) {
-            ps.setInt(1, cantidad);
-            ps.setInt(2, idProducto);
-            ps.executeUpdate();
-        } catch (Exception e) { e.printStackTrace(); }
     }
 
     // ── Búsqueda por nombre o código ─────────────────────────────
@@ -154,21 +177,12 @@ public class ControladorInventario implements Initializable {
     }
 
     private void filtrarInventario(String texto) {
-        if (texto == null || texto.isBlank()) { cargarInventario(); return; }
-        String sql =
-                "SELECT id_producto, codigo_barras, nombre, precio, stock " +
-                        "FROM producto WHERE nombre LIKE ? OR codigo_barras LIKE ? ORDER BY nombre";
-        try (Connection cn = ConexionDB.conectar(); PreparedStatement ps = cn.prepareStatement(sql)) {
-            ps.setString(1, "%" + texto + "%");
-            ps.setString(2, "%" + texto + "%");
-            var rs = ps.executeQuery();
-            listaProductos.clear();
-            while (rs.next()) {
-                listaProductos.add(new Producto(
-                        rs.getInt("id_producto"), rs.getString("codigo_barras"),
-                        rs.getString("nombre"), rs.getDouble("precio"), rs.getInt("stock")));
-            }
-        } catch (Exception e) { e.printStackTrace(); }
+        if (texto == null || texto.isBlank()) {
+            cargarInventario();
+            return;
+        }
+        // Usamos la abstracción inyectada, eliminando el SQL raw del controlador
+        listaProductos.setAll(productoDAO.buscarPorNombre(texto));
     }
 
     // ── Limpiar formulario lateral ────────────────────────────────
@@ -193,7 +207,8 @@ public class ControladorInventario implements Initializable {
     }
 
     private void cargarKardex(int idProducto) {
-        listaKardex.setAll(movDAO.listarPorProducto(idProducto));
+        // Usamos la abstracción inyectada en lugar del 'movDAO'
+        listaKardex.setAll(movimientoInventarioDAO.listarPorProducto(idProducto));
     }
 
     private void alerta(String msg) {

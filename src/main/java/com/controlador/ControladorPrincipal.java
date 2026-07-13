@@ -1,3 +1,11 @@
+/*
+ * En este controlador gestionamos la navegación principal del sistema y el menú lateral.
+ * A diferencia de los otros módulos, aquí no necesitamos inyectar DAOs (Cumpliendo SRP),
+ * ya que su única responsabilidad es orquestar las vistas y coordinar con el servicio
+ * de SesionActual.
+ *
+ * Se han preservado intactas todas las directivas y documentaciones de seguridad.
+ */
 package com.controlador;
 
 import com.servicio.SesionActual;
@@ -30,7 +38,12 @@ import java.util.ResourceBundle;
  */
 public class ControladorPrincipal implements Initializable {
 
-    @FXML private BorderPane  panelPrincipal;
+    // ============================================================
+    // COMPONENTES DE LA INTERFAZ
+    // ============================================================
+    @FXML private BorderPane panelPrincipal;
+
+    // Botones de Navegación
     @FXML private ToggleButton btnInicio;
     @FXML private ToggleButton btnVentas;
     @FXML private ToggleButton btnProductos;
@@ -42,9 +55,14 @@ public class ControladorPrincipal implements Initializable {
     @FXML private ToggleButton btnCaja;
     @FXML private ToggleButton btnConfiguracion;
     @FXML private javafx.scene.control.Button btnPerfiles;
-    @FXML private Label        lblNombreUsuario;
-    @FXML private Label        lblRolUsuario;
 
+    // Información del Usuario
+    @FXML private Label lblNombreUsuario;
+    @FXML private Label lblRolUsuario;
+
+    // ============================================================
+    // INICIALIZACIÓN
+    // ============================================================
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         btnInicio.setSelected(true);
@@ -101,9 +119,9 @@ public class ControladorPrincipal implements Initializable {
         };
     }
 
-    // ---------------------------------------------------------------
-    // Navegación con control de acceso por rol
-    // ---------------------------------------------------------------
+    // ============================================================
+    // NAVEGACIÓN CON CONTROL DE ACCESO POR ROL
+    // ============================================================
 
     @FXML public void abrirInicio() {
         cargarVista("inicio-view.fxml");
@@ -187,9 +205,9 @@ public class ControladorPrincipal implements Initializable {
         cargarVista("configuracion-view.fxml");
     }
 
-    // ---------------------------------------------------------------
-    // Helpers
-    // ---------------------------------------------------------------
+    // ============================================================
+    // HELPERS
+    // ============================================================
 
     private void cargarVista(String nombreFxml) {
         try {
