@@ -12,14 +12,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -216,5 +221,22 @@ public class ControladorEmpleados implements Initializable {
 
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String msg) {
         Alert a = new Alert(tipo); a.setTitle(titulo); a.setHeaderText(null); a.setContentText(msg); a.showAndWait();
+    }
+
+    // ============================================================
+    //  NAVEGACIÓN
+    // ============================================================
+    @FXML
+    public void abrirNuevoEmpleado(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vista/nuevoempleado-view.fxml"));
+            Parent vista = loader.load();
+            Node boton = (Node) event.getSource();
+            BorderPane panel = (BorderPane) boton.getScene().getRoot();
+            panel.setCenter(vista);
+        } catch (IOException e) {
+            System.err.println("Error al cargar la vista de nuevo empleado");
+            e.printStackTrace();
+        }
     }
 }
