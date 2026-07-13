@@ -1,9 +1,11 @@
 package com.dao;
 
 import com.DB.ConexionDB;
+import com.modelo.Carrito;
+
 import java.sql.*;
 
-public class CarritoDAO {
+public class CarritoDAO implements ICarritoDAO {
 
     // 1. Busca si el cliente tiene un carrito pendiente, si no, le crea uno nuevo
     public int obtenerOCrearCarritoActivo(int idCliente) {

@@ -5,7 +5,7 @@ import com.modelo.ArqueoCaja;
 
 import java.sql.*;
 
-public class ArqueoCajaDAO {
+public class ArqueoCajaDAO implements IArqueoCajaDAO{
 
     /** Devuelve el arqueo actualmente ABIERTO (si existe), o null si no hay ninguno abierto. */
     public ArqueoCaja obtenerArqueoAbierto() {

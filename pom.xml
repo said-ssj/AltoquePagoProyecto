@@ -210,7 +210,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.example.altoquepagoproyecto/com.controlador.HelloApplication
+                                com.example.altoquepagoproyecto/com.controlador.MainApp
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

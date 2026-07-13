@@ -1,6 +1,15 @@
+/*
+ * En este controlador gestionamos el módulo de Reportes (Ventas, Inventario y Empleados)
+ * así como la exportación de estos a formato PDF. Hemos aplicado el Principio de Inversión
+ * de Dependencias (SOLID / DIP), extrayendo absolutamente todas las sentencias SQL y la
+ * persistencia del historial hacia una abstracción (IReporteDAO). De este modo, el controlador
+ * queda 100% libre de dependencias a bases de datos y se enfoca en la UI y la generación del PDF.
+ */
 package com.controlador;
 
-import com.DB.ConexionDB;
+import com.dao.IReporteDAO;
+import com.dao.ReporteDAO;
+import com.servicio.SesionActual;
 import com.lowagie.text.*;
 import com.lowagie.text.Font;
 import com.lowagie.text.pdf.PdfPCell;
@@ -15,22 +24,21 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
-import java.awt.*;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
-import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -49,9 +57,16 @@ public class ControladorReportes implements Initializable {
     private static final DateTimeFormatter FMT_TITULO = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     // Colores de marca para encabezados de tabla en el PDF
-    private static final Color COLOR_VENTAS     = new Color(37, 99, 235);   // azul
-    private static final Color COLOR_INVENTARIO = new Color(22, 163, 74);   // verde
-    private static final Color COLOR_EMPLEADOS  = new Color(147, 51, 234);  // morado
+    private static final java.awt.Color COLOR_VENTAS     = new java.awt.Color(37, 99, 235);   // azul
+    private static final java.awt.Color COLOR_INVENTARIO = new java.awt.Color(22, 163, 74);   // verde
+    private static final java.awt.Color COLOR_EMPLEADOS  = new java.awt.Color(147, 51, 234);  // morado
+
+    // Abstracción de datos (SOLID)
+    private final IReporteDAO reporteDAO;
+
+    public ControladorReportes() {
+        this.reporteDAO = new ReporteDAO();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -63,7 +78,7 @@ public class ControladorReportes implements Initializable {
     }
 
     // ============================================================
-    //  PASO 1: DIÁLOGO PARA ELEGIR EL PERIODO (Mensual / Semanal / Personalizado)
+    //  PASO 1: DIÁLOGO PARA ELEGIR EL PERIODO
     // ============================================================
     private void iniciarGeneracion(String tipoReporte) {
         Dialog<Object[]> dialog = new Dialog<>();
@@ -88,7 +103,7 @@ public class ControladorReportes implements Initializable {
         DatePicker dpInicio = new DatePicker(LocalDate.now().minusMonths(1));
         DatePicker dpFin = new DatePicker(LocalDate.now());
         HBox filaFechas = new HBox(10, new Label("Desde:"), dpInicio, new Label("Hasta:"), dpFin);
-        filaFechas.setDisable(true); // solo se habilita si eligen "Personalizado"
+        filaFechas.setDisable(true);
 
         rbPersonalizado.selectedProperty().addListener((obs, viejo, seleccionado) -> filaFechas.setDisable(!seleccionado));
 
@@ -96,7 +111,6 @@ public class ControladorReportes implements Initializable {
         caja.setPadding(new Insets(20));
         dialog.getDialogPane().setContent(caja);
 
-        // Validación: si eligen Personalizado, ambas fechas deben existir y "Desde" no puede ser posterior a "Hasta"
         Node botonOk = dialog.getDialogPane().lookupButton(btnContinuar);
         botonOk.addEventFilter(javafx.event.ActionEvent.ACTION, evento -> {
             if (rbPersonalizado.isSelected()) {
@@ -129,7 +143,7 @@ public class ControladorReportes implements Initializable {
     }
 
     // ============================================================
-    //  PASO 2: GENERAR EL REPORTE SEGÚN TIPO Y PERIODO ELEGIDO
+    //  PASO 2: GENERAR EL REPORTE (CONSULTA A LA BD)
     // ============================================================
     private void generarReporte(String tipoReporte, String periodo, LocalDate inicioPersonalizado, LocalDate finPersonalizado) {
         LocalDate hoy = LocalDate.now();
@@ -151,9 +165,9 @@ public class ControladorReportes implements Initializable {
             }
         }
 
-        String sql;
         String titulo;
-        Color colorTema;
+        java.awt.Color colorTema;
+        List<Map<String, Object>> datosBD;
 
         String etiquetaPeriodo = switch (periodo) {
             case "MENSUAL" -> "Mensual";
@@ -161,43 +175,20 @@ public class ControladorReportes implements Initializable {
             default -> "Personalizado";
         };
 
+        // Obtenemos los datos a través del DAO (Arquitectura Limpia)
         switch (tipoReporte) {
             case "Ventas" -> {
-                sql =
-                        "SELECT v.id_venta AS 'ID', DATE(v.fecha) AS 'Fecha', " +
-                                "  CONCAT(c.nombre,' ',IFNULL(c.apellido,'')) AS 'Cliente', " +
-                                "  v.total AS 'Total (S/)', IFNULL(p.estado,'PENDIENTE') AS 'Estado' " +
-                                "FROM venta v " +
-                                "INNER JOIN cliente c ON v.id_cliente = c.id_cliente " +
-                                "LEFT JOIN pago p ON v.id_venta = p.id_venta " +
-                                "WHERE DATE(v.fecha) BETWEEN ? AND ? " +
-                                "ORDER BY v.fecha DESC";
+                datosBD = reporteDAO.obtenerReporteVentas(inicio, fin);
                 titulo = "Reporte de Ventas " + etiquetaPeriodo;
                 colorTema = COLOR_VENTAS;
             }
             case "Inventario" -> {
-                sql =
-                        "SELECT p.id_producto AS 'ID', p.codigo_barras AS 'Código', p.nombre AS 'Producto', " +
-                                "  p.precio AS 'Precio (S/)', p.stock AS 'Stock', " +
-                                "  CASE WHEN p.stock = 0 THEN 'SIN STOCK' " +
-                                "       WHEN p.stock < 5 THEN 'BAJO STOCK' " +
-                                "       ELSE 'OK' END AS 'Estado' " +
-                                "FROM producto p " +
-                                "LEFT JOIN movimiento_inventario mi ON p.id_producto = mi.id_producto " +
-                                "  AND DATE(mi.fecha) BETWEEN ? AND ? " +
-                                "GROUP BY p.id_producto, p.codigo_barras, p.nombre, p.precio, p.stock " +
-                                "ORDER BY p.stock ASC";
+                datosBD = reporteDAO.obtenerReporteInventario(inicio, fin);
                 titulo = "Reporte de Inventario " + etiquetaPeriodo;
                 colorTema = COLOR_INVENTARIO;
             }
             case "Empleados" -> {
-                sql =
-                        "SELECT u.id_usuario AS 'ID', u.nombre AS 'Nombre', u.email AS 'Email', " +
-                                "  r.nombre_rol AS 'Rol', u.area AS 'Área', u.tipo_contrato AS 'Contrato', " +
-                                "  u.telefono AS 'Teléfono' " +
-                                "FROM usuario_personal u " +
-                                "LEFT JOIN rol r ON u.id_rol = r.id_rol " +
-                                "ORDER BY u.area, u.nombre";
+                datosBD = reporteDAO.obtenerReporteEmpleados();
                 titulo = "Reporte de Empleados " + etiquetaPeriodo;
                 colorTema = COLOR_EMPLEADOS;
             }
@@ -207,15 +198,15 @@ public class ControladorReportes implements Initializable {
         String nombreArchivo = "reporte_" + tipoReporte.toLowerCase() + "_" +
                 FMT_FILE.format(LocalDateTime.now()) + ".pdf";
 
-        exportarPDF(sql, inicio, fin, nombreArchivo, titulo, tipoReporte, periodo, colorTema);
+        exportarPDF(datosBD, inicio, fin, nombreArchivo, titulo, tipoReporte, colorTema);
     }
 
     // ============================================================
-    //  GENERAR EL ARCHIVO PDF CON TÍTULO + TABLA
+    //  PASO 3: PARSEAR DATOS Y EXPORTAR PDF
     // ============================================================
-    private void exportarPDF(String sql, LocalDate inicio, LocalDate fin,
+    private void exportarPDF(List<Map<String, Object>> datosBD, LocalDate inicio, LocalDate fin,
                              String nombreArchivo, String tituloReporte,
-                             String tipoReporte, String periodo, Color colorTema) {
+                             String tipoReporte, java.awt.Color colorTema) {
 
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Seleccionar carpeta de destino");
@@ -224,45 +215,42 @@ public class ControladorReportes implements Initializable {
 
         File archivo = new File(carpeta, nombreArchivo);
 
-        try (Connection cn = ConexionDB.conectar()) {
-            if (cn == null) {
-                mostrarAlerta(Alert.AlertType.ERROR, "Sin conexión", "No se pudo conectar a la base de datos.");
-                return;
-            }
-
-            PreparedStatement ps = cn.prepareStatement(sql);
-            if (sql.contains("?")) {
-                ps.setDate(1, Date.valueOf(inicio));
-                ps.setDate(2, Date.valueOf(fin));
-            }
-
-            ResultSet rs = ps.executeQuery();
-            ResultSetMetaData meta = rs.getMetaData();
-            int cols = meta.getColumnCount();
-
+        try {
             List<String> headers = new ArrayList<>();
-            for (int i = 1; i <= cols; i++) headers.add(meta.getColumnLabel(i));
-
             List<String[]> filas = new ArrayList<>();
-            while (rs.next()) {
-                String[] fila = new String[cols];
-                for (int i = 1; i <= cols; i++) {
-                    Object val = rs.getObject(i);
-                    fila[i - 1] = (val == null) ? "" : val.toString();
+
+            if (datosBD != null && !datosBD.isEmpty()) {
+                // Extraemos los encabezados de las llaves del primer mapa
+                headers.addAll(datosBD.get(0).keySet());
+
+                // Transformamos los mapas en arreglos de Strings para el generador de PDF
+                for (Map<String, Object> filaMap : datosBD) {
+                    String[] filaStr = new String[headers.size()];
+                    int i = 0;
+                    for (String header : headers) {
+                        Object val = filaMap.get(header);
+                        filaStr[i++] = (val == null) ? "" : val.toString();
+                    }
+                    filas.add(filaStr);
                 }
-                filas.add(fila);
             }
 
+            // Construir el archivo físico
             construirPDF(archivo, tituloReporte, headers, filas, inicio, fin, colorTema);
 
-            guardarRegistroReporte(cn, tipoReporte);
+            // Registrar en BD el historial
+            int idUsuarioLogueado = (SesionActual.getInstancia().getUsuario() != null)
+                    ? SesionActual.getInstancia().getUsuario().getIdUsuario()
+                    : 1;
+            reporteDAO.guardarRegistroReporte(idUsuarioLogueado, tipoReporte);
 
             mostrarAlerta(Alert.AlertType.INFORMATION, "Reporte generado",
                     "Se exportaron " + filas.size() + " registros.\nArchivo: " + archivo.getAbsolutePath());
 
+            // Actualizar panel lateral
             cargarReportesRecientes();
 
-            // Abrir el PDF automáticamente si el sistema lo soporta
+            // Abrir automáticamente el PDF
             try {
                 if (Desktop.isDesktopSupported()) Desktop.getDesktop().open(archivo);
             } catch (Exception ignored) { }
@@ -277,16 +265,16 @@ public class ControladorReportes implements Initializable {
     /** Construye el documento PDF con título dinámico, rango de fechas y tabla de datos. */
     private void construirPDF(File archivo, String titulo, List<String> headers,
                               List<String[]> filas, LocalDate inicio, LocalDate fin,
-                              Color colorTema) throws Exception {
+                              java.awt.Color colorTema) throws Exception {
 
         Document documento = new Document(PageSize.A4.rotate(), 30, 30, 40, 30);
         PdfWriter.getInstance(documento, new FileOutputStream(archivo));
         documento.open();
 
         Font fontTitulo  = new Font(Font.HELVETICA, 20, Font.BOLD, colorTema);
-        Font fontSub     = new Font(Font.HELVETICA, 11, Font.NORMAL, Color.GRAY);
-        Font fontHeader  = new Font(Font.HELVETICA, 10, Font.BOLD, Color.WHITE);
-        Font fontCelda   = new Font(Font.HELVETICA, 9, Font.NORMAL, Color.DARK_GRAY);
+        Font fontSub     = new Font(Font.HELVETICA, 11, Font.NORMAL, java.awt.Color.GRAY);
+        Font fontHeader  = new Font(Font.HELVETICA, 10, Font.BOLD, java.awt.Color.WHITE);
+        Font fontCelda   = new Font(Font.HELVETICA, 9, Font.NORMAL, java.awt.Color.DARK_GRAY);
 
         // ── Título dinámico ──────────────────────────────────────
         Paragraph pTitulo = new Paragraph(titulo, fontTitulo);
@@ -304,7 +292,7 @@ public class ControladorReportes implements Initializable {
         // ── Tabla ─────────────────────────────────────────────────
         if (filas.isEmpty()) {
             Paragraph vacio = new Paragraph("No se encontraron registros para el periodo seleccionado.",
-                    new Font(Font.HELVETICA, 11, Font.ITALIC, Color.GRAY));
+                    new Font(Font.HELVETICA, 11, Font.ITALIC, java.awt.Color.GRAY));
             documento.add(vacio);
         } else {
             int numCols = headers.size();
@@ -312,7 +300,6 @@ public class ControladorReportes implements Initializable {
             tabla.setWidthPercentage(100);
             tabla.setSpacingBefore(5);
 
-            // Encabezados
             for (String h : headers) {
                 PdfPCell celda = new PdfPCell(new Phrase(h, fontHeader));
                 celda.setBackgroundColor(colorTema);
@@ -321,10 +308,9 @@ public class ControladorReportes implements Initializable {
                 tabla.addCell(celda);
             }
 
-            // Filas con color alterno
             boolean alterna = false;
             for (String[] fila : filas) {
-                Color fondo = alterna ? new Color(245, 247, 250) : Color.WHITE;
+                java.awt.Color fondo = alterna ? new java.awt.Color(245, 247, 250) : java.awt.Color.WHITE;
                 for (String valor : fila) {
                     PdfPCell celda = new PdfPCell(new Phrase(valor, fontCelda));
                     celda.setBackgroundColor(fondo);
@@ -336,34 +322,16 @@ public class ControladorReportes implements Initializable {
 
             documento.add(tabla);
 
-            // Pie con total de registros
             Paragraph pie = new Paragraph("\nTotal de registros: " + filas.size(),
-                    new Font(Font.HELVETICA, 9, Font.ITALIC, Color.GRAY));
+                    new Font(Font.HELVETICA, 9, Font.ITALIC, java.awt.Color.GRAY));
             documento.add(pie);
         }
 
         documento.close();
     }
 
-    private void guardarRegistroReporte(Connection cn, String tipo) {
-        try {
-            String sqlUser = "SELECT id_usuario FROM usuario_personal LIMIT 1";
-            PreparedStatement ps0 = cn.prepareStatement(sqlUser);
-            ResultSet rs0 = ps0.executeQuery();
-            int idUsuario = rs0.next() ? rs0.getInt(1) : 1;
-
-            String sqlInsert = "INSERT INTO reporte (id_usuario, tipo_reporte, fecha) VALUES (?, ?, NOW())";
-            PreparedStatement ps = cn.prepareStatement(sqlInsert);
-            ps.setInt(1, idUsuario);
-            ps.setString(2, tipo);
-            ps.executeUpdate();
-        } catch (Exception e) {
-            System.err.println("Aviso: no se pudo registrar el reporte en BD: " + e.getMessage());
-        }
-    }
-
     // ============================================================
-    //  CARGAR REPORTES RECIENTES Y HISTORIAL DESDE LA BD
+    //  CARGAR REPORTES RECIENTES E HISTORIAL
     // ============================================================
     private void cargarReportesRecientes() {
         if (contenedorRecientes == null || contenedorHistorial == null) return;
@@ -375,44 +343,29 @@ public class ControladorReportes implements Initializable {
         LocalDate lunes = hoy.with(java.time.DayOfWeek.MONDAY);
         LocalDate primeroDeMes = hoy.withDayOfMonth(1);
 
-        try (Connection cn = ConexionDB.conectar()) {
-            if (cn == null) return;
+        List<Map<String, Object>> historial = reporteDAO.obtenerHistorialReportes(50);
 
-            String sql =
-                    "SELECT r.id_reporte, r.tipo_reporte, r.fecha " +
-                            "FROM reporte r " +
-                            "ORDER BY r.fecha DESC " +
-                            "LIMIT 50";
+        for (Map<String, Object> reg : historial) {
+            String tipo  = (String) reg.get("tipo_reporte");
+            LocalDateTime fechaRep = (LocalDateTime) reg.get("fecha");
 
-            PreparedStatement ps = cn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                String tipo  = rs.getString("tipo_reporte");
-                Timestamp ts = rs.getTimestamp("fecha");
-                LocalDate fechaRep = ts.toLocalDateTime().toLocalDate();
-
-                boolean esReciente = false;
-                if ("Ventas".equalsIgnoreCase(tipo) && !fechaRep.isBefore(primeroDeMes)) {
-                    esReciente = true;
-                } else if (("Inventario".equalsIgnoreCase(tipo) || "Empleados".equalsIgnoreCase(tipo))
-                        && !fechaRep.isBefore(lunes)) {
-                    esReciente = true;
-                }
-
-                HBox fila = crearFilaReporte(tipo, ts.toLocalDateTime());
-                if (esReciente) contenedorRecientes.getChildren().add(fila);
-                else contenedorHistorial.getChildren().add(fila);
+            boolean esReciente = false;
+            if ("Ventas".equalsIgnoreCase(tipo) && !fechaRep.toLocalDate().isBefore(primeroDeMes)) {
+                esReciente = true;
+            } else if (("Inventario".equalsIgnoreCase(tipo) || "Empleados".equalsIgnoreCase(tipo))
+                    && !fechaRep.toLocalDate().isBefore(lunes)) {
+                esReciente = true;
             }
 
-            if (lblTituloHistorial != null) {
-                boolean hayHistorial = !contenedorHistorial.getChildren().isEmpty();
-                lblTituloHistorial.setVisible(hayHistorial);
-                lblTituloHistorial.setManaged(hayHistorial);
-            }
+            HBox fila = crearFilaReporte(tipo, fechaRep);
+            if (esReciente) contenedorRecientes.getChildren().add(fila);
+            else contenedorHistorial.getChildren().add(fila);
+        }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (lblTituloHistorial != null) {
+            boolean hayHistorial = !contenedorHistorial.getChildren().isEmpty();
+            lblTituloHistorial.setVisible(hayHistorial);
+            lblTituloHistorial.setManaged(hayHistorial);
         }
     }
 
@@ -496,5 +449,4 @@ public class ControladorReportes implements Initializable {
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
-
 }

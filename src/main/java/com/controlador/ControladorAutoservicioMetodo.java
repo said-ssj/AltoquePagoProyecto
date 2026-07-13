@@ -1,3 +1,9 @@
+/*
+ * Controlador visual para la selección del método de pago en el Kiosko.
+ * Se optimizó la manipulación del DOM de JavaFX extrayendo la lógica repetitiva
+ * de visibilidad (Visible/Managed) a métodos utilitarios privados, manteniendo
+ * las acciones de los botones limpias y directas.
+ */
 package com.controlador;
 
 import javafx.fxml.FXML;
@@ -23,62 +29,77 @@ public class ControladorAutoservicioMetodo {
 
     @FXML
     public void initialize() {
-        // 1. Configuramos el tamaño del QR por código de forma estricta
+        // 1. Configuramos el tamaño del QR de forma estricta
         imgCodigoQR.setFitWidth(230);
         imgCodigoQR.setFitHeight(230);
 
-        // 2. ESTADO INICIAL: Forzamos que el QR empiece totalmente oculto y colapsado
-        imgCodigoQR.setVisible(false);
-        imgCodigoQR.setManaged(false);
+        // 2. Estado inicial: QR oculto, Ícono visible
+        alternarVisibilidadQr(false);
 
-        // 3. Dejamos visible el ícono de Ikonli
-        iconoQrBoton.setVisible(true);
-        iconoQrBoton.setManaged(true);
-
-        // Precargar la imagen desde los recursos
-        try {
-            Image imagen = new Image(getClass().getResourceAsStream("/com/imagenes/qr-plin.png"));
-            imgCodigoQR.setImage(imagen);
-        } catch (Exception e) {
-            System.err.println("Error al precargar la imagen de Plin: " + e.getMessage());
-        }
+        // 3. Precargar la imagen desde los recursos
+        cargarImagenQR("/com/imagenes/qr-plin.png");
     }
 
     @FXML
     void seleccionarQr(MouseEvent event) {
         System.out.println("-> Kiosko: Generando QR de pago y centralizando vista...");
 
-        // 1. Desaparecer por completo la opción de tarjeta física del layout
-        btnOpcionTarjeta.setVisible(false);
-        btnOpcionTarjeta.setManaged(false);
+        // 1. Desaparecer por completo la opción de tarjeta física
+        ocultarElemento(btnOpcionTarjeta);
 
-        // 2. CONTROL NATIVO: Apagamos el ícono de Ikonli y encendemos el QR real
-        iconoQrBoton.setVisible(false);
-        iconoQrBoton.setManaged(false);
+        // 2. Intercambiar el ícono vectorizado por la imagen real del QR
+        alternarVisibilidadQr(true);
 
-        imgCodigoQR.setVisible(true);
-        imgCodigoQR.setManaged(true);
-
-        // 3. Aplicamos la clase de diseño para el borde azul centrado
+        // 3. Aplicar estilo de selección y actualizar texto
         btnOpcionQr.getStyleClass().add("metodo-activo-centrado");
-
-        // 4. Actualizar la instrucción en pantalla
         lblInstruccionQr.setText("Escanee el código QR desde su aplicación móvil para finalizar.");
+
+        // [!] Aquí podrías lanzar un Temporizador o notificar al Controlador principal
+        // para avanzar automáticamente a la siguiente pantalla si así lo requiere tu flujo.
     }
 
     @FXML
     void seleccionarTarjeta(MouseEvent event) {
         System.out.println("-> Kiosko: Tarjeta POS seleccionada. Centralizando vista...");
 
-        // 1. Desaparecer por completo la opción de QR del layout
-        btnOpcionQr.setVisible(false);
-        btnOpcionQr.setManaged(false);
+        // 1. Desaparecer por completo la opción de QR
+        ocultarElemento(btnOpcionQr);
 
-        // 2. Centralizar la tarjeta visualmente
+        // 2. Centralizar la tarjeta visualmente y aplicar estilos de alerta
         btnOpcionTarjeta.getStyleClass().add("metodo-activo-centrado");
-
-        // 3. Mostrar el mensaje de alerta para el POS
         lblInstruccionTarjeta.setText("POR FAVOR, ACERQUE O INSERTE SU TARJETA AL TERMINAL POS");
-        lblInstruccionTarjeta.getStyleClass().add("texto-alerta-pos");
+
+        // Evitamos duplicar la clase si el usuario da múltiples clics
+        if (!lblInstruccionTarjeta.getStyleClass().contains("texto-alerta-pos")) {
+            lblInstruccionTarjeta.getStyleClass().add("texto-alerta-pos");
+        }
+    }
+
+    // ============================================================
+    //  MÉTODOS UTILITARIOS (DRY)
+    // ============================================================
+
+    private void cargarImagenQR(String ruta) {
+        try {
+            Image imagen = new Image(getClass().getResourceAsStream(ruta));
+            imgCodigoQR.setImage(imagen);
+        } catch (Exception e) {
+            System.err.println("Error al precargar la imagen QR en ruta: " + ruta);
+        }
+    }
+
+    private void alternarVisibilidadQr(boolean mostrarQr) {
+        // Enciende/Apaga el QR
+        imgCodigoQR.setVisible(mostrarQr);
+        imgCodigoQR.setManaged(mostrarQr);
+
+        // Hace lo inverso con el ícono vectorial
+        iconoQrBoton.setVisible(!mostrarQr);
+        iconoQrBoton.setManaged(!mostrarQr);
+    }
+
+    private void ocultarElemento(VBox elemento) {
+        elemento.setVisible(false);
+        elemento.setManaged(false);
     }
 }

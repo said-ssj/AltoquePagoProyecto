@@ -1,3 +1,9 @@
+/*
+ * Nos encargamos exclusivamente del diseño, estructuración y renderizado de los archivos
+ * PDF utilizando la librería de bajo nivel iText. Al aislar esta lógica, evitamos mezclar
+ * el formateo de datos con la gestión de hardware de impresión, respetando el Principio
+ * de Responsabilidad Única (SRP).
+ */
 package com.servicio;
 
 import com.lowagie.text.*;
@@ -7,41 +13,37 @@ import com.modelo.Configuracion;
 import com.modelo.Venta;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.FileOutputStream;
-import java.awt.print.PrinterJob;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.awt.Graphics;
-import javax.print.PrintServiceLookup;
 import java.awt.Color;
 
-public class ComprobanteImpresionServicio {
+public class ComprobantePdfGenerador implements IComprobanteGenerador {
 
-    private static final Logger log = LoggerFactory.getLogger(ComprobanteImpresionServicio.class);
-    private static final ConfiguracionDAO configuracionDAO = new ConfiguracionDAO();
+    private static final Logger log = LoggerFactory.getLogger(ComprobantePdfGenerador.class);
+    private final ConfiguracionDAO configuracionDAO;
+    private final ImpresionHardwareServicio impresionHardware;
 
-    // =========================================================================
-    // 1. FORMATO TICKET TÉRMICO (80mm) DINÁMICO
-    // =========================================================================
-    public static void emitirEImprimirTicketKiosko(Venta venta) {
+    public ComprobantePdfGenerador() {
+        this.configuracionDAO = new ConfiguracionDAO();
+        // Aquí corregimos el enlace: instanciamos directamente nuestro servicio de hardware aislado
+        this.impresionHardware = new ImpresionHardwareServicio();
+    }
+
+    @Override
+    public void emitirTicketKiosko(Venta venta) {
         String tipoDocVenta = (venta.getEstado() != null) ? venta.getEstado().toUpperCase() : "BOLETA";
         boolean esFactura = tipoDocVenta.equals("FACTURA");
-
         String prefijoArchivo = esFactura ? "FacturaTicket_" : "BoletaTicket_";
         String serie = esFactura ? "F001-" : "B001-";
         String tituloDocumento = esFactura ? "FACTURA DE VENTA ELECTRONICA" : "BOLETA DE VENTA ELECTRONICA";
 
-        // Nombre de archivo unificado
         String rutaArchivo = prepararDirectorio() + File.separator + prefijoArchivo + venta.getId() + ".pdf";
         Rectangle pageSize = new Rectangle(226, 800);
         Document documento = new Document(pageSize, 10, 10, 15, 15);
 
         try {
             Configuracion config = configuracionDAO.cargarConfiguracion();
-            String nombreEmpresa = (config != null && config.getRazonSocial() != null && !config.getRazonSocial().isEmpty()) ? config.getRazonSocial() : "FERRETERÍA / MINIMARKET HUAMÁN";
+            String nombreEmpresa = (config != null && config.getRazonSocial() != null && !config.getRazonSocial().isEmpty()) ? config.getRazonSocial() : "FERRETERÍA / MINIMARKET HUAMAN";
             String rucEmpresa = (config != null && config.getRuc() != null && !config.getRuc().isEmpty()) ? config.getRuc() : "10214666087";
             String direccionEmpresa = (config != null && config.getDireccion() != null && !config.getDireccion().isEmpty()) ? config.getDireccion() : "Av. Victorio Gotuzzo 799";
 
@@ -74,7 +76,6 @@ public class ComprobanteImpresionServicio {
             documento.add(numDoc);
 
             documento.add(new Paragraph("--------------------------------------------------", fontNormal));
-
             documento.add(new Paragraph("Fecha: " + venta.getFecha(), fontNormal));
             documento.add(new Paragraph(obtenerEtiquetaAtendidoPor(venta), fontNormal));
             documento.add(new Paragraph((esFactura ? "Razón Social: " : "Cliente: ") + (venta.getCliente() != null ? venta.getCliente() : "CLIENTE VARIOS"), fontNormal));
@@ -84,8 +85,8 @@ public class ComprobanteImpresionServicio {
             PdfPTable tablaItems = new PdfPTable(4);
             tablaItems.setWidthPercentage(100);
             tablaItems.setWidths(new float[]{4.5f, 1f, 1.5f, 1.5f});
-
             String[] cabeceras = {"DESCRIPCION", "CANT", "P.UNIT", "TOTAL"};
+
             for (String cab : cabeceras) {
                 PdfPCell cell = new PdfPCell(new Phrase(cab, fontNegrita));
                 cell.setBorder(Rectangle.NO_BORDER);
@@ -120,15 +121,18 @@ public class ComprobanteImpresionServicio {
                 tablaItems.addCell(cDesc);
 
                 PdfPCell v1 = new PdfPCell(new Phrase(String.valueOf(venta.getProductos()), fontNormal));
-                v1.setBorder(Rectangle.NO_BORDER); v1.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                v1.setBorder(Rectangle.NO_BORDER);
+                v1.setHorizontalAlignment(Element.ALIGN_RIGHT);
                 tablaItems.addCell(v1);
 
                 PdfPCell v2 = new PdfPCell(new Phrase("-", fontNormal));
-                v2.setBorder(Rectangle.NO_BORDER); v2.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                v2.setBorder(Rectangle.NO_BORDER);
+                v2.setHorizontalAlignment(Element.ALIGN_RIGHT);
                 tablaItems.addCell(v2);
 
                 PdfPCell v3 = new PdfPCell(new Phrase(String.format("%.2f", venta.getTotal()), fontNormal));
-                v3.setBorder(Rectangle.NO_BORDER); v3.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                v3.setBorder(Rectangle.NO_BORDER);
+                v3.setHorizontalAlignment(Element.ALIGN_RIGHT);
                 tablaItems.addCell(v3);
             }
 
@@ -147,7 +151,6 @@ public class ComprobanteImpresionServicio {
             agregarFilaTotalTicket(tablaTotales, "OP. EXONERADAS: S/", 0.00, fontNormal);
             agregarFilaTotalTicket(tablaTotales, "I.G.V.: S/", igv, fontNormal);
             agregarFilaTotalTicket(tablaTotales, "IMPORTE TOTAL: S/", totalPagar, fontTitulo);
-
             documento.add(tablaTotales);
 
             Paragraph mensajeCierre = new Paragraph("\n¡Gracias por su compra!", fontNormal);
@@ -155,32 +158,30 @@ public class ComprobanteImpresionServicio {
             documento.add(mensajeCierre);
 
             documento.close();
-            log.info("Ticket PDF guardado en: {}", rutaArchivo);
-            imprimirFisicoSiEsPosible(rutaArchivo);
+            log.info("Ticket PDF guardado de forma local en: {}", rutaArchivo);
+
+            // Ahora sí llamamos exclusivamente a nuestro manejador físico aislado
+            impresionHardware.enviarColaImpresoraFisica(rutaArchivo);
 
         } catch (Exception e) {
-            log.error("Error al generar boleta 80mm: {}", e.getMessage(), e);
+            log.error("Error fatal al estructurar boleta de 80mm: {}", e.getMessage(), e);
         }
     }
 
-    // =========================================================================
-    // 2. FORMATO HOJA A4 DINÁMICO
-    // =========================================================================
-    public static void emitirFormatoA4(Venta venta) {
+    @Override
+    public void emitirFormatoA4(Venta venta) {
         String tipoDocVenta = (venta.getEstado() != null) ? venta.getEstado().toUpperCase() : "BOLETA";
         boolean esFactura = tipoDocVenta.equals("FACTURA");
-
         String prefijoArchivo = esFactura ? "Factura_" : "Boleta_";
         String serie = esFactura ? "F001-" : "B001-";
         String tituloDocumento = esFactura ? "FACTURA DE VENTA ELECTRONICA" : "BOLETA DE VENTA ELECTRONICA";
 
-        // Nombre de archivo unificado
         String rutaArchivo = prepararDirectorio() + File.separator + prefijoArchivo + venta.getId() + ".pdf";
         Document documento = new Document(PageSize.A4, 30, 30, 30, 30);
 
         try {
             Configuracion config = configuracionDAO.cargarConfiguracion();
-            String nombreEmpresa = (config != null && config.getRazonSocial() != null && !config.getRazonSocial().isEmpty()) ? config.getRazonSocial() : "FERRETERÍA / MINIMARKET HUAMÁN";
+            String nombreEmpresa = (config != null && config.getRazonSocial() != null && !config.getRazonSocial().isEmpty()) ? config.getRazonSocial() : "FERRETERÍA / MINIMARKET HUAMAN";
             String rucEmpresa = (config != null && config.getRuc() != null && !config.getRuc().isEmpty()) ? config.getRuc() : "10214666087";
             String direccionEmpresa = (config != null && config.getDireccion() != null && !config.getDireccion().isEmpty()) ? config.getDireccion() : "Av. Victorio Gotuzzo 799";
 
@@ -224,8 +225,8 @@ public class ComprobanteImpresionServicio {
             PdfPCell cellDer = new PdfPCell(tableRuc);
             cellDer.setBorder(Rectangle.NO_BORDER);
             tableHeader.addCell(cellDer);
-
             documento.add(tableHeader);
+
             documento.add(new Paragraph(" "));
 
             PdfPTable tableCliente = new PdfPTable(4);
@@ -235,16 +236,12 @@ public class ComprobanteImpresionServicio {
 
             agregarCelda(tableCliente, esFactura ? "Razón Social:" : "Cliente:", fontNegrita, false);
             agregarCelda(tableCliente, venta.getCliente() != null ? venta.getCliente() : "CLIENTES VARIOS", fontNormal, true);
-
             agregarCelda(tableCliente, "Dirección:", fontNegrita, false);
             agregarCelda(tableCliente, "-", fontNormal, true);
-
             agregarCelda(tableCliente, esFactura ? "RUC:" : "DNI:", fontNegrita, false);
             agregarCelda(tableCliente, "00000000", fontNormal, false);
-
             agregarCelda(tableCliente, "Forma Pago:", fontNegrita, false);
             agregarCelda(tableCliente, venta.getMetodoPago() != null ? venta.getMetodoPago() : "Contado", fontNormal, false);
-
             agregarCelda(tableCliente, "Atendido por:", fontNegrita, false);
             agregarCelda(tableCliente, obtenerAtendidoPor(venta), fontNormal, true);
 
@@ -254,11 +251,11 @@ public class ComprobanteImpresionServicio {
             outerCell.setPadding(5);
             cuadroClienteOuter.addCell(outerCell);
             documento.add(cuadroClienteOuter);
+
             documento.add(new Paragraph(" "));
 
             PdfPTable tableMeta = new PdfPTable(4);
             tableMeta.setWidthPercentage(100);
-
             String[] metaHeaders = {"Fecha Emisión", "N° Orden Compra", "Fecha Vencimiento", "Tipo Moneda"};
             for (String h : metaHeaders) {
                 PdfPCell c = new PdfPCell(new Phrase(h, fontNegrita));
@@ -273,14 +270,13 @@ public class ComprobanteImpresionServicio {
             agregarCeldaCentrada(tableMeta, "", fontNormal);
             agregarCeldaCentrada(tableMeta, soloFecha, fontNormal);
             agregarCeldaCentrada(tableMeta, "SOLES", fontNormal);
-
             documento.add(tableMeta);
+
             documento.add(new Paragraph(" "));
 
             PdfPTable tableItems = new PdfPTable(7);
             tableItems.setWidthPercentage(100);
             tableItems.setWidths(new float[]{0.8f, 2f, 1f, 1f, 4.2f, 1.5f, 1.5f});
-
             String[] headers = {"N°", "Codigo", "Cant.", "U.M", "Descripcion", "P.U.", "Importe"};
             for (String header : headers) {
                 PdfPCell c = new PdfPCell(new Phrase(header, fontNegrita));
@@ -297,11 +293,9 @@ public class ComprobanteImpresionServicio {
                     agregarCeldaCentrada(tableItems, "10100" + item.getIdProducto(), fontPequena);
                     agregarCeldaCentrada(tableItems, String.valueOf(item.getCantidad()), fontPequena);
                     agregarCeldaCentrada(tableItems, "UND", fontPequena);
-
                     PdfPCell cDesc = new PdfPCell(new Phrase(item.getNombreProducto(), fontPequena));
                     cDesc.setPadding(4);
                     tableItems.addCell(cDesc);
-
                     agregarCeldaDerecha(tableItems, String.format("%.2f", item.getPrecioUnitario()), fontPequena);
                     agregarCeldaDerecha(tableItems, String.format("%.2f", item.getSubtotal()), fontPequena);
                 }
@@ -314,8 +308,8 @@ public class ComprobanteImpresionServicio {
                 agregarCeldaDerecha(tableItems, "-", fontPequena);
                 agregarCeldaDerecha(tableItems, String.format("%.2f", venta.getTotal()), fontPequena);
             }
-
             documento.add(tableItems);
+
             documento.add(new Paragraph(" "));
 
             PdfPTable tableBottom = new PdfPTable(2);
@@ -324,10 +318,8 @@ public class ComprobanteImpresionServicio {
 
             PdfPCell cellBotIzq = new PdfPCell();
             cellBotIzq.setBorder(Rectangle.NO_BORDER);
-
             String letrasMonto = convertirNumeroALetras(venta.getTotal());
             cellBotIzq.addElement(new Phrase(letrasMonto, fontNormal));
-
             cellBotIzq.addElement(new Paragraph("\nRepresentación impresa de la " + tituloDocumento, fontPequena));
             cellBotIzq.addElement(new Paragraph("Consulte en: https://sunat.gob.pe", fontPequena));
             tableBottom.addCell(cellBotIzq);
@@ -339,7 +331,6 @@ public class ComprobanteImpresionServicio {
             PdfPTable tableCalc = new PdfPTable(2);
             tableCalc.setWidthPercentage(100);
             tableCalc.setWidths(new float[]{6f, 4f});
-
             agregarFilaTotalA4(tableCalc, "Op. Gravada", subtotal, fontNormal);
             agregarFilaTotalA4(tableCalc, "Op. Exonerada", 0.00, fontNormal);
             agregarFilaTotalA4(tableCalc, "Op. Gratuita", 0.00, fontNormal);
@@ -352,19 +343,15 @@ public class ComprobanteImpresionServicio {
             PdfPCell cellBotDer = new PdfPCell(tableCalc);
             cellBotDer.setPadding(0);
             tableBottom.addCell(cellBotDer);
-
             documento.add(tableBottom);
-            documento.close();
-            log.info("PDF A4 guardado con éxito en: {}", rutaArchivo);
 
+            documento.close();
+            log.info("Documento PDF en formato A4 guardado con éxito en: {}", rutaArchivo);
         } catch (Exception e) {
-            log.error("Error al generar el PDF A4: {}", e.getMessage(), e);
+            log.error("Error fatal en el renderizado del PDF A4: {}", e.getMessage(), e);
         }
     }
 
-    // =========================================================================
-    // MÉTODOS AUXILIARES
-    // =========================================================================
     private static String convertirNumeroALetras(double numero) {
         long entero = (long) numero;
         long centavos = Math.round((numero - entero) * 100);
@@ -380,7 +367,6 @@ public class ComprobanteImpresionServicio {
         String[] especiales = {"DIEZ ", "ONCE ", "DOCE ", "TRECE ", "CATORCE ", "QUINCE ", "DIECISEIS ", "DIECISIETE ", "DIECIOCHO ", "DIECINUEVE "};
         String[] veintes = {"VEINTE ", "VEINTIUN ", "VEINTIDOS ", "VEINTITRES ", "VEINTICUATRO ", "VEINTICINCO ", "VEINTISEIS ", "VEINTISIETE ", "VEINTIOCHO ", "VEINTINUEVE "};
         String[] centenas = {"", "CIENTO ", "DOSCIENTOS ", "TRESCIENTOS ", "CUATROCIENTOS ", "QUINIENTOS ", "SEISCIENTOS ", "SETECIENTOS ", "OCHOCIENTOS ", "NOVECIENTOS "};
-
         if (n < 0) return "MENOS " + ConvertirAlgoritmoRec(-n);
         StringBuilder res = new StringBuilder();
         if (n >= 1000000) {
@@ -423,12 +409,6 @@ public class ComprobanteImpresionServicio {
         return res.toString();
     }
 
-    /**
-     * Determina si la venta se originó en el kiosko de autoservicio o fue
-     * atendida por un cajero/vendedor logueado en el sistema (Back-Office).
-     * Se apoya en el campo "canalVenta" si viene informado; si no, cae de
-     * vuelta a inferirlo a partir de si hay o no un nombre de vendedor.
-     */
     private static boolean esVentaPorAutoservicio(Venta venta) {
         if (venta.getCanalVenta() != null && !venta.getCanalVenta().isBlank()) {
             return venta.getCanalVenta().equalsIgnoreCase("AUTOSERVICIO");
@@ -436,17 +416,13 @@ public class ComprobanteImpresionServicio {
         return venta.getVendedor() == null || venta.getVendedor().isBlank();
     }
 
-    /** Nombre del cajero/vendedor a mostrar, o la etiqueta de autoservicio. */
     private static String obtenerAtendidoPor(Venta venta) {
         if (esVentaPorAutoservicio(venta)) {
             return "AUTOSERVICIO (Kiosko)";
         }
-        return (venta.getVendedor() != null && !venta.getVendedor().isBlank())
-                ? venta.getVendedor()
-                : "Sin sesión";
+        return (venta.getVendedor() != null && !venta.getVendedor().isBlank()) ? venta.getVendedor() : "Sin sesión";
     }
 
-    /** Línea completa para el ticket térmico, con la etiqueta según el canal de venta. */
     private static String obtenerEtiquetaAtendidoPor(Venta venta) {
         if (esVentaPorAutoservicio(venta)) {
             return "Canal: AUTOSERVICIO (Kiosko)";
@@ -459,24 +435,6 @@ public class ComprobanteImpresionServicio {
         File carpetaTickets = new File(rutaCarpeta);
         if (!carpetaTickets.exists()) carpetaTickets.mkdirs();
         return rutaCarpeta;
-    }
-
-    private static void imprimirFisicoSiEsPosible(String rutaArchivo) {
-        try {
-            File archivoImprimir = new File(rutaArchivo);
-            if (archivoImprimir.exists() && PrintServiceLookup.lookupDefaultPrintService() != null) {
-                PrinterJob job = PrinterJob.getPrinterJob();
-                job.setPrintService(PrintServiceLookup.lookupDefaultPrintService());
-                job.setPrintable((graphics, pageFormat, pageIndex) -> {
-                    if (pageIndex > 0) return Printable.NO_SUCH_PAGE;
-                    graphics.translate((int) pageFormat.getImageableX(), (int) pageFormat.getImageableY());
-                    return Printable.PAGE_EXISTS;
-                });
-                job.print();
-            }
-        } catch (Exception e) {
-            log.error("Error al imprimir el PDF físicamente.", e);
-        }
     }
 
     private static void agregarCelda(PdfPTable tabla, String texto, Font fuente, boolean colspan2) {

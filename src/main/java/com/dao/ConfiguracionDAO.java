@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.util.Properties;
 
-public class ConfiguracionDAO {
+public class ConfiguracionDAO implements IConfiguracionDAO{
 
     private static final Logger logger = LoggerFactory.getLogger(ConfiguracionDAO.class);
     // Ruta del archivo donde se guardarán las preferencias locales

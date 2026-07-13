@@ -1,5 +1,14 @@
+/*
+ * En este controlador gestionamos el flujo estructurado para registrar un nuevo
+ * empleado mediante paneles tipo acordeón y validaciones por sección. Hemos
+ * aplicado el Principio de Inversión de Dependencias (SOLID / DIP), extrayendo
+ * la persistencia hacia la abstracción IUsuarioPersonalDAO. De esta manera,
+ * mantenemos la compleja lógica visual y de estados totalmente separada
+ * de las consultas y transacciones hacia la base de datos.
+ */
 package com.controlador;
 
+import com.dao.IUsuarioPersonalDAO;
 import com.dao.UsuarioPersonalDAO;
 import com.modelo.UsuarioPersonal;
 import com.servicio.Seguridad;
@@ -11,7 +20,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
 public class ControladorNuevoEmpleado {
 
@@ -49,13 +57,18 @@ public class ControladorNuevoEmpleado {
     // ================== GENERALES ==================
     @FXML private Button btnGuardarGeneral, btnCancelar;
 
-    private final UsuarioPersonalDAO usuarioDAO = new UsuarioPersonalDAO();
+    // Abstracción inyectada (SOLID)
+    private final IUsuarioPersonalDAO usuarioDAO;
 
     // Variables para controlar si las secciones obligatorias están listas
     private boolean secInfoLista = false;
     private boolean secContactoLista = false;
     private boolean secLaboralLista = false;
     private boolean secCompensacionLista = false;
+
+    public ControladorNuevoEmpleado() {
+        this.usuarioDAO = new UsuarioPersonalDAO();
+    }
 
     @FXML
     public void initialize() {
@@ -101,7 +114,7 @@ public class ControladorNuevoEmpleado {
     // MÉTODOS DE ANIMACIÓN DE PANELES
     // ============================================================
     private void abrirPanel(VBox panel) {
-        // Cierra todos los demás paneles para efecto acordeón (opcional, pero se ve más limpio)
+        // Cierra todos los demás paneles para efecto acordeón
         cerrarPanel(panelInfoPersonal);
         cerrarPanel(panelContacto);
         cerrarPanel(panelLaboral);
@@ -126,11 +139,7 @@ public class ControladorNuevoEmpleado {
 
     private void revisarBotonGuardarGeneral() {
         // Si las 4 secciones obligatorias están listas, se activa el botón grande
-        if (secInfoLista && secContactoLista && secLaboralLista && secCompensacionLista) {
-            btnGuardarGeneral.setDisable(false);
-        } else {
-            btnGuardarGeneral.setDisable(true);
-        }
+        btnGuardarGeneral.setDisable(!(secInfoLista && secContactoLista && secLaboralLista && secCompensacionLista));
     }
 
     // ============================================================
@@ -212,7 +221,7 @@ public class ControladorNuevoEmpleado {
             nuevo.setEmail(txtEmail.getText().trim());
             nuevo.setContraseña(passEncriptado);
             nuevo.setIdRol(idRol);
-            nuevo.setFechaNacimiento(dpFechaNacimiento.getValue().toString()); // Convertimos la fecha visual a texto para MySQL
+            nuevo.setFechaNacimiento(dpFechaNacimiento.getValue().toString());
             nuevo.setTipoDocumento(cbTipoDocumento.getValue());
             nuevo.setNumeroDocumento(txtNumeroDocumento.getText().trim());
             nuevo.setNacionalidad(txtNacionalidad.getText().trim());
@@ -231,12 +240,12 @@ public class ControladorNuevoEmpleado {
             nuevo.setDatosBancarios(txtDatosBancarios.getText().trim());
             nuevo.setAntecedentes(cbAntecedentes.getValue());
 
-            // 4. Mandar todo a MySQL a través del DAO
+            // 4. Mandar todo a MySQL a través del DAO inyectado
             boolean exito = usuarioDAO.guardarUsuario(nuevo);
 
             if (exito) {
                 mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "El empleado ha sido registrado correctamente y sus credenciales han sido encriptadas.");
-                abrirEmpleados(new javafx.event.ActionEvent(btnGuardarGeneral, null)); // Cierra la ventana y vuelve a la lista
+                abrirEmpleados(new javafx.event.ActionEvent(btnGuardarGeneral, null));
             } else {
                 mostrarAlerta(Alert.AlertType.ERROR, "Error de Base de Datos", "No se pudo registrar el empleado. Revisa si el correo ya existe.");
             }

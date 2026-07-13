@@ -8,7 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ProductoDAO {
+public class ProductoDAO implements IProductoDAO{
 
     private static final Logger logger = LoggerFactory.getLogger(ProductoDAO.class);
 
@@ -209,5 +209,48 @@ public class ProductoDAO {
             logger.error("Error al listar los productos", e);
         }
         return lista;
+    }
+
+    @Override
+    public boolean actualizarProducto(Producto p) {
+        String sql = "UPDATE producto SET nombre=?, precio=?, stock=?, codigo_barras=? WHERE id_producto=?";
+        try (Connection cn = ConexionDB.conectar();
+             PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setString(1, p.getNombre());
+            ps.setDouble(2, p.getPrecio());
+            ps.setInt(3, p.getStock());
+            ps.setString(4, p.getCodigo_barras());
+            ps.setInt(5, p.getId_producto());
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean eliminarProducto(int idProducto) {
+        // Ejecutamos la eliminación ordenada en cascada para proteger la integridad referencial
+        String[] sqls = {
+                "DELETE FROM oferta WHERE id_producto=?",
+                "DELETE FROM movimiento_inventario WHERE id_producto=?",
+                "DELETE FROM detalle_carrito WHERE id_producto=?",
+                "DELETE FROM detalle_venta WHERE id_producto=?",
+                "DELETE FROM producto WHERE id_producto=?"
+        };
+        try (Connection cn = ConexionDB.conectar()) {
+            cn.setAutoCommit(false);
+            for (String sql : sqls) {
+                try (PreparedStatement ps = cn.prepareStatement(sql)) {
+                    ps.setInt(1, idProducto);
+                    ps.executeUpdate();
+                }
+            }
+            cn.commit();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

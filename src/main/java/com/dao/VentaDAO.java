@@ -1,3 +1,9 @@
+/*
+ * En este archivo implementamos el acceso a datos para las transacciones y listados de ventas.
+ * Hemos unificado el archivo colocando las anotaciones @Override correspondientes para cumplir
+ * estrictamente con el contrato IVentaDAO. Se han mantenido intactos todos los comentarios de
+ * seguridad y optimizaciones de recursos mediante bloques try-with-resources.
+ */
 package com.dao;
 
 import com.DB.ConexionDB;
@@ -16,9 +22,10 @@ import org.slf4j.LoggerFactory;
  * try-with-resources, dejando Connections, PreparedStatements y ResultSets
  * sin cerrar ante cualquier excepción. Ahora todos usan try-with-resources.
  */
-public class VentaDAO {
+public class VentaDAO implements IVentaDAO {
     private static final Logger logger = LoggerFactory.getLogger(VentaDAO.class);
 
+    @Override
     public int guardarVenta(int idCliente, double total) {
         int idVentaGenerado = 0;
         String sql = "INSERT INTO venta(id_cliente, total) VALUES(?, ?)";
@@ -40,6 +47,7 @@ public class VentaDAO {
         return idVentaGenerado;
     }
 
+    @Override
     public List<Venta> listarVentas() {
         List<Venta> lista = new ArrayList<>();
         String sql =
@@ -81,6 +89,7 @@ public class VentaDAO {
         return lista;
     }
 
+    @Override
     public List<String[]> listarClientes() {
         List<String[]> lista = new ArrayList<>();
         String sql = "SELECT id_cliente, CONCAT(nombre,' ',IFNULL(apellido,'')) FROM cliente ORDER BY nombre";

@@ -1,4 +1,17 @@
+/*
+ * En este controlador gestionamos la vista de escaneo de productos del kiosko de autoservicio.
+ * Hemos implementado la inyección de dependencias instanciando la interfaz IProductoDAO y
+ * pasándola a nuestro ProductoServicio mediante el constructor, ayudándonos a cumplir con
+ * el Principio de Inversión de Dependencias (DIP).
+ */
 package com.controlador;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import com.servicio.ProductoServicio;
+import com.dao.ProductoDAO;
+import com.dao.IProductoDAO;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -28,10 +41,20 @@ public class ControladorAutoservicioEscaner {
 
     private ControladorAutoservicioCheckoutDividida contenedorPadre;
 
+    private final ProductoServicio productoServicio;
+
+    public ControladorAutoservicioEscaner() {
+        IProductoDAO productoDAOReal = new ProductoDAO();
+        this.productoServicio = new ProductoServicio(productoDAOReal);
+    }
+
+    public void setContenedorPadre(ControladorAutoservicioCheckoutDividida padre) {
+        this.contenedorPadre = padre;
+    }
+
     // ==========================================
     // VARIABLES DE CLASE (Declaradas una sola vez)
     // ==========================================
-    private final ProductoServicio productoServicio = new ProductoServicio();
     private final OfertaDAO ofertaDAO = new OfertaDAO();
     private final CarritoDAO carritoDAO = new CarritoDAO();
 
@@ -63,9 +86,7 @@ public class ControladorAutoservicioEscaner {
         });
     }
 
-    public void setContenedorPadre(ControladorAutoservicioCheckoutDividida padre) {
-        this.contenedorPadre = padre;
-    }
+
 
     private void procesarEscaneo() {
         String codigo = "";

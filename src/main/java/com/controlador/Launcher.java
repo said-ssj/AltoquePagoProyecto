@@ -1,16 +1,15 @@
+/*
+ * Esta clase actúa como el lanzador independiente y oficial del sistema.
+ * Es un patrón obligatorio en JavaFX 11+ (conocido como Fat-JAR workaround)
+ * que requiere que la clase que contiene el método main() principal NO herede
+ * de Application. Desde aquí delegamos el arranque de forma segura.
+ */
 package com.controlador;
 
-import com.sun.tools.javac.Main;
-import javafx.application.Application;
-
 public class Launcher {
+
     public static void main(String[] args) {
-        Application.launch(HelloApplication.class, args);
-    }
-}
- class MainLauncher {
-    public static void main(String[] args) throws Exception {
-        // Reemplaza "Main" con el nombre exacto de tu clase que extiende Application
-        Main.main(args);
+        // Delegamos la ejecución a nuestra clase nativa de JavaFX
+        MainApp.main(args);
     }
 }

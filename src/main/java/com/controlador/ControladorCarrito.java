@@ -1,5 +1,4 @@
 package com.controlador;
-
 import com.modelo.Producto;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -10,7 +9,7 @@ import javafx.scene.layout.VBox;
  * Componente visual independiente para representar y controlar un ítem
  * dentro del carrito de compras del Kiosco de Autoservicio.
  */
-public class ControladorCarrito {
+public class ControladorCarrito{
     private final Producto producto;
     private final double precioUnitario;
     private int cantidad;

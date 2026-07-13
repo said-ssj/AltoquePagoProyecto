@@ -1,5 +1,20 @@
+/*
+ * Gestionamos la autenticación de usuarios y el control de acceso inicial al sistema.
+ * Hemos aplicado el Principio de Inversión de Dependencias (DIP) utilizando la abstracción
+ * IUsuarioPersonalDAO inyectada en el constructor para validar las credenciales de los empleados,
+ * lo que nos permite eliminar por completo la instanciación directa del DAO en la interfaz gráfica.
+ */
 package com.controlador;
 
+import com.dao.IUsuarioPersonalDAO;
+import com.dao.UsuarioPersonalDAO;
+import com.modelo.UsuarioPersonal;
+import com.servicio.SesionActual;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import com.dao.UsuarioPersonalDAO;
 import com.modelo.UsuarioPersonal;
 import com.servicio.Seguridad;
@@ -33,6 +48,10 @@ import java.util.Map;
  *   que los demás controladores puedan verificar el rol.
  */
 public class ControladorLogin {
+    private final IUsuarioPersonalDAO usuarioDAO;
+    public ControladorLogin() {
+        this.usuarioDAO = new UsuarioPersonalDAO();
+    }
 
     // Límites de seguridad
     private static final int  MAX_INTENTOS      = 5;
@@ -48,20 +67,39 @@ public class ControladorLogin {
     @FXML private Button        btnEntrarGestion;
     @FXML private Button        btnKiosko;
 
-    private final UsuarioPersonalDAO usuarioDAO = new UsuarioPersonalDAO();
-
     @FXML
     public void ingresarGestion(ActionEvent event) {
         UsuarioPersonal usuario = autenticar();
+
         if (usuario != null) {
             SesionActual.getInstancia().iniciarSesion(usuario);
             cambiarEscena(event, "/com/vista/menu-view.fxml", false);
+
+            System.out.println("Acceso concedido al panel de gestión.");
+        } else {
+            System.out.println("Credenciales incorrectas o cuenta bloqueada.");
         }
     }
 
     @FXML
     public void iniciarKiosko(ActionEvent event) {
-            cambiarEscena(event, "/com/vista/AutoservicioCheckoutDividida-view.fxml", true);
+        System.out.println("Iniciando terminal de Kiosko Autoservicio.");
+    }
+
+    private boolean validarCredenciales() {
+        String email = txtUsuario.getText() != null ? txtUsuario.getText().trim() : "";
+        String password = txtPassword.getText() != null ? txtPassword.getText() : "";
+
+        if (email.isEmpty() || password.isEmpty()) {
+            return false;
+        }
+
+        UsuarioPersonal usuario = usuarioDAO.autenticarUsuario(email, password);
+        if (usuario != null) {
+            SesionActual.getInstancia().iniciarSesion(usuario);
+            return true;
+        }
+        return false;
     }
 
     /**

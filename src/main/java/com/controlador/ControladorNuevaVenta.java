@@ -4,6 +4,8 @@ import com.dao.*;
 import com.google.gson.JsonObject;
 import com.modelo.*;
 import com.servicio.ApiSunatServicio;
+import com.servicio.ComprobantePdfGenerador;
+import com.servicio.IComprobanteGenerador;
 import com.servicio.SesionActual;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -566,7 +568,9 @@ public class ControladorNuevaVenta {
             pagoDAO.guardarPago(idVenta, cbMetodoPago.getValue(), total, cbEstado.getValue());
 
             ComprobanteDAO comprobanteDAO = new ComprobanteDAO();
-            comprobanteDAO.guardarComprobante(idVenta, cbTipoDocumento.getValue());
+            String numeroDocComprobante = documentoIngresado.isEmpty() ? "00000000" : documentoIngresado;
+
+            comprobanteDAO.generarComprobante(idVenta, cbTipoDocumento.getValue(), numeroDocComprobante);
 
             // ==============================================================
             // ALERTA PERSONALIZADA: ELEGIR TIPO DE IMPRESIÓN Y ABRIR PDF
@@ -610,11 +614,13 @@ public class ControladorNuevaVenta {
                 boolean esFacturaSel = cbTipoDocumento.getValue().equals("FACTURA");
                 String archivoNombre = (esFacturaSel ? "Factura_" : "Boleta_") + idVenta + ".pdf";
 
-                // 2. Generamos el archivo según el formato elegido
+                // 2. Generamos el archivo según el formato elegido utilizando el motor desacoplado de impresión SOLID
+                IComprobanteGenerador comprobanteServicio = new ComprobantePdfGenerador();
+
                 if (resultado.get() == btnTicket) {
-                    com.servicio.ComprobanteImpresionServicio.emitirEImprimirTicketKiosko(ventaPDF);
+                    comprobanteServicio.emitirTicketKiosko(ventaPDF);
                 } else if (resultado.get() == btnA4) {
-                    com.servicio.ComprobanteImpresionServicio.emitirFormatoA4(ventaPDF);
+                    comprobanteServicio.emitirFormatoA4(ventaPDF);
                 }
 
                 // 3. Abrir el PDF automáticamente

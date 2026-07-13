@@ -1,12 +1,19 @@
+/*
+ * Controlador de la pantalla final de éxito.
+ * Implementa un temporizador automático para reiniciar la máquina de estados del Kiosko
+ * y devolver la interfaz al escáner de productos para el siguiente cliente.
+ */
 package com.controlador;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Window;
 import javafx.util.Duration;
-import javafx.application.Platform;
 
 public class ControladorAutoservicioPagoExitoso {
 
@@ -25,35 +32,57 @@ public class ControladorAutoservicioPagoExitoso {
         System.out.println("-> Kiosko: Tiempo cumplido. Regresando a la pantalla de Escaneo...");
 
         Platform.runLater(() -> {
-            // 1. Encontrar la ventana activa de la aplicación
-            Parent rootActivo = javafx.stage.Stage.getWindows().stream()
-                    .filter(window -> window.getScene() != null)
-                    .map(window -> window.getScene().getRoot())
-                    .findFirst().orElse(null);
+            BorderPane panelPrincipal = obtenerPanelPrincipalActivo();
 
-            if (rootActivo instanceof BorderPane) {
-                BorderPane panelPrincipal = (BorderPane) rootActivo;
-
-                // 2. Extraer el controlador Checkout mediante el UserData que inyectamos en HelloApplication
+            if (panelPrincipal != null) {
+                // Extraemos el controlador orquestador mediante el UserData
                 Object controlador = panelPrincipal.getUserData();
 
-                if (controlador instanceof ControladorAutoservicioCheckoutDividida) {
-                    ControladorAutoservicioCheckoutDividida checkout = (ControladorAutoservicioCheckoutDividida) controlador;
+                if (controlador instanceof ControladorAutoservicioCheckoutDividida checkout) {
 
-                    // 3. CORRECCIÓN DEFINITIVA: Usar el propio método cíclico del contenedor para volver al paso 1 (Escáner)
+                    // CORRECCIÓN DEFINITIVA: Usar el método cíclico para volver al Paso 1
                     System.out.println("-> Kiosko: Reiniciando máquina de estados al Paso 1 (Escáner).");
                     checkout.cargarPaso(1);
+
                 } else {
-                    System.out.println("-> No se pudo enlazar con la máquina de estados. Intentando reinicio por defecto de vista intermedia.");
-                    try {
-                        javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/com/vista/AutoservicioEscaner-view.fxml"));
-                        Parent vistaEscaner = loader.load();
-                        panelPrincipal.setCenter(vistaEscaner);
-                    } catch (Exception e) {
-                        System.err.println("Error alternativo de carga: " + e.getMessage());
-                    }
+                    ejecutarReinicioDeRespaldo(panelPrincipal);
                 }
+            } else {
+                System.err.println("-> Kiosko Error: No se encontró el BorderPane principal activo.");
             }
         });
+    }
+
+    // ============================================================
+    //  MÉTODOS UTILITARIOS
+    // ============================================================
+
+    /**
+     * Busca de forma segura la ventana principal visible que contenga un BorderPane como raíz.
+     */
+    private BorderPane obtenerPanelPrincipalActivo() {
+        Parent rootActivo = Window.getWindows().stream()
+                .filter(Window::isShowing) // Solo ventanas visibles
+                .filter(window -> window.getScene() != null && window.getScene().getRoot() instanceof BorderPane)
+                .map(window -> window.getScene().getRoot())
+                .findFirst()
+                .orElse(null);
+
+        return (BorderPane) rootActivo;
+    }
+
+    /**
+     * Carga la vista por defecto si la máquina de estados principal no fue encontrada.
+     */
+    private void ejecutarReinicioDeRespaldo(BorderPane panelPrincipal) {
+        System.out.println("-> No se pudo enlazar con la máquina de estados. Intentando reinicio de respaldo...");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/vista/AutoservicioEscaner-view.fxml"));
+            Parent vistaEscaner = loader.load();
+            panelPrincipal.setCenter(vistaEscaner);
+        } catch (Exception e) {
+            System.err.println("Error crítico al cargar vista alternativa de Escáner.");
+            e.printStackTrace(); // Vital para depurar errores de FXML
+        }
     }
 }

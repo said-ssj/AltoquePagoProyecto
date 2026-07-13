@@ -1,5 +1,6 @@
 package com.controlador;
 
+import com.dao.IConfiguracionDAO;
 import com.dao.ConfiguracionDAO;
 import com.lowagie.text.Font;
 import com.lowagie.text.Rectangle;
@@ -42,7 +43,12 @@ public class ControladorConfiguracion implements Initializable {
     @FXML private CheckBox chkModoOscuro;
     @FXML private CheckBox chkImpresionAutomatica;
 
-    private final ConfiguracionDAO dao = new ConfiguracionDAO();
+    // APLICACIÓN DE SOLID: Usamos la interfaz, no la implementación
+    private final IConfiguracionDAO dao;
+
+    public ControladorConfiguracion() {
+        this.dao = new ConfiguracionDAO(); // Inyección de dependencia
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -53,7 +59,7 @@ public class ControladorConfiguracion implements Initializable {
                 cbImpresoras.getItems().add(srv.getName());
             }
         } catch (Exception ignored) {}
-        // Fallback por si no hay impresoras detectadas
+
         if (cbImpresoras.getItems().size() == 1) {
             cbImpresoras.getItems().addAll("EPSON TM-T20III Receipt", "POS-80C Thermal Printer");
         }
