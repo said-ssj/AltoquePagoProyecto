@@ -4,6 +4,7 @@ import com.dao.*;
 import com.google.gson.JsonObject;
 import com.modelo.*;
 import com.servicio.ApiSunatServicio;
+import com.servicio.SesionActual;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
@@ -69,6 +70,19 @@ public class ControladorNuevaVenta {
     private List<DetalleVenta> detallesVenta = new ArrayList<>();
     private Producto productoSeleccionado;
 
+    // Altura de cada fila de la tabla de productos (debe coincidir con el
+    // "-fx-cell-size" definido para .tabla-lista .table-row-cell en el CSS).
+    private static final double ALTURA_FILA_TABLA = 48.0;
+    // Espacio extra para bordes/insets de la propia TableView.
+    private static final double ALTURA_EXTRA_TABLA = 4.0;
+    // Cuando hay menos productos que este mínimo, la tabla igual reserva
+    // espacio como si tuviera esta cantidad de filas (para que se vea amplia
+    // desde el inicio y no "aplastada", incluso antes de agregar productos).
+    private static final int FILAS_MINIMAS_TABLA = 4;
+    // A partir de este número de productos, la tabla deja de crecer y
+    // empieza a mostrar su propio scroll interno.
+    private static final int FILAS_MAXIMAS_VISIBLES_TABLA = 10;
+
     @FXML
     public void initialize() {
 
@@ -122,6 +136,13 @@ public class ControladorNuevaVenta {
         colPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
         colSubtotal.setCellValueFactory(new PropertyValueFactory<>("subtotal"));
         tablaDetalleVenta.setItems(listaItems);
+
+        // La tabla de productos crece a medida que se agregan artículos (sin
+        // necesitar scroll) hasta llegar a 10 filas; de ahí en adelante se
+        // queda fija en ese tamaño máximo y aparece el scroll interno propio
+        // de la tabla para seguir viendo el resto de productos.
+        actualizarAlturaTabla();
+        listaItems.addListener((javafx.collections.ListChangeListener<ItemVenta>) c -> actualizarAlturaTabla());
 
         btnEliminarProducto.setOnAction(e -> eliminarProducto());
 
@@ -189,6 +210,45 @@ public class ControladorNuevaVenta {
         txtRucDni.textProperty().addListener(detectorDeDatos);
         txtRazonSocial.textProperty().addListener(detectorDeDatos);
         if (txtDireccion != null) txtDireccion.textProperty().addListener(detectorDeDatos);
+
+        // El botón "+ Agregar Datos del Cliente" se pinta de azul en cuanto se
+        // completa el DNI/RUC (el dato mínimo necesario), como pista visual de
+        // que ya hay datos cargados aunque el panel esté cerrado y todavía se
+        // puedan completar más campos (correo, dirección, teléfono, etc.).
+        txtRucDni.textProperty().addListener((obs, oldV, newV) -> {
+            boolean tieneDocumento = newV != null && !newV.trim().isEmpty();
+            if (tieneDocumento) {
+                if (!btnMostrarDatosCliente.getStyleClass().contains("btn-cliente-activo")) {
+                    btnMostrarDatosCliente.getStyleClass().add("btn-cliente-activo");
+                }
+            } else {
+                btnMostrarDatosCliente.getStyleClass().remove("btn-cliente-activo");
+            }
+        });
+    }
+
+    /**
+     * Ajusta el alto de la tabla de productos según la cantidad de artículos
+     * agregados: crece fila a fila (sin scroll) hasta FILAS_MAXIMAS_VISIBLES_TABLA;
+     * al superar ese límite se queda fija en su tamaño máximo y es la propia
+     * TableView la que muestra su scroll interno para los productos restantes.
+     */
+    private void actualizarAlturaTabla() {
+        int filas = Math.max(FILAS_MINIMAS_TABLA, Math.min(listaItems.size(), FILAS_MAXIMAS_VISIBLES_TABLA));
+        double altura = (filas * ALTURA_FILA_TABLA) + ALTURA_EXTRA_TABLA;
+
+        // Fijamos preferido, mínimo Y máximo al mismo valor calculado. Esto es
+        // clave: si solo se fija el "preferido", JavaFX puede igual encoger la
+        // tabla durante un recálculo de layout (por ejemplo al mostrar/ocultar
+        // la tarjeta de datos del cliente), dejando visible solo el encabezado.
+        tablaDetalleVenta.setMinHeight(altura);
+        tablaDetalleVenta.setPrefHeight(altura);
+
+        // Mientras no se llegue al máximo de filas, el alto máximo acompaña al
+        // preferido (así la tabla no reserva de más); al llegar al tope de 10
+        // productos, el alto máximo queda fijo en ese valor para forzar el scroll.
+        double alturaMaxima = (FILAS_MAXIMAS_VISIBLES_TABLA * ALTURA_FILA_TABLA) + ALTURA_EXTRA_TABLA;
+        tablaDetalleVenta.setMaxHeight(listaItems.size() >= FILAS_MAXIMAS_VISIBLES_TABLA ? alturaMaxima : altura);
     }
 
     private void configurarModoCodigoBarras() {
@@ -533,6 +593,12 @@ public class ControladorNuevaVenta {
                 ventaPDF.setCliente(nombreAsumido);
                 ventaPDF.setMetodoPago(cbMetodoPago.getValue());
                 ventaPDF.setEstado(cbTipoDocumento.getValue());
+
+                // Registramos quién atendió la venta: el usuario logueado en el
+                // sistema (Administrador o Vendedor), tal como se muestra en el
+                // panel principal. Esto queda impreso en el comprobante.
+                ventaPDF.setVendedor(SesionActual.getInstancia().getNombreUsuario());
+                ventaPDF.setCanalVenta("BACKOFFICE");
 
                 java.time.LocalDateTime ahora = java.time.LocalDateTime.now();
                 java.time.format.DateTimeFormatter formato = java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
