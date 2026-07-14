@@ -120,6 +120,13 @@ public class ControladorLogin {
             return null;
         }
 
+        // Validar formato: el correo debe contener obligatoriamente una "@"
+        if (!com.servicio.ValidacionFormatos.validarCorreo(email)) {
+            mostrarAlerta(Alert.AlertType.WARNING, "Correo Inválido",
+                    "Ingresa un correo con formato válido (debe contener \"@\"). Ej: usuario@correo.com");
+            return null;
+        }
+
         // SEGURIDAD [SEC-05]: Verificar bloqueo temporal
         if (estaBloqueado(email)) {
             long segundosRestantes = segundosRestantesBloqueo(email);
