@@ -112,19 +112,23 @@ public class ControladorVentas {
     private void configurarColumnaAcciones() {
         if (colAcciones == null) return;
         colAcciones.setCellFactory(col -> new TableCell<>() {
+            private final Button btnImprimir = new Button("🖨 Imprimir");
             private final Button btnEditar   = new Button("✏ Editar");
             private final Button btnEliminar = new Button("🗑 Eliminar");
-            private final HBox   contenedor  = new HBox(8, btnEditar, btnEliminar);
+            private final HBox   caja        = new HBox(8, btnImprimir, btnEditar, btnEliminar);
+
             {
-                contenedor.setAlignment(Pos.CENTER);
+                caja.setAlignment(Pos.CENTER);
+                btnImprimir.getStyleClass().add("boton-imprimir");
                 btnEditar  .getStyleClass().add("boton-editar");
                 btnEliminar.getStyleClass().add("boton-eliminar");
+                btnImprimir.setOnAction(e -> { com.modelo.Venta venta = getTableView().getItems().get(getIndex()); mostrarOpcionesImpresion(venta);});
                 btnEditar  .setOnAction(e -> abrirDialogoEdicion(getTableView().getItems().get(getIndex())));
                 btnEliminar.setOnAction(e -> confirmarYEliminar(getTableView().getItems().get(getIndex())));
             }
-            @Override protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                setGraphic(empty ? null : contenedor);
+            @Override protected void updateItem(Void v, boolean empty) {
+                super.updateItem(v, empty);
+                setGraphic(empty ? null : caja);
             }
         });
     }
@@ -341,6 +345,46 @@ public class ControladorVentas {
             }
             cn.commit(); return true;
         } catch (Exception e) { e.printStackTrace(); return false; }
+    }
+
+    /**
+     * Muestra una ventana de diálogo para elegir el formato de impresión
+     * y ejecuta el servicio de PDF correspondiente.
+     */
+    private void mostrarOpcionesImpresion(com.modelo.Venta venta) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Reimpresión de Comprobante");
+        alert.setHeaderText("Imprimir Comprobante de Venta #" + venta.getId());
+        alert.setContentText("Seleccione el formato en el que desea imprimir o generar el comprobante:");
+
+        // Configuración de los botones personalizados
+        ButtonType btnA4 = new ButtonType("Formato A4");
+        ButtonType btn80mm = new ButtonType("Ticket 80mm");
+        ButtonType btnCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(btnA4, btn80mm, btnCancelar);
+
+        // Mostrar la ventana y capturar la respuesta
+        alert.showAndWait().ifPresent(tipo -> {
+            com.servicio.IComprobanteGenerador generadorPdf = new com.servicio.ComprobantePdfGenerador();
+
+            if (tipo == btnA4) {
+                // Generar en A4
+                generadorPdf.emitirFormatoA4(venta);
+
+                Alert info = new Alert(Alert.AlertType.INFORMATION, "Se ha generado correctamente el comprobante en Formato A4.", ButtonType.OK);
+                info.setHeaderText(null);
+                info.showAndWait();
+
+            } else if (tipo == btn80mm) {
+                // Generar en Ticket 80mm (Kiosko)
+                generadorPdf.emitirTicketKiosko(venta);
+
+                Alert info = new Alert(Alert.AlertType.INFORMATION, "Se ha generado el ticket de 80mm y se ha enviado a la cola de impresión.", ButtonType.OK);
+                info.setHeaderText(null);
+                info.showAndWait();
+            }
+        });
     }
 
     // ============================================================
