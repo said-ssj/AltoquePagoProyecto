@@ -518,7 +518,15 @@ public class ControladorNuevaVenta {
                 nombreAsumido = txtRazonSocial.getText() != null ? txtRazonSocial.getText() : "";
             }
 
-            String correo = txtCorreoCliente.getText() != null ? txtCorreoCliente.getText() : "";
+            String correo = txtCorreoCliente.getText() != null ? txtCorreoCliente.getText().trim() : "";
+            if (!correo.isEmpty() && !com.servicio.ValidacionFormatos.validarCorreo(correo)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Correo Inválido");
+                alert.setHeaderText(null);
+                alert.setContentText("El correo del cliente debe tener un formato válido (debe contener \"@\"). Ej: cliente@correo.com");
+                alert.showAndWait();
+                return;
+            }
             String telefono = txtTelefonoCliente.getText() != null ? txtTelefonoCliente.getText() : "";
             String observacion = txtObservacion.getText() != null ? txtObservacion.getText() : "";
             String direccion = txtDireccion.getText() != null ? txtDireccion.getText() : "";

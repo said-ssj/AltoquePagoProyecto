@@ -162,6 +162,9 @@ public class ControladorNuevoEmpleado {
         if (txtEmail.getText().trim().isEmpty() || txtContraseña.getText().isEmpty() || cbRol.getValue() == null || txtTelefono.getText().trim().isEmpty()) {
             mostrarAlerta(Alert.AlertType.WARNING, "Faltan Datos", "Llena Correo, Contraseña, Rol y Teléfono.");
             secContactoLista = false;
+        } else if (!com.servicio.ValidacionFormatos.validarCorreo(txtEmail.getText().trim())) {
+            mostrarAlerta(Alert.AlertType.WARNING, "Correo Inválido", "Ingresa un correo con formato válido (debe contener \"@\"). Ej: usuario@correo.com");
+            secContactoLista = false;
         } else {
             secContactoLista = true;
             cerrarPanel(panelContacto);

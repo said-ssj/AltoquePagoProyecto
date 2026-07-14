@@ -163,6 +163,14 @@ public class ControladorAutoservicioCheckoutDividida {
         if (pasoActual == 1) {
             cargarPaso(2);
         } else if (pasoActual == 2) {
+            if (!correoCliente.trim().isEmpty() && !com.servicio.ValidacionFormatos.validarCorreo(correoCliente)) {
+                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+                alert.setTitle("Correo Inválido");
+                alert.setHeaderText(null);
+                alert.setContentText("El correo debe tener un formato válido (debe contener \"@\"). Ej: cliente@correo.com");
+                alert.showAndWait();
+                return;
+            }
             cargarPaso(3);
         } else if (pasoActual == 3) {
             int idCarritoActivo = carritoDAO.obtenerOCrearCarritoActivo(1);

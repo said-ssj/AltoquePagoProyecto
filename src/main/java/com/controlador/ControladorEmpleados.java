@@ -146,6 +146,10 @@ public class ControladorEmpleados implements Initializable {
                     mostrarAlerta(Alert.AlertType.WARNING, "Campos vacíos", "El nombre y el correo son obligatorios.");
                     return null;
                 }
+                if (!com.servicio.ValidacionFormatos.validarCorreo(fEmail.getText().trim())) {
+                    mostrarAlerta(Alert.AlertType.WARNING, "Correo Inválido", "Ingresa un correo con formato válido (debe contener \"@\"). Ej: usuario@correo.com");
+                    return null;
+                }
                 emp.setNombre(fNombre.getText().trim());
                 emp.setEmail(fEmail.getText().trim());
 
