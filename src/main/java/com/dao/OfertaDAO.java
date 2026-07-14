@@ -9,9 +9,6 @@ import java.util.List;
 
 public class OfertaDAO implements IOfertaDAO{
 
-    // ============================================================
-    // MODO AUTOSERVICIO: Listar todas (para la tabla y kiosko)
-    // ============================================================
     public List<Oferta> listarTodas() {
         List<Oferta> lista = new ArrayList<>();
         String sql =
@@ -30,7 +27,6 @@ public class OfertaDAO implements IOfertaDAO{
         return lista;
     }
 
-    // ── Buscar por nombre de producto o descripción ───────────────
     public List<Oferta> buscar(String texto) {
         List<Oferta> lista = new ArrayList<>();
         String sql =
@@ -50,7 +46,6 @@ public class OfertaDAO implements IOfertaDAO{
         return lista;
     }
 
-    // ── Buscar activa por producto (para el punto de venta / kiosko) ───
     public Oferta buscarOferta(int idProducto) {
         String sql = "SELECT o.id_oferta, o.id_producto, p.nombre AS nombre_producto, " +
                 "  o.descripcion, o.descuento, o.fecha_inicio, o.fecha_fin, o.estado " +
@@ -65,7 +60,6 @@ public class OfertaDAO implements IOfertaDAO{
         return null;
     }
 
-    // ── Insertar ─────────────────────────────────────────────────
     public boolean insertar(Oferta o) {
         String sql = "INSERT INTO oferta (id_producto, descripcion, descuento, fecha_inicio, fecha_fin, estado) VALUES (?,?,?,?,?,?)";
         try (Connection cn = ConexionDB.conectar();
@@ -80,7 +74,6 @@ public class OfertaDAO implements IOfertaDAO{
         } catch (Exception e) { e.printStackTrace(); return false; }
     }
 
-    // ── Actualizar ───────────────────────────────────────────────
     public boolean actualizar(Oferta o) {
         String sql = "UPDATE oferta SET id_producto=?, descripcion=?, descuento=?, fecha_inicio=?, fecha_fin=?, estado=? WHERE id_oferta=?";
         try (Connection cn = ConexionDB.conectar();
@@ -96,7 +89,6 @@ public class OfertaDAO implements IOfertaDAO{
         } catch (Exception e) { e.printStackTrace(); return false; }
     }
 
-    // ── Eliminar ─────────────────────────────────────────────────
     public boolean eliminar(int idOferta) {
         String sql = "DELETE FROM oferta WHERE id_oferta=?";
         try (Connection cn = ConexionDB.conectar();
@@ -106,7 +98,6 @@ public class OfertaDAO implements IOfertaDAO{
         } catch (Exception e) { e.printStackTrace(); return false; }
     }
 
-    // ── Método de Mapeo Interno Real ───────────────────────────────────
     private Oferta mapear(ResultSet rs) throws SQLException {
         LocalDate inicio = rs.getDate("fecha_inicio") != null ? rs.getDate("fecha_inicio").toLocalDate() : null;
         LocalDate fin    = rs.getDate("fecha_fin")    != null ? rs.getDate("fecha_fin").toLocalDate()    : null;
