@@ -145,8 +145,23 @@
 
 
 /* ============================================================
-   BOTONES EDITAR / ELIMINAR EN TABLA
+   BOTONES IMPRIMIR / EDITAR / ELIMINAR EN TABLA
    ============================================================ */
+
+.boton-imprimir {
+    -fx-background-color: #f3e8ff; /* Fondo morado muy claro */
+    -fx-text-fill: #9333ea;        /* Letras moradas más oscuras */
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 5px 12px;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.boton-imprimir:hover {
+    -fx-background-color: #e9d5ff; /* Morado un poco más oscuro al pasar el mouse */
+}
 
 .boton-editar {
     -fx-background-color: #dbeafe;
