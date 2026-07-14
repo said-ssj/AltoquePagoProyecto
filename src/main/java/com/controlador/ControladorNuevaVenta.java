@@ -564,6 +564,9 @@ public class ControladorNuevaVenta {
                 productoDAO.actualizarStock(d.getIdProducto(), d.getCantidad());
             }
 
+            // Notificaciones: avisar si alguno de los productos vendidos quedó con stock bajo
+            com.servicio.NotificacionServicio.getInstancia().revisarStockBajo(productoDAO.obtenerTodos());
+
             PagoDAO pagoDAO = new PagoDAO();
             pagoDAO.guardarPago(idVenta, cbMetodoPago.getValue(), total, cbEstado.getValue());
 

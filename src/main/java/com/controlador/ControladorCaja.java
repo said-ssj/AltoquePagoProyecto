@@ -11,6 +11,7 @@ import com.dao.IArqueoCajaDAO;
 import com.dao.PagoDAO;
 import com.dao.IPagoDAO;
 import com.modelo.ArqueoCaja;
+import com.servicio.NotificacionServicio;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -209,6 +210,8 @@ public class ControladorCaja implements Initializable {
         idArqueoActual = -1;
         actualizarEstadoVisual();
 
+        NotificacionServicio.getInstancia().notificarCajaCerrada(totalTurno, diferencia);
+
         mostrarAlerta(Alert.AlertType.INFORMATION, "Caja cerrada", "El arqueo se registró correctamente:\n\n" + resumen);
     }
 
@@ -260,6 +263,8 @@ public class ControladorCaja implements Initializable {
 
         cargarDatosTurno();
         actualizarEstadoVisual();
+
+        NotificacionServicio.getInstancia().notificarCajaAbierta(montoBase);
     }
 
     /** Sincroniza todos los controles visuales con el estado interno. */

@@ -11,6 +11,7 @@ package com.controlador;
 import com.dao.IUsuarioPersonalDAO;
 import com.dao.UsuarioPersonalDAO;
 import com.modelo.UsuarioPersonal;
+import com.servicio.NotificacionServicio;
 import com.servicio.Seguridad;
 
 import javafx.fxml.FXML;
@@ -244,6 +245,7 @@ public class ControladorNuevoEmpleado {
             boolean exito = usuarioDAO.guardarUsuario(nuevo);
 
             if (exito) {
+                NotificacionServicio.getInstancia().notificarEmpleadoNuevo(nuevo.getNombre(), cbRol.getValue());
                 mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "El empleado ha sido registrado correctamente y sus credenciales han sido encriptadas.");
                 abrirEmpleados(new javafx.event.ActionEvent(btnGuardarGeneral, null));
             } else {

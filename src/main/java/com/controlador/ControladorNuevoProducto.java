@@ -190,6 +190,20 @@ public class ControladorNuevoProducto {
         boolean exito = productoDAO.guardarProducto(nuevo);
 
         if (exito) {
+            // Notificaciones: si el producto ya nace con stock bajo (según el mínimo
+            // indicado en el formulario, o el mínimo por defecto si no se indicó), se avisa.
+            int stockMinimo = com.servicio.NotificacionServicio.STOCK_MINIMO_DEFECTO;
+            try {
+                String textoMinimo = txtStockMinimo.getText();
+                if (textoMinimo != null && !textoMinimo.isBlank()) {
+                    stockMinimo = Integer.parseInt(textoMinimo.trim());
+                }
+            } catch (NumberFormatException ignorado) {
+                // Si no es un número válido, se usa el mínimo por defecto
+            }
+            com.servicio.NotificacionServicio.getInstancia()
+                    .revisarStockBajo(productoDAO.obtenerTodos(), stockMinimo);
+
             mostrarAlerta(Alert.AlertType.INFORMATION, "Producto guardado", "El producto \"" + nombre + "\" fue registrado correctamente.");
             limpiarFormulario();
         } else {
