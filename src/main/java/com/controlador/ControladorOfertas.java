@@ -1,18 +1,13 @@
-/*
- * En este controlador gestionamos el módulo de creación y administración de ofertas.
- * Hemos aplicado el Principio de Inversión de Dependencias (SOLID / DIP) extrayendo
- * los DAO hacia abstracciones (IOfertaDAO e IProductoDAO) e inyectándolas en el constructor.
- * Además, hemos optimizado el código eliminando métodos visuales duplicados (DRY) para
- * la búsqueda del autocompletado, dejándolo más limpio y fácil de mantener.
- */
 package com.controlador;
 
 import com.dao.IOfertaDAO;
 import com.dao.OfertaDAO;
-import com.dao.IProductoDAO; // Asegúrate de tener esta interfaz
+import com.dao.IProductoDAO;
 import com.dao.ProductoDAO;
 import com.modelo.Oferta;
 import com.modelo.Producto;
+import com.servicio.ColorConfig.ColorOfertaMap; // Importación corregida
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,6 +21,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
@@ -34,28 +30,26 @@ import java.util.ResourceBundle;
 
 public class ControladorOfertas implements Initializable {
 
-    // ── Tabla ────────────────────────────────────────────────────
     @FXML private TableView<Oferta>            tablaOfertas;
     @FXML private TableColumn<Oferta, Integer> colId;
     @FXML private TableColumn<Oferta, String>  colProducto;
     @FXML private TableColumn<Oferta, String>  colDescripcion;
     @FXML private TableColumn<Oferta, Double>  colDescuento;
+    @FXML private TableColumn<Oferta, String>  colColor;
     @FXML private TableColumn<Oferta, String>  colInicio;
     @FXML private TableColumn<Oferta, String>  colFin;
     @FXML private TableColumn<Oferta, String>  colEstado;
 
-    // ── Buscador ─────────────────────────────────────────────────
     @FXML private TextField txtBuscar;
 
-    // ── Formulario lateral ───────────────────────────────────────
     @FXML private TextField  txtBuscarProductoOfertas;
     @FXML private TextField  txtDescripcion;
     @FXML private TextField  txtDescuento;
     @FXML private DatePicker dpInicio;
     @FXML private DatePicker dpFin;
     @FXML private CheckBox   chkEstado;
+    @FXML private ColorPicker colorPickerOferta;
 
-    // Abstracciones inyectadas (SOLID)
     private final IOfertaDAO ofertaDAO;
     private final IProductoDAO productoDAO;
 
@@ -64,7 +58,7 @@ public class ControladorOfertas implements Initializable {
 
     private ContextMenu  popupBusqueda;
     private Producto     productoSeleccionado;
-    private Oferta       ofertaEnEdicion;   // null = nueva, != null = editando
+    private Oferta       ofertaEnEdicion;
 
     public ControladorOfertas() {
         this.ofertaDAO = new OfertaDAO();
@@ -76,22 +70,18 @@ public class ControladorOfertas implements Initializable {
         configurarColumnas();
         configurarBusquedaProducto();
         cargarDatosTabla();
+        colorPickerOferta.setValue(Color.web("#3b82f6"));
 
-        // Al hacer clic en una fila → cargar en formulario para editar
         tablaOfertas.getSelectionModel().selectedItemProperty().addListener((obs, old, nueva) -> {
             if (nueva != null) cargarEnFormulario(nueva);
         });
 
-        // Búsqueda en tiempo real en la tabla
         txtBuscar.textProperty().addListener((obs, old, nuevo) -> {
             if (nuevo == null || nuevo.isBlank()) cargarDatosTabla();
             else filtrarTabla(nuevo);
         });
     }
 
-    // ============================================================
-    //  CONFIGURAR COLUMNAS
-    // ============================================================
     private void configurarColumnas() {
         colId         .setCellValueFactory(new PropertyValueFactory<>("id_oferta"));
         colProducto   .setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
@@ -104,10 +94,43 @@ public class ControladorOfertas implements Initializable {
         colFin.setCellValueFactory(c ->
                 new SimpleStringProperty(c.getValue().getFechaFin() != null
                         ? c.getValue().getFechaFin().format(FMT) : "--"));
+        colColor.setCellValueFactory(c ->
+                new SimpleStringProperty(ColorOfertaMap.obtenerColor(c.getValue().getId_oferta()))
+        );
+
+        colColor.setCellFactory(col -> new TableCell<>() {
+            @Override protected void updateItem(String colorHex, boolean empty) {
+                super.updateItem(colorHex, empty);
+                if (empty || colorHex == null) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+
+                Region cuadro = new Region();
+                cuadro.setPrefSize(16, 16);
+                cuadro.setMinSize(16, 16);
+                cuadro.setMaxSize(16, 16);
+                cuadro.setStyle("-fx-background-color: " + colorHex +
+                        "; -fx-background-radius: 4px;" +
+                        "-fx-border-color: #cbd5e1; -fx-border-radius: 4px;");
+
+                // Texto del código
+                Label lblHex = new Label(colorHex);
+                lblHex.setStyle("-fx-text-fill: #64748b; -fx-font-size: 11px;");
+
+                // Juntar cuadro y texto horizontalmente
+                HBox caja = new HBox(6, cuadro, lblHex);
+                caja.setAlignment(Pos.CENTER_LEFT);
+
+                setGraphic(caja);
+                setText(null);
+            }
+        });
+
         colEstado.setCellValueFactory(c ->
                 new SimpleStringProperty(c.getValue().getEstadoTexto()));
 
-        // Badge de color para estado
         colEstado.setCellFactory(col -> new TableCell<>() {
             @Override protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -122,7 +145,6 @@ public class ControladorOfertas implements Initializable {
             }
         });
 
-        // Columna de acciones: Editar + Eliminar
         TableColumn<Oferta, Void> colAcciones = new TableColumn<>("Acciones");
         colAcciones.setPrefWidth(180);
         colAcciones.setCellFactory(col -> new TableCell<>() {
@@ -145,9 +167,6 @@ public class ControladorOfertas implements Initializable {
         tablaOfertas.setItems(listaOfertas);
     }
 
-    // ============================================================
-    //  BÚSQUEDA AUTOCOMPLETE DE PRODUCTO (panel lateral)
-    // ============================================================
     private void configurarBusquedaProducto() {
         popupBusqueda = new ContextMenu();
         popupBusqueda.setPrefWidth(280);
@@ -204,9 +223,6 @@ public class ControladorOfertas implements Initializable {
         popupBusqueda.hide();
     }
 
-    // ============================================================
-    //  CARGA / FILTRO DE LA TABLA
-    // ============================================================
     private void cargarDatosTabla() {
         listaOfertas.setAll(ofertaDAO.listarTodas());
     }
@@ -215,12 +231,8 @@ public class ControladorOfertas implements Initializable {
         listaOfertas.setAll(ofertaDAO.buscar(texto));
     }
 
-    // ============================================================
-    //  CARGAR OFERTA EN EL FORMULARIO PARA EDITAR
-    // ============================================================
     private void cargarEnFormulario(Oferta o) {
         ofertaEnEdicion = o;
-        // Buscar nombre del producto para mostrarlo en el campo
         txtBuscarProductoOfertas.setText(o.getNombreProducto());
         productoSeleccionado = new Producto(
                 o.getId_producto(), null, o.getNombreProducto(), 0, 0);
@@ -229,11 +241,11 @@ public class ControladorOfertas implements Initializable {
         dpInicio      .setValue(o.getFechaInicio());
         dpFin         .setValue(o.getFechaFin());
         chkEstado     .setSelected(o.isEstado());
+
+        // Recuperamos el color desde el archivo local .properties (Corregido a obtenerColor)
+        colorPickerOferta.setValue(Color.web(ColorOfertaMap.obtenerColor(o.getId_oferta())));
     }
 
-    // ============================================================
-    //  GUARDAR (INSERT o UPDATE según modo)
-    // ============================================================
     @FXML
     public void guardarOferta() {
         if (productoSeleccionado == null) {
@@ -264,12 +276,27 @@ public class ControladorOfertas implements Initializable {
         boolean ok = (ofertaEnEdicion != null) ? ofertaDAO.actualizar(o) : ofertaDAO.insertar(o);
 
         if (ok) {
+            // Si la oferta se guardó, ahora guardamos el color en el archivo local usando su ID
+            int idParaColor = (ofertaEnEdicion != null) ? o.getId_oferta() : obtenerUltimoIdInsertado(o);
+            if (idParaColor > 0) {
+                ColorOfertaMap.guardarColor(idParaColor, colorAHex(colorPickerOferta.getValue()));
+            }
+
             info(ofertaEnEdicion != null ? "Oferta actualizada." : "Oferta guardada.");
             limpiarFormulario();
             cargarDatosTabla();
         } else {
-            alerta("No se pudo guardar la oferta en la base de datos.");
+            alerta("No se pudo guardar la oferta.");
         }
+    }
+
+    // Método auxiliar corregido (sin el símbolo extraño)
+    private int obtenerUltimoIdInsertado(Oferta actual) {
+        return ofertaDAO.listarTodas().stream()
+                .filter(of -> of.getId_producto() == actual.getId_producto() && of.getDescripcion().equals(actual.getDescripcion()))
+                .mapToInt(Oferta::getId_oferta)
+                .findFirst()
+                .orElse(-1);
     }
 
     private void eliminarOferta(Oferta o) {
@@ -300,7 +327,16 @@ public class ControladorOfertas implements Initializable {
         dpInicio.setValue(null);
         dpFin.setValue(null);
         chkEstado.setSelected(true);
+        colorPickerOferta.setValue(Color.web("#3b82f6"));
         tablaOfertas.getSelectionModel().clearSelection();
+    }
+
+    private String colorAHex(Color c) {
+        if (c == null) return "#3b82f6";
+        return String.format("#%02X%02X%02X",
+                (int) Math.round(c.getRed()   * 255),
+                (int) Math.round(c.getGreen() * 255),
+                (int) Math.round(c.getBlue()  * 255));
     }
 
     @FXML

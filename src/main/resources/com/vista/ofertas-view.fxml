@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -30,6 +30,7 @@
                         <TableColumn fx:id="colProducto" prefWidth="150.0" text="Producto" />
                         <TableColumn fx:id="colDescripcion" prefWidth="200.0" text="Descripción" />
                         <TableColumn fx:id="colDescuento" prefWidth="90.0" text="Dscto (S/)" />
+                        <TableColumn fx:id="colColor" prefWidth="100.0" text="Color" />
                         <TableColumn fx:id="colInicio" prefWidth="100.0" text="Inicio" />
                         <TableColumn fx:id="colFin" prefWidth="100.0" text="Fin" />
                         <TableColumn fx:id="colEstado" prefWidth="80.0" text="Estado" />
@@ -77,6 +78,11 @@
                 </HBox>
 
                 <CheckBox fx:id="chkEstado" mnemonicParsing="false" selected="true" text="Oferta Activa" />
+
+                <VBox spacing="5.0">
+                    <Label text="Color del ticket en el kiosko (opcional):" />
+                    <ColorPicker fx:id="colorPickerOferta" prefHeight="35.0" prefWidth="280.0" />
+                </VBox>
 
                 <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0" VBox.vgrow="ALWAYS">
                     <children>
