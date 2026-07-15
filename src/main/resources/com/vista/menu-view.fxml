@@ -6,14 +6,37 @@
 <?import org.kordamp.ikonli.javafx.*?>
 
 <BorderPane fx:id="panelPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #f1f5f9;" stylesheets="@../stylesCSS/Style-Menu.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorPrincipal">
+
     <left>
         <VBox prefHeight="800.0" prefWidth="267.0" styleClass="menu-lateral" BorderPane.alignment="TOP_CENTER">
             <children>
-                <Label prefHeight="134.0" prefWidth="237.0" styleClass="titulo-menu" text="Sistema de &#10;Autoservicio">
-                    <VBox.margin>
-                        <Insets left="30.0" />
-                    </VBox.margin>
-                </Label>
+
+                <!-- HBox contenedor del título + campanita de notificaciones -->
+                <HBox alignment="CENTER_LEFT" prefHeight="134.0" prefWidth="267.0">
+                    <children>
+                        <Label prefHeight="134.0" prefWidth="200.0" styleClass="titulo-menu" text="Sistema de &#10;Autoservicio">
+                            <HBox.margin>
+                                <Insets left="30.0" />
+                            </HBox.margin>
+                        </Label>
+
+                        <Region HBox.hgrow="ALWAYS" />
+
+                        <StackPane alignment="TOP_RIGHT">
+                            <children>
+                                <Button fx:id="btnNotificaciones" mnemonicParsing="false" onAction="#alternarNotificaciones" styleClass="btn-campanita">
+                                    <graphic>
+                                        <FontIcon iconColor="#ffffff" iconLiteral="fas-bell" iconSize="20" />
+                                    </graphic>
+                                </Button>
+                                <Label fx:id="lblBadgeNotificaciones" styleClass="badge-notificaciones" text="0" StackPane.alignment="TOP_RIGHT" />
+                            </children>
+                            <HBox.margin>
+                                <Insets right="15.0" top="25.0" />
+                            </HBox.margin>
+                        </StackPane>
+                    </children>
+                </HBox>
 
                 <Separator prefWidth="200.0" styleClass="separador-menu" />
 
@@ -167,26 +190,9 @@
             </children>
         </VBox>
     </left>
-    <top>
-        <HBox alignment="CENTER_RIGHT" prefHeight="60.0" spacing="10.0" styleClass="barra-superior" BorderPane.alignment="CENTER">
-            <padding>
-                <Insets right="25.0" />
-            </padding>
-            <children>
-                <StackPane alignment="TOP_RIGHT">
-                    <children>
-                        <Button fx:id="btnNotificaciones" mnemonicParsing="false" onAction="#alternarNotificaciones" styleClass="btn-campanita">
-                            <graphic>
-                                <FontIcon iconColor="#334155" iconLiteral="fas-bell" iconSize="20" />
-                            </graphic>
-                        </Button>
-                        <Label fx:id="lblBadgeNotificaciones" styleClass="badge-notificaciones" text="0" StackPane.alignment="TOP_RIGHT" />
-                    </children>
-                </StackPane>
-            </children>
-        </HBox>
-    </top>
+
     <opaqueInsets>
         <Insets />
     </opaqueInsets>
+
 </BorderPane>
