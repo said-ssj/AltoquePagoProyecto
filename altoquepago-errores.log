@@ -2149,3 +2149,17 @@ java.sql.SQLIntegrityConstraintViolationException: Duplicate entry '775012345678
 2026-07-11 01:27:11 [JavaFX Application Thread] INFO  c.s.ComprobanteImpresionServicio - Ticket PDF guardado en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\Boleta_24.pdf
 2026-07-11 01:28:17 [JavaFX Application Thread] INFO  c.s.ComprobanteImpresionServicio - Ticket PDF guardado en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\Boleta_25.pdf
 2026-07-11 01:29:09 [JavaFX Application Thread] INFO  c.s.ComprobanteImpresionServicio - PDF A4 guardado con éxito en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\Boleta_73.pdf
+2026-07-11 20:35:04 [JavaFX Application Thread] INFO  c.s.ComprobanteImpresionServicio - Ticket PDF guardado en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\BoletaTicket_26.pdf
+2026-07-12 13:04:44 [JavaFX Application Thread] INFO  c.s.ComprobanteImpresionServicio - Ticket PDF guardado en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\BoletaTicket_27.pdf
+2026-07-12 13:16:24 [JavaFX Application Thread] INFO  c.s.ComprobanteImpresionServicio - Ticket PDF guardado en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\BoletaTicket_28.pdf
+2026-07-12 14:18:30 [JavaFX Application Thread] INFO  c.s.ComprobanteImpresionServicio - Ticket PDF guardado en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\BoletaTicket_74.pdf
+2026-07-12 16:44:37 [JavaFX Application Thread] INFO  c.s.ComprobanteImpresionServicio - Ticket PDF guardado en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\BoletaTicket_75.pdf
+2026-07-12 16:47:21 [JavaFX Application Thread] INFO  c.s.ComprobanteImpresionServicio - Ticket PDF guardado en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\FacturaTicket_76.pdf
+2026-07-12 16:48:22 [JavaFX Application Thread] INFO  c.s.ComprobanteImpresionServicio - PDF A4 guardado con éxito en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\Boleta_77.pdf
+2026-07-12 17:52:02 [JavaFX Application Thread] INFO  c.s.ComprobanteImpresionServicio - PDF A4 guardado con éxito en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\Boleta_78.pdf
+2026-07-13 10:40:04 [JavaFX Application Thread] INFO  c.servicio.ComprobantePdfGenerador - Ticket PDF guardado de forma local en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\BoletaTicket_79.pdf
+2026-07-14 12:04:34 [JavaFX Application Thread] INFO  c.servicio.ComprobantePdfGenerador - Documento PDF en formato A4 guardado con éxito en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\Boleta_50.pdf
+2026-07-14 12:04:49 [JavaFX Application Thread] INFO  c.servicio.ComprobantePdfGenerador - Ticket PDF guardado de forma local en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\BoletaTicket_50.pdf
+2026-07-14 12:05:27 [JavaFX Application Thread] INFO  c.servicio.ComprobantePdfGenerador - Documento PDF en formato A4 guardado con éxito en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\Boleta_49.pdf
+2026-07-14 14:45:08 [JavaFX Application Thread] INFO  c.servicio.ComprobantePdfGenerador - Documento PDF en formato A4 guardado con éxito en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\Boleta_49.pdf
+2026-07-14 14:51:54 [JavaFX Application Thread] INFO  c.servicio.ComprobantePdfGenerador - Ticket PDF guardado de forma local en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\BoletaTicket_1.pdf
