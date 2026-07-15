@@ -6,168 +6,193 @@
 <?import org.kordamp.ikonli.javafx.*?>
 
 <BorderPane fx:id="panelPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #f1f5f9;" stylesheets="@../stylesCSS/Style-Menu.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorPrincipal">
-   <left>
-      <VBox prefHeight="800.0" prefWidth="267.0" styleClass="menu-lateral" BorderPane.alignment="TOP_CENTER">
-         <children>
-            <Label prefHeight="134.0" prefWidth="237.0" styleClass="titulo-menu" text="Sistema de &#10;Autoservicio">
-               <VBox.margin>
-                  <Insets left="30.0" />
-               </VBox.margin>
-            </Label>
 
-            <Separator prefWidth="200.0" styleClass="separador-menu" />
+    <left>
+        <VBox prefHeight="800.0" prefWidth="267.0" styleClass="menu-lateral" BorderPane.alignment="TOP_CENTER">
+            <children>
 
-            <ToggleButton fx:id="btnInicio" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirInicio" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Inicio">
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets left="13.0" top="12.0" />
-               </VBox.margin>
-               <graphic>
-                  <FontIcon iconColor="#ffffff" iconLiteral="fas-home" iconSize="24" />
-               </graphic>
-               <toggleGroup>
-                  <ToggleGroup fx:id="menuGrupo" />
-               </toggleGroup>
-            </ToggleButton>
+                <!-- HBox contenedor del título + campanita de notificaciones -->
+                <HBox alignment="CENTER_LEFT" prefHeight="134.0" prefWidth="267.0">
+                    <children>
+                        <Label prefHeight="134.0" prefWidth="200.0" styleClass="titulo-menu" text="Sistema de &#10;Autoservicio">
+                            <HBox.margin>
+                                <Insets left="30.0" />
+                            </HBox.margin>
+                        </Label>
 
-            <ToggleButton fx:id="btnVentas" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirVentas" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Ventas" toggleGroup="$menuGrupo">
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets left="13.0" top="12.0" />
-               </VBox.margin>
-               <graphic>
-                  <FontIcon iconColor="#ffffff" iconLiteral="fas-shopping-cart" iconSize="24" />
-               </graphic>
-            </ToggleButton>
+                        <Region HBox.hgrow="ALWAYS" />
 
-            <ToggleButton fx:id="btnProductos" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirProductos" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Productos" toggleGroup="$menuGrupo">
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets left="13.0" top="12.0" />
-               </VBox.margin>
-               <graphic>
-                  <FontIcon iconColor="#ffffff" iconLiteral="fas-box" iconSize="24" />
-               </graphic>
-            </ToggleButton>
+                        <StackPane alignment="TOP_RIGHT">
+                            <children>
+                                <Button fx:id="btnNotificaciones" mnemonicParsing="false" onAction="#alternarNotificaciones" styleClass="btn-campanita">
+                                    <graphic>
+                                        <FontIcon iconColor="#ffffff" iconLiteral="fas-bell" iconSize="20" />
+                                    </graphic>
+                                </Button>
+                                <Label fx:id="lblBadgeNotificaciones" styleClass="badge-notificaciones" text="0" StackPane.alignment="TOP_RIGHT" />
+                            </children>
+                            <HBox.margin>
+                                <Insets right="15.0" top="25.0" />
+                            </HBox.margin>
+                        </StackPane>
+                    </children>
+                </HBox>
 
-            <ToggleButton fx:id="btnEmpleados" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirEmpleados" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Empleados" toggleGroup="$menuGrupo">
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets left="13.0" top="12.0" />
-               </VBox.margin>
-               <graphic>
-                  <FontIcon iconColor="#ffffff" iconLiteral="fas-users" iconSize="24" />
-               </graphic>
-            </ToggleButton>
+                <Separator prefWidth="200.0" styleClass="separador-menu" />
 
-            <ToggleButton fx:id="btnConsultas" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirConsultas" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Consultas" toggleGroup="$menuGrupo">
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets left="13.0" top="12.0" />
-               </VBox.margin>
-               <graphic>
-                  <FontIcon iconColor="#ffffff" iconLiteral="fas-search" iconSize="24" />
-               </graphic>
-            </ToggleButton>
+                <ToggleButton fx:id="btnInicio" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirInicio" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Inicio">
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets left="13.0" top="12.0" />
+                    </VBox.margin>
+                    <graphic>
+                        <FontIcon iconColor="#ffffff" iconLiteral="fas-home" iconSize="24" />
+                    </graphic>
+                    <toggleGroup>
+                        <ToggleGroup fx:id="menuGrupo" />
+                    </toggleGroup>
+                </ToggleButton>
 
-            <ToggleButton fx:id="btnReportes" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirReportes" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Reportes" toggleGroup="$menuGrupo">
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets left="13.0" top="12.0" />
-               </VBox.margin>
-               <graphic>
-                  <FontIcon iconColor="#ffffff" iconLiteral="fas-file-alt" iconSize="24" />
-               </graphic>
-            </ToggleButton>
+                <ToggleButton fx:id="btnVentas" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirVentas" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Ventas" toggleGroup="$menuGrupo">
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets left="13.0" top="12.0" />
+                    </VBox.margin>
+                    <graphic>
+                        <FontIcon iconColor="#ffffff" iconLiteral="fas-shopping-cart" iconSize="24" />
+                    </graphic>
+                </ToggleButton>
 
-            <ToggleButton fx:id="btnOfertas" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirOfertas" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Ofertas" toggleGroup="$menuGrupo">
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets left="13.0" top="12.0" />
-               </VBox.margin>
-               <graphic>
-                  <FontIcon iconColor="#ffffff" iconLiteral="fas-tags" iconSize="24" />
-               </graphic>
-            </ToggleButton>
+                <ToggleButton fx:id="btnProductos" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirProductos" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Productos" toggleGroup="$menuGrupo">
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets left="13.0" top="12.0" />
+                    </VBox.margin>
+                    <graphic>
+                        <FontIcon iconColor="#ffffff" iconLiteral="fas-box" iconSize="24" />
+                    </graphic>
+                </ToggleButton>
 
-            <ToggleButton fx:id="btnInventario" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirInventario" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Inventario" toggleGroup="$menuGrupo">
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets left="13.0" top="12.0" />
-               </VBox.margin>
-               <graphic>
-                  <FontIcon iconColor="#ffffff" iconLiteral="fas-boxes" iconSize="24" />
-               </graphic>
-            </ToggleButton>
+                <ToggleButton fx:id="btnEmpleados" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirEmpleados" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Empleados" toggleGroup="$menuGrupo">
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets left="13.0" top="12.0" />
+                    </VBox.margin>
+                    <graphic>
+                        <FontIcon iconColor="#ffffff" iconLiteral="fas-users" iconSize="24" />
+                    </graphic>
+                </ToggleButton>
 
-            <ToggleButton fx:id="btnCaja" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirCaja" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Caja / Arqueo" toggleGroup="$menuGrupo">
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets left="13.0" top="12.0" />
-               </VBox.margin>
-               <graphic>
-                  <FontIcon iconColor="#ffffff" iconLiteral="fas-cash-register" iconSize="24" />
-               </graphic>
-            </ToggleButton>
+                <ToggleButton fx:id="btnConsultas" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirConsultas" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Consultas" toggleGroup="$menuGrupo">
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets left="13.0" top="12.0" />
+                    </VBox.margin>
+                    <graphic>
+                        <FontIcon iconColor="#ffffff" iconLiteral="fas-search" iconSize="24" />
+                    </graphic>
+                </ToggleButton>
 
-            <ToggleButton fx:id="btnConfiguracion" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirConfiguracion" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Configuración" toggleGroup="$menuGrupo">
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-               <VBox.margin>
-                  <Insets left="13.0" top="12.0" />
-               </VBox.margin>
-               <graphic>
-                  <FontIcon iconColor="#ffffff" iconLiteral="fas-cog" iconSize="24" />
-               </graphic>
-            </ToggleButton>
+                <ToggleButton fx:id="btnReportes" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirReportes" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Reportes" toggleGroup="$menuGrupo">
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets left="13.0" top="12.0" />
+                    </VBox.margin>
+                    <graphic>
+                        <FontIcon iconColor="#ffffff" iconLiteral="fas-file-alt" iconSize="24" />
+                    </graphic>
+                </ToggleButton>
 
-            <Region VBox.vgrow="ALWAYS" />
+                <ToggleButton fx:id="btnOfertas" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirOfertas" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Ofertas" toggleGroup="$menuGrupo">
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets left="13.0" top="12.0" />
+                    </VBox.margin>
+                    <graphic>
+                        <FontIcon iconColor="#ffffff" iconLiteral="fas-tags" iconSize="24" />
+                    </graphic>
+                </ToggleButton>
 
-            <Separator prefWidth="200.0" styleClass="separador-menu" />
+                <ToggleButton fx:id="btnInventario" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirInventario" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Inventario" toggleGroup="$menuGrupo">
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets left="13.0" top="12.0" />
+                    </VBox.margin>
+                    <graphic>
+                        <FontIcon iconColor="#ffffff" iconLiteral="fas-boxes" iconSize="24" />
+                    </graphic>
+                </ToggleButton>
 
-            <HBox alignment="CENTER_LEFT" prefHeight="73.0" prefWidth="267.0" spacing="15.0" styleClass="contenedor-perfil">
-               <padding>
-                  <Insets bottom="30.0" left="25.0" right="20.0" top="20.0" />
-               </padding>
-               <children>
-                  <Button fx:id="btnPerfiles" mnemonicParsing="false" onAction="#abrirPerfiles" styleClass="btn-avatar-perfil">
-                     <graphic>
-                        <FontIcon iconColor="#ffffff" iconLiteral="fas-user-cog" iconSize="20" />
-                     </graphic>
-                  </Button>
+                <ToggleButton fx:id="btnCaja" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirCaja" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Caja / Arqueo" toggleGroup="$menuGrupo">
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets left="13.0" top="12.0" />
+                    </VBox.margin>
+                    <graphic>
+                        <FontIcon iconColor="#ffffff" iconLiteral="fas-cash-register" iconSize="24" />
+                    </graphic>
+                </ToggleButton>
 
-                  <VBox alignment="CENTER_LEFT" spacing="2.0">
-                     <children>
-                        <Label fx:id="lblNombreUsuario" styleClass="perfil-nombre" text="Usuario" />
-                        <Label fx:id="lblRolUsuario" styleClass="perfil-rol" text="Administrador" />
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
+                <ToggleButton fx:id="btnConfiguracion" alignment="CENTER_LEFT" graphicTextGap="15.0" mnemonicParsing="false" onAction="#abrirConfiguracion" prefHeight="48.0" prefWidth="220.0" styleClass="menu-boton" text="Configuración" toggleGroup="$menuGrupo">
+                    <padding>
+                        <Insets left="20.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets left="13.0" top="12.0" />
+                    </VBox.margin>
+                    <graphic>
+                        <FontIcon iconColor="#ffffff" iconLiteral="fas-cog" iconSize="24" />
+                    </graphic>
+                </ToggleButton>
 
-         </children>
-      </VBox>
-   </left>
-   <opaqueInsets>
-      <Insets />
-   </opaqueInsets>
+                <Region VBox.vgrow="ALWAYS" />
+
+                <Separator prefWidth="200.0" styleClass="separador-menu" />
+
+                <HBox alignment="CENTER_LEFT" prefHeight="73.0" prefWidth="267.0" spacing="15.0" styleClass="contenedor-perfil">
+                    <padding>
+                        <Insets bottom="30.0" left="25.0" right="20.0" top="20.0" />
+                    </padding>
+                    <children>
+                        <Button fx:id="btnPerfiles" mnemonicParsing="false" onAction="#abrirPerfiles" styleClass="btn-avatar-perfil">
+                            <graphic>
+                                <FontIcon iconColor="#ffffff" iconLiteral="fas-user-cog" iconSize="20" />
+                            </graphic>
+                        </Button>
+
+                        <VBox alignment="CENTER_LEFT" spacing="2.0">
+                            <children>
+                                <Label fx:id="lblNombreUsuario" styleClass="perfil-nombre" text="Usuario" />
+                                <Label fx:id="lblRolUsuario" styleClass="perfil-rol" text="Administrador" />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
+            </children>
+        </VBox>
+    </left>
+
+    <opaqueInsets>
+        <Insets />
+    </opaqueInsets>
+
 </BorderPane>

@@ -14,6 +14,7 @@ import com.dao.IMovimientoInventarioDAO;
 import com.dao.MovimientoInventarioDAO;
 import com.modelo.Producto;
 import com.modelo.MovimientoInventario;
+import com.servicio.NotificacionServicio;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -140,6 +141,9 @@ public class ControladorInventario implements Initializable {
 
         // Actualizar stock delegando en el DAO en lugar de usar SQL raw
         actualizarStock(tipo, cantidad, idProductoSeleccionado);
+
+        // Notificaciones: si el producto quedó en stock bajo, se avisa por la campanita
+        NotificacionServicio.getInstancia().revisarStockBajo(productoDAO.obtenerTodos());
 
         info("Movimiento registrado correctamente.");
         cargarInventario();
