@@ -38,6 +38,8 @@ public class ControladorEmpleados implements Initializable {
     @FXML private TableColumn<UsuarioPersonal, String> colEmail;
     @FXML private TableColumn<UsuarioPersonal, Integer> colRol; // Cambiado a Integer para mapear idRol
     @FXML private TableColumn<UsuarioPersonal, String> colEstado;
+    @FXML private TableColumn<UsuarioPersonal, String> colTelefono;
+    @FXML private TableColumn<UsuarioPersonal, String> colNumeroDocumento;
     @FXML private TableColumn<UsuarioPersonal, Void> colAcciones;
 
     private final IUsuarioPersonalDAO usuarioPersonalDAO;
@@ -53,6 +55,8 @@ public class ControladorEmpleados implements Initializable {
         if (colNombre != null) colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         if (colEmail != null) colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         if (colEstado != null) colEstado.setCellValueFactory(new PropertyValueFactory<>("area")); // Usamos area o estado según tu FXML
+        if (colTelefono != null) colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
+        if (colNumeroDocumento != null) colNumeroDocumento.setCellValueFactory(new PropertyValueFactory<>("numeroDocumento"));
 
         // Traducimos el idRol numérico a texto legible en la tabla de forma dinámica
         if (colRol != null) {

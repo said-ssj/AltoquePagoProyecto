@@ -27,6 +27,20 @@ public class ControladorAutoservicioMetodo {
     @FXML private Label lblInstruccionQr;
     @FXML private Label lblInstruccionTarjeta;
 
+    /** Método elegido: null = ninguno, "QR", "TARJETA" */
+    private String metodoPagoElegido = null;
+
+    /** Referencia al padre para comunicar selección */
+    private ControladorAutoservicioCheckoutDividida contenedorPadre;
+
+    public void setContenedorPadre(ControladorAutoservicioCheckoutDividida padre) {
+        this.contenedorPadre = padre;
+    }
+
+    public String getMetodoPagoElegido() {
+        return metodoPagoElegido;
+    }
+
     @FXML
     public void initialize() {
         // 1. Configuramos el tamaño del QR de forma estricta
@@ -42,37 +56,35 @@ public class ControladorAutoservicioMetodo {
 
     @FXML
     void seleccionarQr(MouseEvent event) {
-        System.out.println("-> Kiosko: Generando QR de pago y centralizando vista...");
+        System.out.println("-> Kiosko: QR seleccionado.");
+        metodoPagoElegido = "QR";
 
-        // 1. Desaparecer por completo la opción de tarjeta física
         ocultarElemento(btnOpcionTarjeta);
-
-        // 2. Intercambiar el ícono vectorizado por la imagen real del QR
         alternarVisibilidadQr(true);
-
-        // 3. Aplicar estilo de selección y actualizar texto
-        btnOpcionQr.getStyleClass().add("metodo-activo-centrado");
+        btnOpcionQr.getStyleClass().remove("metodo-activo-centrado");
+        if (!btnOpcionQr.getStyleClass().contains("metodo-activo-centrado"))
+            btnOpcionQr.getStyleClass().add("metodo-activo-centrado");
         lblInstruccionQr.setText("Escanee el código QR desde su aplicación móvil para finalizar.");
 
-        // [!] Aquí podrías lanzar un Temporizador o notificar al Controlador principal
-        // para avanzar automáticamente a la siguiente pantalla si así lo requiere tu flujo.
+        // Habilitar botón Finalizar en el padre
+        if (contenedorPadre != null) contenedorPadre.habilitarFinalizarCompra();
     }
 
     @FXML
     void seleccionarTarjeta(MouseEvent event) {
-        System.out.println("-> Kiosko: Tarjeta POS seleccionada. Centralizando vista...");
+        System.out.println("-> Kiosko: Tarjeta POS seleccionada.");
+        metodoPagoElegido = "TARJETA";
 
-        // 1. Desaparecer por completo la opción de QR
         ocultarElemento(btnOpcionQr);
-
-        // 2. Centralizar la tarjeta visualmente y aplicar estilos de alerta
-        btnOpcionTarjeta.getStyleClass().add("metodo-activo-centrado");
+        btnOpcionTarjeta.getStyleClass().remove("metodo-activo-centrado");
+        if (!btnOpcionTarjeta.getStyleClass().contains("metodo-activo-centrado"))
+            btnOpcionTarjeta.getStyleClass().add("metodo-activo-centrado");
         lblInstruccionTarjeta.setText("POR FAVOR, ACERQUE O INSERTE SU TARJETA AL TERMINAL POS");
-
-        // Evitamos duplicar la clase si el usuario da múltiples clics
-        if (!lblInstruccionTarjeta.getStyleClass().contains("texto-alerta-pos")) {
+        if (!lblInstruccionTarjeta.getStyleClass().contains("texto-alerta-pos"))
             lblInstruccionTarjeta.getStyleClass().add("texto-alerta-pos");
-        }
+
+        // Habilitar botón Finalizar en el padre
+        if (contenedorPadre != null) contenedorPadre.habilitarFinalizarCompra();
     }
 
     // ============================================================

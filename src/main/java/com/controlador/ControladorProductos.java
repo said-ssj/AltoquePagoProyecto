@@ -71,6 +71,32 @@ public class ControladorProductos implements Initializable {
         if (colPrecio != null) colPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
         if (colStock != null) colStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
 
+        // Categoría: la tabla producto no tiene categoría en BD, mostramos "General" como texto fijo
+        if (colCategoria != null) colCategoria.setCellValueFactory(c ->
+                new javafx.beans.property.SimpleStringProperty("General"));
+
+        // Estado: calculado a partir del stock
+        if (colEstado != null) colEstado.setCellValueFactory(c -> {
+            int stock = c.getValue().getStock();
+            String estado = stock == 0 ? "Sin Stock" : stock < 5 ? "Bajo Stock" : "Activo";
+            return new javafx.beans.property.SimpleStringProperty(estado);
+        });
+        if (colEstado != null) colEstado.setCellFactory(col -> new javafx.scene.control.TableCell<>() {
+            @Override protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) { setGraphic(null); return; }
+                javafx.scene.control.Label badge = new javafx.scene.control.Label(item);
+                badge.setPadding(new javafx.geometry.Insets(3, 10, 3, 10));
+                badge.setStyle("-fx-background-radius:10px;-fx-font-size:11px;-fx-font-weight:bold;" +
+                        switch (item) {
+                            case "Activo"     -> "-fx-background-color:#dcfce7;-fx-text-fill:#166534;";
+                            case "Bajo Stock" -> "-fx-background-color:#fef9c3;-fx-text-fill:#854d0e;";
+                            default           -> "-fx-background-color:#fee2e2;-fx-text-fill:#dc2626;";
+                        });
+                setGraphic(badge); setText(null);
+            }
+        });
+
         configurarColumnaAcciones();
 
         if (tablaProductos != null) {
