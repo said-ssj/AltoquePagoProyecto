@@ -84,6 +84,7 @@ public class ControladorLogin {
     @FXML
     public void iniciarKiosko(ActionEvent event) {
         System.out.println("Iniciando terminal de Kiosko Autoservicio.");
+        cambiarEscena(event, "/com/vista/AutoservicioCheckoutDividida-view.fxml", true);
     }
 
     private boolean validarCredenciales() {
