@@ -2149,3 +2149,10 @@ java.sql.SQLIntegrityConstraintViolationException: Duplicate entry '775012345678
 2026-07-11 01:27:11 [JavaFX Application Thread] INFO  c.s.ComprobanteImpresionServicio - Ticket PDF guardado en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\Boleta_24.pdf
 2026-07-11 01:28:17 [JavaFX Application Thread] INFO  c.s.ComprobanteImpresionServicio - Ticket PDF guardado en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\Boleta_25.pdf
 2026-07-11 01:29:09 [JavaFX Application Thread] INFO  c.s.ComprobanteImpresionServicio - PDF A4 guardado con éxito en: C:\Users\alvar\IdeaProjects\AltoquePagoProyecto\Tickets\Boleta_73.pdf
+2026-07-14 23:09:37 [JavaFX Application Thread] INFO  c.servicio.ComprobantePdfGenerador - Ticket PDF guardado de forma local en: C:\Users\User\Downloads\AltoquePagoProyecto\Tickets\BoletaTicket_13.pdf
+2026-07-14 23:17:52 [JavaFX Application Thread] INFO  c.servicio.ComprobantePdfGenerador - Documento PDF en formato A4 guardado con éxito en: C:\Users\User\Downloads\AltoquePagoProyecto\Tickets\Factura_58.pdf
+2026-07-14 23:23:32 [JavaFX Application Thread] INFO  c.servicio.ComprobantePdfGenerador - Ticket PDF guardado de forma local en: C:\Users\User\Downloads\AltoquePagoProyecto\Tickets\BoletaTicket_14.pdf
+2026-07-14 23:34:18 [JavaFX Application Thread] INFO  c.servicio.ComprobantePdfGenerador - Ticket PDF guardado de forma local en: C:\Users\User\Downloads\AltoquePagoProyecto\Tickets\BoletaTicket_15.pdf
+2026-07-14 23:38:15 [JavaFX Application Thread] INFO  c.servicio.ComprobantePdfGenerador - Ticket PDF guardado de forma local en: C:\Users\User\Downloads\AltoquePagoProyecto\Tickets\BoletaTicket_16.pdf
+2026-07-14 23:44:26 [JavaFX Application Thread] INFO  c.servicio.ComprobantePdfGenerador - Ticket PDF guardado de forma local en: C:\Users\User\Downloads\AltoquePagoProyecto\Tickets\BoletaTicket_17.pdf
+2026-07-14 23:44:35 [JavaFX Application Thread] INFO  c.servicio.ComprobantePdfGenerador - Ticket PDF guardado de forma local en: C:\Users\User\Downloads\AltoquePagoProyecto\Tickets\BoletaTicket_18.pdf

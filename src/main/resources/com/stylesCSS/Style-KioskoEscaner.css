@@ -80,3 +80,32 @@
     -fx-text-fill: #64748b;
     -fx-min-width: 40px;
 }
+/* =========================================
+   CARRUSEL DE OFERTAS
+   ========================================= */
+
+.contenedor-carrusel {
+    -fx-background-color: transparent;
+}
+
+.btn-carrusel-flecha {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #1d4ed8;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 50%;
+    -fx-min-width: 38px;
+    -fx-min-height: 38px;
+    -fx-max-width: 38px;
+    -fx-max-height: 38px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.12), 6, 0, 0, 2);
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 50%;
+    -fx-border-width: 1px;
+}
+
+.btn-carrusel-flecha:hover {
+    -fx-background-color: #eff6ff;
+    -fx-text-fill: #1d4ed8;
+}

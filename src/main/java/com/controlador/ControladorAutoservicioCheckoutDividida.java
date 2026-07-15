@@ -40,6 +40,8 @@ public class ControladorAutoservicioCheckoutDividida {
     private String nombreCliente = "CLIENTE VARIOS";
     private String correoCliente = "";
     private String direccionCliente = "";
+    private String metodoPagoKiosko = "TARJETA"; // default
+    private ControladorAutoservicioMetodo controladorMetodo;
 
     private final ICarritoDAO carritoDAO;
     private final IClienteDAO clienteDAO;
@@ -51,6 +53,7 @@ public class ControladorAutoservicioCheckoutDividida {
 
     @FXML
     public void initialize() {
+        panelKioskoPrincipal.setUserData(this);
         btnProcederPago.setDisable(true);
         lblTotalKiosko.setText("S/ 0.00");
         if (lblContadorProductos != null) {
@@ -91,11 +94,20 @@ public class ControladorAutoservicioCheckoutDividida {
         switch (paso) {
             case 1:
                 fxml = "AutoservicioEscaner-view.fxml";
+                // Resetear contadores para una nueva compra
+                totalAcumulado = 0.0;
+                cantidadProductos = 0;
+                dniCliente = "00000000";
+                nombreCliente = "CLIENTE VARIOS";
+                correoCliente = "";
+                direccionCliente = "";
+                lblTotalKiosko.setText("S/ 0.00");
+                if (lblContadorProductos != null) lblContadorProductos.setText("0 productos");
                 btnProcederPago.setText("Proceder al Pago");
                 btnProcederPago.setVisible(true);
                 btnProcederPago.setManaged(true);
                 btnVolver.setVisible(false);
-                btnProcederPago.setDisable(cantidadProductos == 0);
+                btnProcederPago.setDisable(true); // siempre deshabilitado al iniciar (carrito vacío)
                 break;
             case 2:
                 fxml = "AutoservicioDatos-view.fxml";
@@ -104,11 +116,12 @@ public class ControladorAutoservicioCheckoutDividida {
                 break;
             case 3:
                 fxml = "AutoservicioMetodo-view.fxml";
+                controladorMetodo = null; // se asignará en el loader
                 btnProcederPago.setText("Finalizar Compra");
                 btnProcederPago.setVisible(true);
                 btnProcederPago.setManaged(true);
                 btnVolver.setVisible(true);
-                btnProcederPago.setDisable(false);
+                btnProcederPago.setDisable(true); // se habilita solo cuando elige método
                 break;
             case 4:
                 fxml = "AutoservicioPagoExitoso-view.fxml";
@@ -135,6 +148,9 @@ public class ControladorAutoservicioCheckoutDividida {
                 ((ControladorAutoservicioEscaner) controladorHijo).setContenedorPadre(this);
             } else if (controladorHijo instanceof ControladorAutoservicioDatos) {
                 ((ControladorAutoservicioDatos) controladorHijo).setContenedorPadre(this);
+            } else if (controladorHijo instanceof ControladorAutoservicioMetodo) {
+                controladorMetodo = (ControladorAutoservicioMetodo) controladorHijo;
+                controladorMetodo.setContenedorPadre(this);
             }
             panelKioskoPrincipal.setCenter(vistaCentro);
         } catch (IOException e) {
@@ -173,6 +189,16 @@ public class ControladorAutoservicioCheckoutDividida {
             }
             cargarPaso(3);
         } else if (pasoActual == 3) {
+            // Validar que se eligió un método de pago
+            if (controladorMetodo == null || controladorMetodo.getMetodoPagoElegido() == null) {
+                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+                alert.setTitle("Método de pago requerido");
+                alert.setHeaderText(null);
+                alert.setContentText("Por favor selecciona un método de pago antes de continuar.");
+                alert.showAndWait();
+                return;
+            }
+            metodoPagoKiosko = controladorMetodo.getMetodoPagoElegido();
             int idCarritoActivo = carritoDAO.obtenerOCrearCarritoActivo(1);
             if (dniCliente != null && !dniCliente.trim().isEmpty() && !dniCliente.equals("00000000")) {
                 boolean esRuc = dniCliente.length() == 11;
@@ -190,7 +216,7 @@ public class ControladorAutoservicioCheckoutDividida {
             ventaGenerada.setTotal(this.totalAcumulado);
             ventaGenerada.setProductos(this.cantidadProductos);
             ventaGenerada.setCliente(this.nombreCliente);
-            ventaGenerada.setMetodoPago("Tarjeta / Billetera Digital");
+            ventaGenerada.setMetodoPago(metodoPagoKiosko);
             ventaGenerada.setCanalVenta("AUTOSERVICIO");
             String tipoDocumento = (this.dniCliente != null && this.dniCliente.length() == 11) ? "FACTURA" : "BOLETA";
             ventaGenerada.setEstado(tipoDocumento);
@@ -215,7 +241,12 @@ public class ControladorAutoservicioCheckoutDividida {
 
     @FXML
     public void cancelarCompra(ActionEvent event) {
-        System.out.println("-> Bot n Cancelar deshabilitado por seguridad.");
+        System.out.println("-> Botón Cancelar presionado.");
+    }
+
+    /** Llamado desde ControladorAutoservicioMetodo cuando el usuario elige un método */
+    public void habilitarFinalizarCompra() {
+        btnProcederPago.setDisable(false);
     }
 
     public void setDatosCliente(String dni, String nombre) {
