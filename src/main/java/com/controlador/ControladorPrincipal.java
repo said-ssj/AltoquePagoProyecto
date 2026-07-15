@@ -8,15 +8,28 @@
  */
 package com.controlador;
 
+import com.dao.ProductoDAO;
+import com.modelo.Notificacion;
+import com.servicio.NotificacionServicio;
 import com.servicio.SesionActual;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
+import org.kordamp.ikonli.javafx.FontIcon;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -60,6 +73,14 @@ public class ControladorPrincipal implements Initializable {
     @FXML private Label lblNombreUsuario;
     @FXML private Label lblRolUsuario;
 
+    // Notificaciones
+    @FXML private Button btnNotificaciones;
+    @FXML private Label lblBadgeNotificaciones;
+
+    private final NotificacionServicio notificacionServicio = NotificacionServicio.getInstancia();
+    private Popup popupNotificaciones;
+    private VBox listaNotificacionesUI;
+
     // ============================================================
     // INICIALIZACIÓN
     // ============================================================
@@ -76,6 +97,138 @@ public class ControladorPrincipal implements Initializable {
 
         aplicarVisibilidadPorRol(sesion);
         abrirInicio();
+
+        inicializarNotificaciones();
+    }
+
+    // ============================================================
+    // NOTIFICACIONES (Campanita)
+    // ============================================================
+
+    private void inicializarNotificaciones() {
+        // Badge: se sincroniza con el contador de no leídas del servicio
+        notificacionServicio.noLeidasProperty().addListener((obs, anterior, nuevo) -> actualizarBadge(nuevo.intValue()));
+        actualizarBadge(notificacionServicio.getNoLeidas());
+
+        construirPopupNotificaciones();
+
+        // Verificación inicial de stock bajo al abrir el sistema
+        notificacionServicio.revisarStockBajo(new ProductoDAO().obtenerTodos());
+    }
+
+    private void actualizarBadge(int cantidad) {
+        lblBadgeNotificaciones.setText(cantidad > 99 ? "99+" : String.valueOf(cantidad));
+        boolean hayNoLeidas = cantidad > 0;
+        lblBadgeNotificaciones.setVisible(hayNoLeidas);
+        lblBadgeNotificaciones.setManaged(hayNoLeidas);
+    }
+
+    private void construirPopupNotificaciones() {
+        popupNotificaciones = new Popup();
+        popupNotificaciones.setAutoHide(true);
+        popupNotificaciones.setHideOnEscape(true);
+
+        VBox contenedor = new VBox();
+        contenedor.setPrefWidth(340);
+        contenedor.setMaxHeight(420);
+        contenedor.getStyleClass().add("panel-notificaciones");
+        // Aseguramos fondo sólido y hoja de estilos, ya que un Popup no
+        // hereda automáticamente los estilos de la escena principal.
+        contenedor.getStylesheets().add(getClass().getResource("/com/stylesCSS/Style-Menu.css").toExternalForm());
+        contenedor.setStyle("-fx-background-color: #ffffff;");
+
+        Label titulo = new Label("Notificaciones");
+        titulo.getStyleClass().add("titulo-panel");
+        titulo.setStyle("-fx-text-fill: #0f172b; -fx-font-size: 15px; -fx-font-weight: bold;");
+        HBox encabezado = new HBox(titulo);
+        encabezado.setStyle("-fx-background-color: #ffffff;");
+        encabezado.setPadding(new Insets(14, 16, 10, 16));
+
+        listaNotificacionesUI = new VBox();
+        listaNotificacionesUI.setSpacing(0);
+        listaNotificacionesUI.setStyle("-fx-background-color: #ffffff;");
+
+        ScrollPane scroll = new ScrollPane(listaNotificacionesUI);
+        scroll.setFitToWidth(true);
+        scroll.setPrefViewportHeight(360);
+        scroll.setStyle("-fx-background-color: #ffffff; -fx-background: #ffffff;");
+
+        contenedor.getChildren().addAll(encabezado, scroll);
+        popupNotificaciones.getContent().add(contenedor);
+
+        // Redibujar la lista cada vez que cambie (nueva notificación agregada)
+        notificacionServicio.getNotificaciones().addListener(
+                (javafx.collections.ListChangeListener<Notificacion>) change -> refrescarListaNotificaciones());
+        refrescarListaNotificaciones();
+    }
+
+    private void refrescarListaNotificaciones() {
+        if (listaNotificacionesUI == null) return;
+        listaNotificacionesUI.getChildren().clear();
+
+        if (notificacionServicio.getNotificaciones().isEmpty()) {
+            Label vacio = new Label("No hay notificaciones por ahora.");
+            vacio.getStyleClass().add("sin-notificaciones");
+            vacio.setPadding(new Insets(20, 16, 24, 16));
+            listaNotificacionesUI.getChildren().add(vacio);
+            return;
+        }
+
+        for (Notificacion n : notificacionServicio.getNotificaciones()) {
+            listaNotificacionesUI.getChildren().add(crearItemNotificacion(n));
+        }
+    }
+
+    private Node crearItemNotificacion(Notificacion n) {
+        FontIcon icono = new FontIcon(n.getIconoLiteral());
+        icono.setIconSize(18);
+        icono.setIconColor(javafx.scene.paint.Color.web(n.getColor()));
+
+        Label lblTitulo = new Label(n.getTitulo());
+        lblTitulo.getStyleClass().add("item-titulo");
+        lblTitulo.setStyle("-fx-text-fill: #0f172b; -fx-font-size: 13px; -fx-font-weight: bold;");
+        lblTitulo.setWrapText(true);
+
+        Label lblMensaje = new Label(n.getMensaje());
+        lblMensaje.getStyleClass().add("item-mensaje");
+        lblMensaje.setStyle("-fx-text-fill: #475569; -fx-font-size: 12px;");
+        lblMensaje.setWrapText(true);
+
+        Label lblHora = new Label(n.getHoraFormateada());
+        lblHora.getStyleClass().add("item-hora");
+        lblHora.setStyle("-fx-text-fill: #94a3b8; -fx-font-size: 11px;");
+
+        VBox textos = new VBox(2, lblTitulo, lblMensaje, lblHora);
+        HBox.setHgrow(textos, Priority.ALWAYS);
+
+        HBox fila = new HBox(10, icono, textos);
+        fila.setAlignment(Pos.TOP_LEFT);
+        fila.setPadding(new Insets(10, 16, 10, 16));
+        fila.getStyleClass().add("item-notificacion");
+        // Fondo blanco sólido + acento azul de la marca en el borde izquierdo
+        // para que combine con el resto de la interfaz (menú lateral #144DEB).
+        fila.setStyle(
+                "-fx-background-color: " + (n.isLeida() ? "#ffffff" : "#eff6ff") + ";" +
+                        "-fx-border-color: transparent transparent #f1f5f9 transparent;" +
+                        "-fx-border-width: 0 0 1 0;"
+        );
+
+        return fila;
+    }
+
+    @FXML
+    public void alternarNotificaciones() {
+        if (popupNotificaciones.isShowing()) {
+            popupNotificaciones.hide();
+            return;
+        }
+        javafx.geometry.Bounds bounds = btnNotificaciones.localToScreen(btnNotificaciones.getBoundsInLocal());
+        double x = bounds.getMaxX() - 340;
+        double y = bounds.getMaxY() + 6;
+        popupNotificaciones.show(btnNotificaciones, x, y);
+
+        // Al abrir la campanita se consideran todas las notificaciones como leídas
+        notificacionServicio.marcarTodasComoLeidas();
     }
 
     /**

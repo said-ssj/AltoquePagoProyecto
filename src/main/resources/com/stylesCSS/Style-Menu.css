@@ -103,3 +103,94 @@
     -fx-font-size: 13px;
     -fx-font-family: "Segoe UI", sans-serif;
 }
+
+/* =========================================
+   BARRA SUPERIOR Y CAMPANITA DE NOTIFICACIONES
+   ========================================= */
+
+.barra-superior {
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent transparent #e2e8f0 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.btn-campanita {
+    -fx-background-color: transparent;
+    -fx-background-radius: 50em;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 40px;
+    -fx-max-height: 40px;
+    -fx-cursor: hand;
+    -fx-alignment: center;
+}
+
+.btn-campanita:hover {
+    -fx-background-color: #f1f5f9;
+}
+
+.badge-notificaciones {
+    -fx-background-color: #ef4444;
+    -fx-text-fill: white;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 50em;
+    -fx-min-width: 16px;
+    -fx-min-height: 16px;
+    -fx-max-height: 16px;
+    -fx-alignment: center;
+    -fx-padding: 0 4 0 4;
+    -fx-translate-x: -2;
+    -fx-translate-y: 2;
+}
+
+.badge-notificaciones.oculto {
+    -fx-opacity: 0;
+}
+
+/* =========================================
+   PANEL DESPLEGABLE DE NOTIFICACIONES
+   ========================================= */
+
+.panel-notificaciones {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-border-color: #dbe4f3;
+    -fx-border-width: 1px;
+    -fx-effect: dropshadow(three-pass-box, rgba(20,77,235,0.20), 18, 0, 0, 6);
+}
+
+.panel-notificaciones .titulo-panel {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172b;
+}
+
+.item-notificacion {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #f1f5f9 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.item-notificacion .item-titulo {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172b;
+}
+
+.item-notificacion .item-mensaje {
+    -fx-font-size: 12px;
+    -fx-text-fill: #475569;
+    -fx-wrap-text: true;
+}
+
+.item-notificacion .item-hora {
+    -fx-font-size: 11px;
+    -fx-text-fill: #94a3b8;
+}
+
+.sin-notificaciones {
+    -fx-font-size: 13px;
+    -fx-text-fill: #94a3b8;
+}
