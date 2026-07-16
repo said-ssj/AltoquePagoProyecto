@@ -431,7 +431,8 @@ public class ComprobantePdfGenerador implements IComprobanteGenerador {
     }
 
     private static String prepararDirectorio() {
-        String rutaCarpeta = System.getProperty("user.dir") + File.separator + "Tickets";
+        String rutaCarpeta = System.getProperty("user.home") + File.separator + "Downloads"
+                + File.separator + "Tickets";
         File carpetaTickets = new File(rutaCarpeta);
         if (!carpetaTickets.exists()) carpetaTickets.mkdirs();
         return rutaCarpeta;
