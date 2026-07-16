@@ -1,0 +1,33 @@
+name: Pipeline CI/CD ALToque Pago
+
+# ¿Como se ejecuta esto?
+on:
+  push:
+    branches: [ "main" ] # Se ejecuta automático al hacer push a main
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch: # ESTO PERMITE EJECUTARLO MANUALMENTE DESDE GITHUB
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest # La máquina virtual de GitHub
+
+    steps:
+    - name: Descargar el código del repositorio
+      uses: actions/checkout@v4
+
+    - name: Configurar Java 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven # Acelera las ejecuciones futuras guardando dependencias
+
+    - name: Dar permisos de ejecución al Maven Wrapper
+      run: chmod +x mvnw
+
+    - name: Ejecutar Pruebas (JUnit, Mockito, TestFX) y JaCoCo
+      run: ./mvnw clean test
+
+    - name: Compilar el Artefacto
+      run: ./mvnw clean package -DskipTests # skipTests porque ya las pasamos arriba
