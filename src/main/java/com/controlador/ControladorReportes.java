@@ -210,7 +210,9 @@ public class ControladorReportes implements Initializable {
 
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Seleccionar carpeta de destino");
-        File carpeta = chooser.showDialog(obtenerStage());
+        File carpeta = new File(System.getProperty("user.home") + File.separator + "Downloads"
+                + File.separator + "Reportes");
+        if (!carpeta.exists()) carpeta.mkdirs();
         if (carpeta == null) return;
 
         File archivo = new File(carpeta, nombreArchivo);
