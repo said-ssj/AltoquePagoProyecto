@@ -42,6 +42,9 @@ build/
 ### Mac OS ###
 .DS_Store
 
+### Mantenimiento: logs rotados (logback RollingFileAppender) ###
+logs/
+
 ### Seguridad: archivos con credenciales ###
 src/main/resources/db.properties
 .idea/dataSources.xml
