@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="fondo-escaner"
-      stylesheets="@../stylesCSS/Style-KioskoEscaner.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorAutoservicioEscaner">
+      stylesheets="@../stylesCSS/Style-KioskoEscaner.css" xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controlador.ControladorAutoservicioEscaner">
 
-    <VBox spacing="25.0" HBox.hgrow="ALWAYS">
+    <!-- Panel izquierdo: escáner + carrusel de ofertas -->
+    <VBox spacing="20.0" HBox.hgrow="ALWAYS">
         <padding>
             <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
         </padding>
@@ -27,15 +31,40 @@
 
         <Label styleClass="titulo-seccion" text="Promociones Disponibles" />
 
-        <ScrollPane fitToWidth="true" styleClass="scroll-promociones" VBox.vgrow="ALWAYS">
-            <content>
-                <VBox fx:id="panelProductos" spacing="15.0" />
-            </content>
-        </ScrollPane>
+        <!-- ====================================================
+             CARRUSEL DE OFERTAS
+             panelCarrusel  → StackPane donde se superpone 1 tarjeta
+             panelIndicadores → HBox con los puntos de navegación
+             btnAnterior / btnSiguiente → flechas manuales
+             ==================================================== -->
+        <VBox spacing="12.0" VBox.vgrow="ALWAYS" alignment="CENTER">
+
+            <!-- Flechas + tarjeta central -->
+            <HBox alignment="CENTER" spacing="12.0">
+                <Button fx:id="btnAnterior" mnemonicParsing="false" text="❮"
+                        styleClass="btn-carrusel-flecha"
+                        onAction="#retrocederCarrusel" />
+
+                <!-- StackPane: contiene solo 1 tarjeta visible a la vez -->
+                <StackPane fx:id="panelCarrusel"
+                           prefWidth="380.0" prefHeight="140.0"
+                           styleClass="contenedor-carrusel"
+                           HBox.hgrow="ALWAYS" />
+
+                <Button fx:id="btnSiguiente" mnemonicParsing="false" text="❯"
+                        styleClass="btn-carrusel-flecha"
+                        onAction="#avanzarCarruselManual" />
+            </HBox>
+
+            <!-- Puntos indicadores generados dinámicamente por el controlador -->
+            <HBox fx:id="panelIndicadores" alignment="CENTER" spacing="8.0" />
+
+        </VBox>
     </VBox>
 
     <Region styleClass="separador-vertical" prefWidth="2.0" />
 
+    <!-- Panel derecho: carrito -->
     <VBox prefWidth="420.0" spacing="20.0" styleClass="panel-lateral-carrito">
         <padding>
             <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
