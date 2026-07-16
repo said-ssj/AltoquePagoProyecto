@@ -5,11 +5,12 @@
  * de Application. Desde aquí delegamos el arranque de forma segura.
  */
 package com.controlador;
-
+import com.DB.ConexionDB;
 public class Launcher {
 
     public static void main(String[] args) {
-        // Delegamos la ejecución a nuestra clase nativa de JavaFX
+        ConexionDB.ejecutarMigraciones();
+
         MainApp.main(args);
     }
 }
