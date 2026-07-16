@@ -17,7 +17,6 @@
         <sonar.host.url>http://localhost:9000</sonar.host.url>
         <sonar.projectKey>AltoquePagoProyecto</sonar.projectKey>
         <sonar.projectName>ALToque Pago</sonar.projectName>
-        <sonar.login>sqa_8dff23ed6aa2980e9e0835fd7899a28d39eac947</sonar.login>
     </properties>
 
     <dependencies>
@@ -118,7 +117,13 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
-            <version>10.0.0</version>
+            <version>10.15.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+            <version>10.15.0</version>
         </dependency>
 
         <dependency>

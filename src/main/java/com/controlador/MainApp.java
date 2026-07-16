@@ -12,11 +12,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.flywaydb.core.Flyway;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
 
 public class MainApp extends Application {
 
@@ -33,24 +30,7 @@ public class MainApp extends Application {
     }
 
     public static void main(String[] args) {
-        try {
-            Properties prop = new Properties();
-            prop.load(new FileInputStream("configuracion.properties"));
-
-            String url = prop.getProperty("db.url");
-            String user = prop.getProperty("db.user");
-            String pass = prop.getProperty("db.password");
-
-            Flyway flyway = Flyway.configure()
-                    .dataSource(url, user, pass)
-                    .load();
-
-            flyway.migrate();
-
-        } catch (Exception e) {
-            System.err.println("Error al migrar la base de datos: " + e.getMessage());
-        }
-
+        // Delegamos el inicio de la interfaz gráfica a JavaFX
         launch(args);
     }
 }

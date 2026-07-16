@@ -12,6 +12,8 @@ module com.example.altoquepagoproyecto {
     requires org.kordamp.ikonli.fontawesome5;
     requires com.github.librepdf.openpdf;
     requires jdk.compiler;
+    requires flyway.mysql;
+    requires java.naming;
     requires flyway.core;
 
     opens com.controlador to javafx.fxml;
